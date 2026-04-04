@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KÖCE</title>
+    <title>KÖCE | Mobile Receipt System</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -20,63 +20,71 @@
         body {
             background-color: var(--bg-light);
             display: flex;
+            flex-direction: column;
             height: 100vh;
-            overflow: hidden;
         }
 
-        /* --- SIDEBAR --- */
+        /* --- LAYOUT --- */
+        .app-container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* --- SIDEBAR (EDITOR) --- */
         .sidebar {
-            width: 420px;
+            width: 400px;
             background: white;
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 2rem;
+            padding: 1.5rem;
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
-        .brand-logo { font-weight: 900; font-size: 28px; letter-spacing: -2px; margin-bottom: 2rem; }
+        .brand-logo { font-weight: 900; font-size: 24px; letter-spacing: -1.5px; margin-bottom: 1.5rem; }
 
-        .form-section { margin-bottom: 24px; }
-        .section-title { font-size: 11px; text-transform: uppercase; font-weight: 700; color: #6b7280; margin-bottom: 12px; }
+        .form-section { margin-bottom: 20px; }
+        .section-title { font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; margin-bottom: 8px; letter-spacing: 1px; }
 
         input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
             font-size: 14px;
-            outline-color: var(--accent);
+            -webkit-appearance: none; /* Fixes iOS input shadow */
         }
 
         .item-row-edit {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 40px;
-            gap: 8px;
-            margin-bottom: 8px;
+            grid-template-columns: 2fr 1fr 1fr 30px;
+            gap: 6px;
+            margin-bottom: 6px;
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             border: none;
-            font-size: 14px;
-            margin-top: 5px;
+            font-size: 13px;
         }
 
-        .btn-add { background: #f9fafb; border: 1px dashed #d1d5db; color: #666; }
-        .btn-primary { background: var(--accent); color: white; margin-top: 20px; }
-        .btn-delete { background: none; color: #ef4444; font-size: 20px; cursor: pointer; border: none; }
+        .btn-add { background: #f9fafb; border: 1px dashed #d1d5db; color: #666; margin-top: 5px; }
+        .btn-primary { background: var(--accent); color: white; margin-top: 15px; }
+        .btn-delete { background: none; color: #ef4444; font-size: 18px; cursor: pointer; border: none; }
 
-        /* --- PREVIEW --- */
+        /* --- PREVIEW AREA --- */
         .preview-area {
             flex-grow: 1;
-            padding: 40px;
-            overflow-y: auto;
+            padding: 20px;
+            overflow: auto;
             display: flex;
             justify-content: center;
             background: #e5e7eb;
@@ -84,116 +92,136 @@
 
         #receipt-canvas {
             background: white;
-            width: 210mm;
+            width: 210mm; /* Standard A4 */
             min-height: 297mm;
-            padding: 80px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            padding: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: relative;
+            transform-origin: top center;
         }
 
-        .header { display: flex; justify-content: space-between; border-bottom: 4px solid black; padding-bottom: 30px; margin-bottom: 40px; }
-        .header h2 { font-size: 50px; font-weight: 900; letter-spacing: -3px; }
+        /* --- RECEIPT CONTENT --- */
+        .header { display: flex; justify-content: space-between; border-bottom: 3px solid black; padding-bottom: 20px; margin-bottom: 30px; }
+        .header h2 { font-size: 40px; font-weight: 900; letter-spacing: -2.5px; }
         
-        .bill-grid { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 40px; }
-        .label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 4px; }
-        .client-view { font-size: 20px; font-weight: 700; margin-bottom: 2px; }
-        .phone-view { font-size: 14px; color: #444; }
+        .bill-grid { margin-bottom: 30px; }
+        .label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 2px; }
+        .client-view { font-size: 18px; font-weight: 700; }
+        .phone-view { font-size: 13px; color: #555; }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; font-size: 12px; text-transform: uppercase; padding-bottom: 10px; border-bottom: 2px solid black; }
-        td { padding: 15px 0; border-bottom: 1px solid #f3f4f6; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; font-size: 11px; text-transform: uppercase; padding-bottom: 8px; border-bottom: 2px solid black; }
+        td { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
 
-        .totals { margin-top: 30px; width: 280px; margin-left: auto; }
-        .total-row { display: flex; justify-content: space-between; padding: 8px 0; }
-        .grand { border-top: 2px solid black; font-weight: 900; font-size: 22px; margin-top: 10px; padding-top: 10px; }
+        .totals { margin-top: 25px; width: 220px; margin-left: auto; }
+        .total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+        .grand { border-top: 2px solid black; font-weight: 900; font-size: 18px; margin-top: 8px; padding-top: 8px; }
 
-        .footer { position: absolute; bottom: 50px; width: calc(100% - 160px); text-align: center; font-size: 10px; color: #aaa; letter-spacing: 1px; }
+        .footer { margin-top: 60px; text-align: center; font-size: 9px; color: #aaa; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .app-container { flex-direction: column; overflow: auto; height: auto; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--border-color); padding: 1rem; }
+            .preview-area { padding: 10px; min-height: 500px; }
+            
+            /* Scale the receipt down to fit mobile screens */
+            #receipt-canvas { 
+                width: 210mm; 
+                transform: scale(0.4); /* Adjust this value based on phone width */
+                transform-origin: top center;
+                margin-bottom: -150mm; /* Hack to remove whitespace caused by scaling */
+            }
+        }
+
+        @media (max-width: 480px) {
+            #receipt-canvas { transform: scale(0.35); margin-bottom: -180mm; }
+        }
 
         @media print {
             .sidebar { display: none; }
             .preview-area { padding: 0; background: white; }
-            #receipt-canvas { box-shadow: none; width: 100%; }
+            #receipt-canvas { box-shadow: none; width: 100%; transform: scale(1) !important; margin: 0 !important; }
         }
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="brand-logo">KÖCE</div>
+    <div class="app-container">
+        <!-- CONTROLS -->
+        <aside class="sidebar">
+            <div class="brand-logo">KÖCE</div>
 
-        <div class="form-section">
-            <div class="section-title">Client Details</div>
-            <input type="text" id="clientInput" placeholder="Client Name" oninput="updateStaticInfo()">
-            <input type="text" id="phoneInput" placeholder="Phone Number (e.g. 0712...)" oninput="updateStaticInfo()">
-            
-            <div class="section-title" style="margin-top:15px">Receipt Info</div>
-            <input type="text" id="noInput" value="KOCE-001" oninput="updateStaticInfo()">
-        </div>
-
-        <div class="form-section">
-            <div class="section-title">Products</div>
-            <div id="editor-rows"></div>
-            <button class="btn btn-add" onclick="addRow()">+ Add Product</button>
-        </div>
-
-        <button class="btn btn-primary" onclick="downloadPDF()">Download PDF</button>
-        <button class="btn" style="background:transparent; border:1px solid black" onclick="window.print()">Print Receipt</button>
-    </aside>
-
-    <main class="preview-area">
-        <div id="receipt-canvas">
-            <div class="header">
-                <h2>KÖCE</h2>
-                <div style="text-align: right">
-                    <p><strong>DATE:</strong> <span id="dateView"></span></p>
-                    <p><strong>NO:</strong> <span id="noView">KOCE-001</span></p>
-                </div>
+            <div class="form-section">
+                <div class="section-title">Client</div>
+                <input type="text" id="clientInput" placeholder="Name" oninput="updateStaticInfo()">
+                <input type="tel" id="phoneInput" placeholder="Phone (07...)" oninput="updateStaticInfo()">
+                
+                <div class="section-title" style="margin-top:10px">Receipt No</div>
+                <input type="text" id="noInput" value="KOCE-001" oninput="updateStaticInfo()">
             </div>
 
-            <div class="bill-grid">
-                <div>
+            <div class="form-section">
+                <div class="section-title">Products</div>
+                <div id="editor-rows"></div>
+                <button class="btn btn-add" onclick="addRow()">+ Add Row</button>
+            </div>
+
+            <button class="btn btn-primary" onclick="downloadPDF()">Save PDF</button>
+            <button class="btn" style="background:white; border:1px solid black; margin-top:8px;" onclick="window.print()">Print</button>
+        </aside>
+
+        <!-- PREVIEW -->
+        <main class="preview-area">
+            <div id="receipt-canvas">
+                <div class="header">
+                    <h2>KÖCE</h2>
+                    <div style="text-align: right">
+                        <p style="font-size: 12px;"><strong>DATE:</strong> <span id="dateView"></span></p>
+                        <p style="font-size: 12px;"><strong>NO:</strong> <span id="noView">KOCE-001</span></p>
+                    </div>
+                </div>
+
+                <div class="bill-grid">
                     <div class="label">Billed To</div>
                     <div class="client-view" id="nameView">Customer Name</div>
                     <div class="phone-view" id="phoneView">Phone: —</div>
                 </div>
-            </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Item Description</th>
-                        <th>Qty</th>
-                        <th style="text-align: right">Unit Price</th>
-                        <th style="text-align: right">Total</th>
-                    </tr>
-                </thead>
-                <tbody id="tableView"></tbody>
-            </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th style="text-align: right">Unit Price</th>
+                            <th style="text-align: right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableView"></tbody>
+                </table>
 
-            <div class="totals">
-                <div class="total-row">
-                    <span>Subtotal</span>
-                    <span id="subView">KSh 0.00</span>
+                <div class="totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="subView">KSh 0.00</span>
+                    </div>
+                    <div class="total-row grand">
+                        <span>TOTAL</span>
+                        <span id="totalView">KSh 0.00</span>
+                    </div>
                 </div>
-                <div class="total-row grand">
-                    <span>TOTAL</span>
-                    <span id="totalView">KSh 0.00</span>
-                </div>
-            </div>
 
-            <div class="footer">KÖCE ARCHIVE — NAIROBI, KENYA — ALL SALES FINAL</div>
-        </div>
-    </main>
+                <div class="footer">KÖCE ARCHIVE — NAIROBI, KENYA — ALL SALES FINAL</div>
+            </div>
+        </main>
+    </div>
 
     <script>
-        // Data State
-        let items = [{ id: Date.now(), desc: 'Essential Tee', qty: 1, price: 1500 }];
+        let items = [{ id: Date.now(), desc: 'Hoodie', qty: 1, price: 2500 }];
 
-        // Initialize Editor UI (Only called when adding/deleting rows)
         function renderEditor() {
             const container = document.getElementById('editor-rows');
             container.innerHTML = '';
-            
             items.forEach((item) => {
                 const row = document.createElement('div');
                 row.className = 'item-row-edit';
@@ -220,7 +248,6 @@
             }
         }
 
-        // Live Data Updates (Prevents focus loss)
         function updateData(id, field, value) {
             const item = items.find(i => i.id === id);
             if (field === 'desc') item.desc = value;
@@ -228,50 +255,49 @@
             updateReceiptTable();
         }
 
-        // Live Static Text Updates
         function updateStaticInfo() {
             document.getElementById('nameView').innerText = document.getElementById('clientInput').value || "Customer Name";
             document.getElementById('phoneView').innerText = "Phone: " + (document.getElementById('phoneInput').value || "—");
             document.getElementById('noView').innerText = document.getElementById('noInput').value;
         }
 
-        // Refresh the Right Side (Table & Totals)
         function updateReceiptTable() {
             const tbody = document.getElementById('tableView');
             let grand = 0;
-            
             tbody.innerHTML = items.map(item => {
                 const rowTotal = item.qty * item.price;
                 grand += rowTotal;
-                return `
-                    <tr>
-                        <td>${item.desc || 'New Item'}</td>
-                        <td>${item.qty}</td>
-                        <td style="text-align: right">KSh ${item.price.toLocaleString()}</td>
-                        <td style="text-align: right">KSh ${rowTotal.toLocaleString()}</td>
-                    </tr>
-                `;
+                return `<tr>
+                    <td>${item.desc || 'New Item'}</td>
+                    <td>${item.qty}</td>
+                    <td style="text-align: right">KSh ${item.price.toLocaleString()}</td>
+                    <td style="text-align: right">KSh ${rowTotal.toLocaleString()}</td>
+                </tr>`;
             }).join('');
-
-            const formattedGrand = `KSh ${grand.toLocaleString()}`;
-            document.getElementById('subView').innerText = formattedGrand;
-            document.getElementById('totalView').innerText = formattedGrand;
+            const formatted = `KSh ${grand.toLocaleString()}`;
+            document.getElementById('subView').innerText = formatted;
+            document.getElementById('totalView').innerText = formatted;
         }
 
         function downloadPDF() {
             const element = document.getElementById('receipt-canvas');
             const receiptNo = document.getElementById('noInput').value;
-            const opt = {
+            
+            // Temporary fix for scaling during PDF generation
+            const originalTransform = element.style.transform;
+            element.style.transform = "none";
+            
+            html2pdf().from(element).set({
                 margin: 0,
                 filename: `KOCE_Receipt_${receiptNo}.pdf`,
                 image: { type: 'jpeg', quality: 1 },
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
+            }).save().then(() => {
+                element.style.transform = originalTransform;
+            });
         }
 
-        // Set Date and Initial UI
         document.getElementById('dateView').innerText = new Date().toLocaleDateString('en-KE');
         renderEditor();
     </script>
