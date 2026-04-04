@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KÖCE</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --accent: #000000;
+            --bg-light: #f3f4f6;
+            --border-color: #e5e7eb;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-light);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 420px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .brand-logo { font-weight: 900; font-size: 28px; letter-spacing: -2px; margin-bottom: 2rem; }
+
+        .form-section { margin-bottom: 24px; }
+        .section-title { font-size: 11px; text-transform: uppercase; font-weight: 700; color: #6b7280; margin-bottom: 12px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            outline-color: var(--accent);
+        }
+
+        .item-row-edit {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 40px;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .btn-add { background: #f9fafb; border: 1px dashed #d1d5db; color: #666; }
+        .btn-primary { background: var(--accent); color: white; margin-top: 20px; }
+        .btn-delete { background: none; color: #ef4444; font-size: 20px; cursor: pointer; border: none; }
+
+        /* --- PREVIEW --- */
+        .preview-area {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            background: #e5e7eb;
+        }
+
+        #receipt-canvas {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 80px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .header { display: flex; justify-content: space-between; border-bottom: 4px solid black; padding-bottom: 30px; margin-bottom: 40px; }
+        .header h2 { font-size: 50px; font-weight: 900; letter-spacing: -3px; }
+        
+        .bill-grid { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 40px; }
+        .label { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; margin-bottom: 4px; }
+        .client-view { font-size: 20px; font-weight: 700; margin-bottom: 2px; }
+        .phone-view { font-size: 14px; color: #444; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; font-size: 12px; text-transform: uppercase; padding-bottom: 10px; border-bottom: 2px solid black; }
+        td { padding: 15px 0; border-bottom: 1px solid #f3f4f6; }
+
+        .totals { margin-top: 30px; width: 280px; margin-left: auto; }
+        .total-row { display: flex; justify-content: space-between; padding: 8px 0; }
+        .grand { border-top: 2px solid black; font-weight: 900; font-size: 22px; margin-top: 10px; padding-top: 10px; }
+
+        .footer { position: absolute; bottom: 50px; width: calc(100% - 160px); text-align: center; font-size: 10px; color: #aaa; letter-spacing: 1px; }
+
+        @media print {
+            .sidebar { display: none; }
+            .preview-area { padding: 0; background: white; }
+            #receipt-canvas { box-shadow: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand-logo">KÖCE</div>
+
+        <div class="form-section">
+            <div class="section-title">Client Details</div>
+            <input type="text" id="clientInput" placeholder="Client Name" oninput="updateStaticInfo()">
+            <input type="text" id="phoneInput" placeholder="Phone Number (e.g. 0712...)" oninput="updateStaticInfo()">
+            
+            <div class="section-title" style="margin-top:15px">Receipt Info</div>
+            <input type="text" id="noInput" value="KOCE-001" oninput="updateStaticInfo()">
+        </div>
+
+        <div class="form-section">
+            <div class="section-title">Products</div>
+            <div id="editor-rows"></div>
+            <button class="btn btn-add" onclick="addRow()">+ Add Product</button>
+        </div>
+
+        <button class="btn btn-primary" onclick="downloadPDF()">Download PDF</button>
+        <button class="btn" style="background:transparent; border:1px solid black" onclick="window.print()">Print Receipt</button>
+    </aside>
+
+    <main class="preview-area">
+        <div id="receipt-canvas">
+            <div class="header">
+                <h2>KÖCE</h2>
+                <div style="text-align: right">
+                    <p><strong>DATE:</strong> <span id="dateView"></span></p>
+                    <p><strong>NO:</strong> <span id="noView">KOCE-001</span></p>
+                </div>
+            </div>
+
+            <div class="bill-grid">
+                <div>
+                    <div class="label">Billed To</div>
+                    <div class="client-view" id="nameView">Customer Name</div>
+                    <div class="phone-view" id="phoneView">Phone: —</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th>Qty</th>
+                        <th style="text-align: right">Unit Price</th>
+                        <th style="text-align: right">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tableView"></tbody>
+            </table>
+
+            <div class="totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span id="subView">KSh 0.00</span>
+                </div>
+                <div class="total-row grand">
+                    <span>TOTAL</span>
+                    <span id="totalView">KSh 0.00</span>
+                </div>
+            </div>
+
+            <div class="footer">KÖCE ARCHIVE — NAIROBI, KENYA — ALL SALES FINAL</div>
+        </div>
+    </main>
+
+    <script>
+        // Data State
+        let items = [{ id: Date.now(), desc: 'Essential Tee', qty: 1, price: 1500 }];
+
+        // Initialize Editor UI (Only called when adding/deleting rows)
+        function renderEditor() {
+            const container = document.getElementById('editor-rows');
+            container.innerHTML = '';
+            
+            items.forEach((item) => {
+                const row = document.createElement('div');
+                row.className = 'item-row-edit';
+                row.innerHTML = `
+                    <input type="text" value="${item.desc}" placeholder="Item" oninput="updateData(${item.id}, 'desc', this.value)">
+                    <input type="number" value="${item.qty}" placeholder="Qty" oninput="updateData(${item.id}, 'qty', this.value)">
+                    <input type="number" value="${item.price}" placeholder="Price" oninput="updateData(${item.id}, 'price', this.value)">
+                    <button class="btn-delete" onclick="removeRow(${item.id})">×</button>
+                `;
+                container.appendChild(row);
+            });
+            updateReceiptTable();
+        }
+
+        function addRow() {
+            items.push({ id: Date.now(), desc: '', qty: 1, price: 0 });
+            renderEditor();
+        }
+
+        function removeRow(id) {
+            if (items.length > 1) {
+                items = items.filter(i => i.id !== id);
+                renderEditor();
+            }
+        }
+
+        // Live Data Updates (Prevents focus loss)
+        function updateData(id, field, value) {
+            const item = items.find(i => i.id === id);
+            if (field === 'desc') item.desc = value;
+            else item[field] = parseFloat(value) || 0;
+            updateReceiptTable();
+        }
+
+        // Live Static Text Updates
+        function updateStaticInfo() {
+            document.getElementById('nameView').innerText = document.getElementById('clientInput').value || "Customer Name";
+            document.getElementById('phoneView').innerText = "Phone: " + (document.getElementById('phoneInput').value || "—");
+            document.getElementById('noView').innerText = document.getElementById('noInput').value;
+        }
+
+        // Refresh the Right Side (Table & Totals)
+        function updateReceiptTable() {
+            const tbody = document.getElementById('tableView');
+            let grand = 0;
+            
+            tbody.innerHTML = items.map(item => {
+                const rowTotal = item.qty * item.price;
+                grand += rowTotal;
+                return `
+                    <tr>
+                        <td>${item.desc || 'New Item'}</td>
+                        <td>${item.qty}</td>
+                        <td style="text-align: right">KSh ${item.price.toLocaleString()}</td>
+                        <td style="text-align: right">KSh ${rowTotal.toLocaleString()}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const formattedGrand = `KSh ${grand.toLocaleString()}`;
+            document.getElementById('subView').innerText = formattedGrand;
+            document.getElementById('totalView').innerText = formattedGrand;
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('receipt-canvas');
+            const receiptNo = document.getElementById('noInput').value;
+            const opt = {
+                margin: 0,
+                filename: `KOCE_Receipt_${receiptNo}.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Set Date and Initial UI
+        document.getElementById('dateView').innerText = new Date().toLocaleDateString('en-KE');
+        renderEditor();
+    </script>
+</body>
+</html>
