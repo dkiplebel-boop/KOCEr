@@ -435,9 +435,29 @@ input:focus, select:focus, textarea:focus {
     <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-black z- w-0"></div>
     <div id="transition-grid"></div>
 
-    <div id="gateway">
-        <button class="enter-trigger text-white uppercase font-black tracking-[1em] text-[10px]" onclick="enterSite()">Enter</button>
+  <div id="gateway">
+    <div class="flex flex-col items-center gap-8">
+        <!-- Structural Loading UI -->
+        <div id="loading-status" class="flex flex-col items-center gap-6">
+            <!-- Progress Track -->
+            <div class="w-64 h-[1px] bg-white/10 relative overflow-hidden">
+                <div id="loading-bar" class="absolute inset-0 bg-white w-0 transition-all duration-300 ease-out"></div>
+            </div>
+            
+            <!-- Metadata -->
+            <div class="flex flex-col items-center gap-3">
+                <div class="flex items-center gap-4">
+                    <span id="loading-text" class="text-white uppercase font-black tracking-[0.8em] text-[8px] opacity-40">System Booting</span>
+                    <span id="loading-percentage" class="text-white font-mono text-[9px] opacity-60">00%</span>
+                </div>
+                <!-- Sub-status for flavor -->
+                <span id="sub-status" class="text-[6px] uppercase tracking-[0.4em] text-white/20">Establishing Structural Integrity</span>
+            </div>
+        </div>
     </div>
+</div>
+
+   
 
     <div id="vault-overlay">
     <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mb-5">System Access Status</span>
@@ -1392,7 +1412,136 @@ document.querySelectorAll('#phase-shipping input, #phase-shipping select, #phase
     });
 });
 
-       
+
+       // --- AUTO-LOADING ENGINE ---
+window.addEventListener('load', () => {
+    const bar = document.getElementById('loading-bar');
+    const text = document.getElementById('loading-text');
+    const percent = document.getElementById('loading-percentage');
+    
+    // Simulate progress while the browser finalizes rendering
+    let width = 0;
+    const interval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(interval);
+            completeLoading();
+        } else {
+            width += Math.random() * 15; // Realistic staggered loading
+            if (width > 100) width = 100;
+            
+            bar.style.width = width + '%';
+            percent.innerText = Math.floor(width) + '%';
+            
+            if (width > 40) text.innerText = "Synchronizing Assets...";
+            if (width > 80) text.innerText = "Finalizing Structure...";
+        }
+    }, 150);
+
+    function completeLoading() {
+        text.innerText = "Access Granted";
+        text.style.opacity = "1";
+        text.style.color = "#4ade80"; // Subtle green success
+        
+        // Brief pause for the user to see "Access Granted" before transition
+        setTimeout(() => {
+            enterSite(); 
+        }, 800);
+    }
+});
+
+// --- KÖCE GLOBAL LOAD ENGINE ---
+
+// --- KÖCE TOTAL RENDER ENGINE ---
+
+(function() {
+    let progress = 0;
+    const bar = document.getElementById('loading-bar');
+    const pct = document.getElementById('loading-percentage');
+    const txt = document.getElementById('loading-text');
+    const sub = document.getElementById('sub-status');
+
+    // 1. Progress Logic
+    const frame = () => {
+        // Smoothly approach 90% based on simulated performance
+        if (progress < 90) {
+            progress += Math.random() * 1.5;
+        } 
+        
+        // Only bridge 90% -> 100% when the browser actually says "Complete"
+        if (document.readyState === 'complete' && progress >= 90) {
+            progress += 2;
+        }
+
+        // Clamp to 100
+        if (progress > 100) progress = 100;
+
+        // Update UI
+        bar.style.width = progress + '%';
+        pct.innerText = Math.floor(progress).toString().padStart(2, '0') + '%';
+
+        // Branding logic
+        if (progress > 20 && progress < 50) {
+            txt.innerText = "Syncing Archives";
+            sub.innerText = "Loading Geometry Data";
+        } else if (progress >= 50 && progress < 80) {
+            txt.innerText = "Filtering Noise";
+            sub.innerText = "Optimizing Visual Signal";
+        } else if (progress >= 80 && progress < 100) {
+            txt.innerText = "Finalizing Form";
+            sub.innerText = "Verifying Structural Integrity";
+        }
+
+        if (progress < 100) {
+            requestAnimationFrame(frame);
+        } else {
+            finalizeEntrance();
+        }
+    };
+
+    // Start the animation loop
+    requestAnimationFrame(frame);
+
+    function finalizeEntrance() {
+        txt.innerText = "Access Granted";
+        txt.style.color = "#fff";
+        sub.innerText = "System Ready";
+        
+        // Ensure shop is rendered while screen is still black
+        renderShop();
+
+        setTimeout(() => {
+            // Fade out Gateway
+            const gateway = document.getElementById('gateway');
+            gateway.style.opacity = '0';
+            gateway.style.pointerEvents = 'none';
+
+            // Reveal Nav
+            document.getElementById('main-nav').style.opacity = "1";
+            
+            setTimeout(() => {
+                gateway.classList.add('hidden');
+                document.body.classList.remove('no-scroll');
+                
+                // Fire animations
+                triggerHomeAnims();
+                initScrollEngine();
+                initObserver();
+
+                // Set Hero to Active
+                const heroMeta = document.getElementById('hero-meta');
+                if(heroMeta) heroMeta.classList.add('active');
+            }, 1000);
+        }, 600);
+    }
+})();
+
+// Helper to ensure animations fire correctly
+function triggerHomeAnims() {
+    const left = document.querySelector('.hero-split-left');
+    const right = document.querySelector('.hero-split-right');
+    if(left) left.style.animation = 'splitRevealLeft 1.2s var(--ease-heavy) forwards';
+    if(right) right.style.animation = 'splitRevealRight 1.2s var(--ease-heavy) forwards';
+}
 
     </script>
 <!-- BACK TO TOP BUTTON -->
