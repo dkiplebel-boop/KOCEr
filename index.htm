@@ -422,6 +422,17 @@ input:focus, select:focus, textarea:focus {
     outline: none;
     background-color: #252526 !important; /* Slightly lighter when typing */
 }
+
+      /* Force the pill style to be visible when scrolled */
+#main-nav.scrolled .nav-pill {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 12px 32px !important;
+    border-radius: 100px !important;
+    transition: all 0.4s var(--ease-out);
+}
 </style>          
     
 </head>
@@ -465,7 +476,7 @@ input:focus, select:focus, textarea:focus {
     <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mt-5">Pre-Order: July 16, 2026</span>
 </div>
 
-    <nav id="main-nav" class="fixed top-0 w-full p-8 md:p-10 flex justify-between items-center opacity-0">
+    <nav id="main-nav" class="fixed top-0 w-full p-8 md:p-10 flex justify-between items-center opacity-100">
         <div onclick="navigate('home')" class="cursor-pointer">
             <div class="nav-pill text-xl font-light tracking-[0.6em] font-heading">KÖCE</div>
         </div>
@@ -606,6 +617,9 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         </div>
     </div>
 
+      <!-- FOOTER CERTIFICATION -->
+
+
     <!-- PAGE: SHOP -->
     <div id="shop" class="page" style="display:none">
         <header class="h-screen flex flex-col justify-center items-center px-10 text-center relative">
@@ -742,8 +756,8 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     const products = [
         { id: 'BØ', name: 'Monolith', price: 799, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1MWTKpvKpNH0_I5_YLjY5l_qUr9L6Nq12', white: ' https://lh3.googleusercontent.com/u/0/d/1EXXV8wac-v0dAOcjCt55ZmAgehnveL3w' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
         { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'coming soon' },
-        { id: 'B3', name: 'Caelum', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1mpXryRAqkaxP1KGwY6l0dCMcxhi3jwJX', white: 'https://lh3.googleusercontent.com/u/0/d/1gIxbaKywp6QqYa4Y6kJBZWOfODY6-Q8V' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming soon' },
+        { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B3', name: 'Caelum', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1mpXryRAqkaxP1KGwY6l0dCMcxhi3jwJX', white: 'https://lh3.googleusercontent.com/u/0/d/1gIxbaKywp6QqYa4Y6kJBZWOfODY6-Q8V' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
         { id: 'B4', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
         { id: 'B5', name: 'Zenith', price: 950, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
         { id: 'B6', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
@@ -1075,18 +1089,62 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     }
 
     function initScrollEngine() {
-        const backToTop = document.getElementById('back-to-top');
-        window.addEventListener('scroll', () => {
-            const prog = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            const bar = document.getElementById('scroll-progress');
-            if(bar) bar.style.width = prog + '%';
-            if (window.scrollY > 300 && backToTop) backToTop.classList.add('visible');
-            else if(backToTop) backToTop.classList.remove('visible');
+    const nav = document.getElementById('main-nav');
+    const backToTop = document.getElementById('back-to-top');
+    const bar = document.getElementById('scroll-progress');
 
-            if (window.scrollY > 50) document.getElementById('main-nav').classList.add('scrolled'); 
-            else document.getElementById('main-nav').classList.remove('scrolled');
-        });
-    }
+    window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY;
+
+        // 1. Trigger Pill Effect (Earlier at 20px)
+        if (scrollPos > 20) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+
+        // 2. Back to Top Visibility
+        if (scrollPos > 400) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+
+        // 3. Progress Bar
+        const prog = (scrollPos / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        if(bar) bar.style.width = prog + '%';
+    }, { passive: true });
+}
+
+// CONSOLIDATED LOADING ENGINE
+window.addEventListener('load', () => {
+    const bar = document.getElementById('loading-bar');
+    const percent = document.getElementById('loading-percentage');
+    let width = 0;
+    
+    const interval = setInterval(() => {
+        width += Math.random() * 20;
+        if (width >= 100) {
+            width = 100;
+            clearInterval(interval);
+            
+            // Critical: Unlock the site
+            setTimeout(() => {
+                document.getElementById('gateway').style.opacity = '0';
+                document.getElementById('gateway').style.pointerEvents = 'none';
+                document.body.classList.remove('no-scroll');
+                document.body.style.overflow = "auto";
+                
+                // Fire the engines
+                initScrollEngine();
+                initObserver();
+                renderShop();
+            }, 500);
+        }
+        if(bar) bar.style.width = width + '%';
+        if(percent) percent.innerText = Math.floor(width).toString().padStart(2, '0') + '%';
+    }, 100);
+});
 
     function initObserver() {
         const obs = new IntersectionObserver((es) => {
@@ -1128,6 +1186,38 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         </svg>
     </div>
 </div>
+
+   <footer class="w-full py-20 px-10 border-t border-white/5 flex flex-col items-center justify-center text-center gap-6">
+    <!-- Origin Label -->
+    <div class="flex items-center gap-4 opacity-30">
+        <div class="w-8 h-[1px] bg-white"></div>
+        <span class="text-[9px] font-black uppercase tracking-[0.5em]">Origin: Republic of Kenya</span>
+        <div class="w-8 h-[1px] bg-white"></div>
+    </div>
+    
+    <!-- Certification Text -->
+    <div class="flex flex-col gap-2">
+        <h5 class="text-[10px] font-black uppercase tracking-[0.2em] text-white/80">Certified Structural Product</h5>
+        <p class="text-[8px] font-medium uppercase tracking-[0.1em] text-white/40">CRAFTED IN THE HEART OF KENYA</p>
+    </div>
+
+    <!-- ENLARGED KENYA IMAGE BOX (CLEAN) -->
+    <div class="mt-8 flex justify-center items-center">
+        <div class="relative w-32 h-32 md:w-40 md:h-40 group cursor-crosshair">
+            <!-- Background Glow -->
+            <div class="absolute inset-0 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all"></div>
+            
+            <!-- Map Image -->
+            <div class="relative w-full h-full overflow-hidden opacity-40 group-hover:opacity-80 transition-opacity">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1saj7PTrZye9RJBQFwbN9H0-DO-erV9An" 
+                     alt="Kenya Map" 
+                     class="w-full h-full object-contain filter brightness-200 grayscale">
+            </div>
+        </div>
+    </div>
+</footer>
+
+
    
 
 </body>
