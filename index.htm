@@ -738,811 +738,388 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     </div>
 </div>
 
-    <script>
-        const products = [
+   <script>
+    const products = [
+        { id: 'BØ', name: 'Monolith', price: 799, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1MWTKpvKpNH0_I5_YLjY5l_qUr9L6Nq12', white: ' https://lh3.googleusercontent.com/u/0/d/1EXXV8wac-v0dAOcjCt55ZmAgehnveL3w' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'coming soon' },
+        { id: 'B3', name: 'Caelum', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1mpXryRAqkaxP1KGwY6l0dCMcxhi3jwJX', white: 'https://lh3.googleusercontent.com/u/0/d/1gIxbaKywp6QqYa4Y6kJBZWOfODY6-Q8V' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming soon' },
+        { id: 'B4', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B5', name: 'Zenith', price: 950, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B6', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B7', name: 'Void', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/16qoq_fYmDuh19anI828mi-2tRQITZKh1', white: 'https://lh3.googleusercontent.com/u/0/d/10DrR-JUAOEKodyYrxwnoxNfUR7DVWzM8' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
+        { id: 'B8', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B9', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
+        { id: 'B10', name: 'Ascensation', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Ah3ziLjiHTibMI8S3L3KUZR9qQghHHPd', white: 'https://lh3.googleusercontent.com/u/0/d/18TvJ8s5IlMAPNQ3SZ-cBiRMRZ2zQFINe', darkgreen: 'https://lh3.googleusercontent.com/u/0/d/14E88kAZig_kfYMkOLSPXXmdX3NTlIjdP' }, colors: ['black', 'white', 'darkgreen'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
+    ];
 
-            { id: 'BØ', name: 'Monolith', price: 799, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1MWTKpvKpNH0_I5_YLjY5l_qUr9L6Nq12', white: ' https://lh3.googleusercontent.com/u/0/d/1EXXV8wac-v0dAOcjCt55ZmAgehnveL3w' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+    let cart = [];
+    let selections = {};
+    const grid = document.getElementById('transition-grid');
+    for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
 
-
-            
-            { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-            { id: 'C1', name: 'Köllared', price: 1199, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'active' },
-           
-
-           { id: 'B3', name: 'Caelum', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1mpXryRAqkaxP1KGwY6l0dCMcxhi3jwJX', white: 'https://lh3.googleusercontent.com/u/0/d/1gIxbaKywp6QqYa4Y6kJBZWOfODY6-Q8V' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-            
-           { id: 'B4', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-           { id: 'B5', name: 'Zenith', price: 950, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-           { id: 'B6', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-           
-            { id: 'B7', name: 'Void', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/16qoq_fYmDuh19anI828mi-2tRQITZKh1', white: 'https://lh3.googleusercontent.com/u/0/d/10DrR-JUAOEKodyYrxwnoxNfUR7DVWzM8' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
-
-      
-           { id: 'B8', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-          { id: 'B9', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
-
-
-            { id: 'B10', name: 'Ascensation', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Ah3ziLjiHTibMI8S3L3KUZR9qQghHHPd', white: 'https://lh3.googleusercontent.com/u/0/d/18TvJ8s5IlMAPNQ3SZ-cBiRMRZ2zQFINe', darkgreen: 'https://lh3.googleusercontent.com/u/0/d/14E88kAZig_kfYMkOLSPXXmdX3NTlIjdP' }, colors: ['black', 'white', 'darkgreen'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-            
-            { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-
-            
-            { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
-        ];
-
-        let cart = [];
-        let selections = {};
-        const grid = document.getElementById('transition-grid');
-        for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
-
-
-           function enterSite() {
-    const trigger = document.querySelector('.enter-trigger');
-    trigger.innerText = "AUTHENTICATING..."; 
-    
-    // 1. Immediately show the navigation
-    document.getElementById('main-nav').style.opacity = "1";
-    
-    // 2. Build the shop in the background if it hasn't been built
-    renderShop(); 
-
-    setTimeout(() => {
-        // 3. Kill the gateway
-        document.getElementById('gateway').classList.add('hidden');
-        document.body.classList.remove('no-scroll');
+    function enterSite() {
+        const trigger = document.querySelector('.enter-trigger');
+        trigger.innerText = "AUTHENTICATING..."; 
         
-        // 4. Trigger the animations
-        triggerHomeAnims();
-        initScrollEngine();
-        initObserver();
-        
-        // 5. Force the Meta and Button to show up immediately on mobile
-        document.getElementById('hero-meta').classList.add('active');
-        document.getElementById('scroll-indicator').style.opacity = "1";
-    }, 300); // Super fast transition
-}
-
-       // PRELOAD ENGINE: Forces images into browser cache immediately
-function preloadProductImages() {
-    products.forEach(product => {
-        Object.values(product.img).forEach(url => {
-            const img = new Image();
-            img.src = url + "?w=800"; // Matching the width you used in render
-        });
-    });
-}
-
-// Run it immediately
-preloadProductImages();
-       
-
-        function triggerHomeAnims() {
-    const left = document.querySelector('.hero-split-left');
-    const right = document.querySelector('.hero-split-right');
-    const meta = document.getElementById('hero-meta');
-    
-    // Keep the cool name animation
-    left.style.animation = 'splitRevealLeft 1s var(--ease-heavy) forwards';
-    right.style.animation = 'splitRevealRight 1s var(--ease-heavy) forwards';
-    
-    // Ensure everything else is just "there"
-    meta.style.opacity = "1";
-    meta.style.transform = "translateY(0)";
-}
-
-        function navigate(pageId) {
-    grid.classList.add('active');
-    const blocks = Array.from(document.querySelectorAll('.pixel-block'));
-    
-    blocks.forEach((b, i) => {
-        const x = i % 10; const y = Math.floor(i / 10);
-        b.style.transitionDelay = `${(x + y) * 20}ms`;
-    });
-
-    setTimeout(() => {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        const targetPage = document.getElementById(pageId);
-        targetPage.style.display = pageId === 'shop' ? 'block' : 'flex';
-        
-        if(pageId === 'shop') renderShop();
-        if(pageId === 'home') triggerHomeAnims();
-        
-        window.scrollTo(0, 0);
-        grid.classList.remove('active');
-        initObserver();
-
-        // --- VAULT SCROLL LOCK ---
-        const isLocked = getComputedStyle(document.documentElement).getPropertyValue('--vault-lock-display').trim() === 'flex';
-        const shopEl = document.getElementById('shop');
-        const vaultOverlay = document.getElementById('vault-overlay');
-        const cartBtn = document.getElementById('cart-btn-trigger');
-
-        if (pageId === 'shop' && isLocked) {
-            shopEl.classList.add('vault-active');
-            vaultOverlay.style.display = 'flex';
-            cartBtn.classList.add('cart-locked'); 
-            document.body.classList.add('no-scroll'); // Locks background scroll
-            startVaultTimer();
-        } else {
-            shopEl.classList.remove('vault-active');
-            vaultOverlay.style.display = 'none';
-            cartBtn.classList.remove('cart-locked');
-            document.body.classList.remove('no-scroll'); // Unlocks for Home
-        }
-    }, 600);
-}
-
-
-        function startVaultTimer() {
-            const target = new Date("July 16, 2026 00:00:00").getTime();
-            const timerDisplay = document.getElementById('vault-countdown');
-            
-            setInterval(() => {
-                const dist = target - new Date().getTime();
-                const d = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-                const s = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
-                timerDisplay.innerText = `${d}:${h}:${m}:${s}`;
-            }, 1000);
-        }
-
-        // --- NEW INVENTORY ENGINE ---
-        function parseInventory(status, availableColors, availableSizes) {
-            const result = { disabledColors: [], colorSpecificOOS: {} };
-            if (!status || !status.startsWith('out-of-stock-')) return result;
-
-            const tokens = status.replace('out-of-stock-', '').split('-');
-            let currentCtx = null;
-
-            tokens.forEach(token => {
-                const color = availableColors.find(c => c.toLowerCase() === token);
-                const size = availableSizes.find(s => s.toLowerCase() === token);
-
-                if (color) {
-                    currentCtx = color;
-                    if (!result.colorSpecificOOS[currentCtx]) result.colorSpecificOOS[currentCtx] = [];
-                } else if (size && currentCtx) {
-                    result.colorSpecificOOS[currentCtx].push(size.toLowerCase());
-                } else if (size && !currentCtx) {
-                    // Global size OOS across all colors
-                    availableColors.forEach(c => {
-                        if (!result.colorSpecificOOS[c]) result.colorSpecificOOS[c] = [];
-                        result.colorSpecificOOS[c].push(size.toLowerCase());
-                    });
-                }
-            });
-
-            // If a color was listed but no sizes followed it, that color is fully disabled
-            tokens.forEach((token, idx) => {
-                const color = availableColors.find(c => c.toLowerCase() === token);
-                if (color) {
-                    const nextToken = tokens[idx + 1];
-                    const nextIsSize = nextToken && availableSizes.find(s => s.toLowerCase() === nextToken);
-                    if (!nextIsSize) result.disabledColors.push(color);
-                }
-            });
-
-            return result;
-        }
-
-        function renderShop() {
-    const grid = document.getElementById('shop-grid');
-    grid.innerHTML = products.map((p) => {
-        const inventory = parseInventory(p.status, p.colors, p.sizes);
-        const isEntirelySO = p.status === 'sold-out' || p.status === 'out-of-stock';
-        const isCS = p.status === 'coming soon';
-        
-        let defaultColor = p.colors.find(c => !inventory.disabledColors.includes(c)) || p.colors;
-        if(!selections[p.id]) selections[p.id] = { color: defaultColor };
-
-        let pixelMask = `<div class="pixel-mask">`;
-        for(let i=0; i<48; i++) pixelMask += `<div class="reveal-pixel" style="transition-delay: ${Math.random() * 500}ms"></div>`;
-        pixelMask += `</div>`;
-
-        let badge = '';
-        if(isEntirelySO) badge = '<div class="status-badge">OUT OF STOCK</div>';
-        else if(isCS) badge = '<div class="status-badge bg-white !text-black">COMING SOON</div>';
-
-        return `
-        <div class="product-item scroll-reveal" data-id="${p.id}" id="card-${p.id}">
-            ${badge}
-            <div class="img-container aspect-[4/5] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
-                ${pixelMask}
-                
-<img id="img-${p.id}" 
-     src="${p.img[defaultColor]}?w=800" 
-     fetchpriority="high" 
-     class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
-            </div>
-            <div class="px-1 md:px-2">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
-                    <h4 class="font-heading font-black text-lg md:text-2xl uppercase tracking-tighter">${p.name}</h4>
-                    <span class="text-[10px] md:text-sm font-black opacity-30">KSh ${p.price.toLocaleString()}</span>
-                </div>
-                <div class="mb-4 md:mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
-                    <div class="flex gap-2 md:gap-4">
-                        ${p.colors.map(c => {
-                            const isDisabled = inventory.disabledColors.includes(c);
-                            const isSelected = c === defaultColor ? 'selected' : '';
-                            return `<div class="color-opt color-${c} ${isSelected} ${isDisabled ? 'variant-oos' : ''}" 
-                                onclick="selectOpt('${p.id}', 'color', '${c}', this)"></div>`
-                        }).join('')}
-                    </div>
-                    <div id="sizes-${p.id}" class="flex gap-1 md:gap-2">
-                        ${p.sizes.map(s => {
-                            const isOOS = (inventory.colorSpecificOOS[defaultColor] || []).includes(s.toLowerCase());
-                            return `<button class="size-btn !px-2 !py-1 md:!px-4 md:!py-2 ${isOOS ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'size', '${s}', this)">${s}</button>`
-                        }).join('')}
-                    </div>
-                </div>
-                <button onclick="handleAddToCart('${p.id}', this)" class="add-btn w-full py-3 md:py-5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all ${isEntirelySO || isCS ? 'opacity-20 pointer-events-none' : ''}">
-                    ${isEntirelySO ? 'UNIT DEPLETED' : isCS ? 'PENDING DROP' : 'ADD To BAG'}
-                </button>
-            </div>
-        </div>`;
-    }).join('');
-}
-
-        function selectOpt(id, type, val, el) {
-            if(el.classList.contains('variant-oos')) return;
-
-            if(!selections[id]) selections[id] = {};
-            const p = products.find(x => x.id === id);
-            const inventory = parseInventory(p.status, p.colors, p.sizes);
-
-            if(type === 'color') {
-                selections[id].color = val;
-                document.getElementById(`img-${id}`).src = p.img[val] + "?w=800";
-                
-                // Refresh sizes for the new color
-                const sizeContainer = document.getElementById(`sizes-${id}`);
-                const oosForThisColor = inventory.colorSpecificOOS[val] || [];
-                
-                sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
-                    const s = btn.innerText.toLowerCase();
-                    if (oosForThisColor.includes(s)) {
-                        btn.classList.add('variant-oos');
-                        btn.classList.remove('selected');
-                        if(selections[id].size === btn.innerText) delete selections[id].size;
-                    } else {
-                        btn.classList.remove('variant-oos');
-                    }
-                });
-            } else {
-                selections[id].size = val;
-            }
-            
-            el.parentElement.querySelectorAll('*').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-
-        function handleAddToCart(id, btn) {
-            const p = products.find(x => x.id === id);
-            const sel = selections[id] || {};
-            if(!sel.color || !sel.size) {
-                const old = btn.innerText; btn.innerText = "SELECT VARIANT"; btn.style.color = "red";
-                setTimeout(() => { btn.innerText = old; btn.style.color = ""; }, 1000);
-                return;
-            }
-
-            const imgToFly = document.getElementById(`img-${id}`);
-            const bagTarget = document.getElementById('cart-btn-trigger');
-            const rect = imgToFly.getBoundingClientRect();
-            const bagRect = bagTarget.getBoundingClientRect();
-
-            const ghost = document.createElement('img');
-            ghost.src = imgToFly.src;
-            ghost.className = 'ghost-img';
-            ghost.style.top = rect.top + 'px';
-            ghost.style.left = rect.left + 'px';
-            ghost.style.width = rect.width + 'px';
-            ghost.style.height = rect.height + 'px';
-            document.body.appendChild(ghost);
-
-            setTimeout(() => {
-                ghost.style.top = bagRect.top + 'px';
-                ghost.style.left = bagRect.left + 'px';
-                ghost.style.width = '20px';
-                ghost.style.height = '20px';
-                ghost.style.opacity = '0';
-                ghost.style.transform = 'rotate(45deg)';
-            }, 10);
-
-            setTimeout(() => ghost.remove(), 800);
-
-            cart.push({ ...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now() });
-            updateCartUI();
-            btn.innerText = "ADDED TO BAG";
-            setTimeout(() => { btn.innerText = "ADD tO BAG"; }, 1500);
-        }
-
-       function updateCartUI() {
-    document.getElementById('cart-count').innerText = cart.length;
-    const cartList = document.getElementById('cart-list');
-    
-    if (cart.length === 0) {
-        cartList.innerHTML = `<div class="py-20 text-center opacity-20 text-[10px] uppercase font-black tracking-widest">Bag Empty</div>`;
-    } else {
-        cartList.innerHTML = cart.map(i => `
-            <div class="bag-item-card">
-                <div class="bag-item-info">
-                    <h4>${i.name}</h4>
-                    <p class="bag-item-meta">${i.selectedSize} | ${i.selectedColor}</p>
-                </div>
-                <button onclick="removeItem(${i.cartId})" class="drop-btn">Drop</button>
-            </div>`).join('');
-    }
-    
-    const total = cart.reduce((a, b) => a + b.price, 0);
-    const isFreeShipping = total >= 2000000000000000000000000;
-    
-    // Update Total and add Free Shipping Badge if applicable
-    document.getElementById('cart-total').innerHTML = `
-        <div class="flex flex-col items-end">
-            ${isFreeShipping ? '<span class="text-[8px] text-green-500 font-black tracking-widest mb-1">FREE SHIPPING ELIGIBLE</span>' : ''}
-            <span>KSh ${total.toLocaleString()}</span>
-        </div>
-    `;
-}
-
-        function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
-       function toggleCart() { 
-    const sidebar = document.getElementById('cart-sidebar');
-    sidebar.classList.toggle('open');
-    
-    // If sidebar is open, lock scroll; otherwise, unlock
-    if(sidebar.classList.contains('open')) {
-        document.body.classList.add('no-scroll');
-    } else {
-        document.body.classList.remove('no-scroll');
-    }
-}
-       function closeModal() {
-    const modal = document.getElementById('checkout-modal');
-    modal.classList.remove('active');
-    document.body.classList.remove('no-scroll'); // Unlock scroll[cite: 1]
-
-    setTimeout(() => {
-        document.getElementById('phase-shipping').classList.remove('hidden');
-        document.getElementById('phase-summary').classList.add('hidden');
-        // ... rest of your existing timeout logic
-    }, 500);
-}
-
-     // --- KÖCE CHECKOUT ENGINE ---
-
-/**
- * 1. INITIALIZE CHECKOUT
- * Opens the modal and resets it to Phase 1 (Shipping Form)
- */
-/**
- * 1. INITIALIZE CHECKOUT
- * Opens the modal and resets it to Phase 1 (Shipping Form)
- */
-function initiateCheckout() {
-    if (cart.length === 0) return;
-
-    document.getElementById('phase-shipping').classList.remove('hidden');
-    document.getElementById('phase-summary').classList.add('hidden');
-    document.getElementById('form-error').classList.add('hidden');
-
-    document.getElementById('cust-name').value = "";
-    document.getElementById('cust-phone').value = "";
-    document.getElementById('cust-location').value = "";
-    document.getElementById('cust-region').value = "NAIROBI";
-    
-    toggleCityView();
-
-    document.getElementById('checkout-modal').classList.add('active');
-    document.body.classList.add('no-scroll'); // Lock scroll
-}
-       
-
-function toggleCityView() {
-    // 1. Identify the current region selection
-    const region = document.getElementById('cust-region').value;
-    
-    // 2. Identify the UI wrappers (the div containers)
-    const nairobiWrapper = document.getElementById('nairobi-neighborhoods-container');
-    const cityWrapper = document.getElementById('other-cities-container');
-    
-    // 3. Identify the specific location textarea to update placeholder text
-    const locationField = document.getElementById('cust-location');
-
-    // 4. Execution Logic
-    if (region === 'NAIROBI') {
-        // Show Nairobi zones, Hide other cities
-        nairobiWrapper.classList.remove('hidden');
-        cityWrapper.classList.add('hidden');
-        
-        // Update placeholder for urban delivery
-        locationField.placeholder = "SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT NAME)";
-    } else {
-        // Hide Nairobi zones, Show other cities
-        nairobiWrapper.classList.add('hidden');
-        cityWrapper.classList.remove('hidden');
-        
-        // Update placeholder for courier/travel office pickup
-        locationField.placeholder = "NEAREST COURIER OFFICE (E.G., MOLOLINE, 2NK, EASYCOACH)";
-    }
-}
-
-
-function generateOrderHash() {
-    const name = document.getElementById('cust-name').value.trim();
-    const phone = document.getElementById('cust-phone').value.trim();
-    const region = document.getElementById('cust-region').value;
-    const location = document.getElementById('cust-location').value.trim();
-    const errorMsg = document.getElementById('form-error');
-
-    if (!name || !phone || !location) {
-        errorMsg.classList.remove('hidden');
-        return;
-    }
-    errorMsg.classList.add('hidden');
-
-    // Get the area/city based on the region selection
-    let finalCity = "";
-    if (region === 'NAIROBI') {
-        const area = document.getElementById('cust-nairobi-area').value;
-        finalCity = `NAIROBI: ${area}`;
-    } else {
-        const city = document.getElementById('cust-city-select').value;
-        finalCity = `OUTSIDE NAIROBI: ${city}`;
-    }
-
-    const orderID = `KOCE-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
-    const total = cart.reduce((a, b) => a + b.price, 0);
-    
-    let m = `[KÖCE STRUCTURAL WEAR ORDER]\n`;
-    m += `ID: #${orderID}\n`;
-    m += `--------------------------\n`;
-    m += `RECIPIENT: ${name.toUpperCase()}\n`;
-    m += `PHONE: ${phone}\n`;
-    m += `LOCATION: ${finalCity} - ${location.toUpperCase()}\n`;
-    m += `--------------------------\n`;
-    cart.forEach(it => {
-        m += `• ${it.id} ${it.selectedSize} | ${it.selectedColor}\n`;
-    });
-    m += `--------------------------\n`;
-    m += `TOTAL: KSh ${total.toLocaleString()}\n`;
-    m += `--------------------------\n`;
-
-    document.getElementById('order-hash-container').innerText = m;
-    document.getElementById('phase-shipping').classList.add('hidden');
-    document.getElementById('phase-summary').classList.remove('hidden');
-}
-
-/**
- * 4. EDIT DETAILS
- */
-function backToShipping() {
-    document.getElementById('phase-summary').classList.add('hidden');
-    document.getElementById('phase-shipping').classList.remove('hidden');
-}
-
-/**
- * 5. COPY, REDIRECT, AND CLEAR CART
- */
-async function copyAndFinalize() {
-    const btn = document.getElementById('final-copy-btn');
-    const orderText = document.getElementById('order-hash-container').innerText;
-    
-    // 1. Extract Order ID and Total Price from the current cart
-    const orderIDMatch = orderText.match(/KOCE-[A-Z0-9]+/);
-    const orderID = orderIDMatch ? orderIDMatch[0] : "KOCE-UNKNOWN";
-    
-    const totalPrice = cart.reduce((a, b) => a + b.price, 0);
-
-   const region = document.getElementById('cust-region').value;
-const selectedCity = region === 'OUTSIDE_NAIROBI' 
-    ? document.getElementById('cust-city-select').value 
-    : 'NAIROBI';
-
-const orderData = {
-    orderID: orderID,
-    name: document.getElementById('cust-name').value,
-    phone: document.getElementById('cust-phone').value,
-    city: selectedCity, // Now sending only the City/Town
-    total: totalPrice,
-    items: cart.map(it => ({
-        name: it.name,
-        size: it.selectedSize,
-        color: it.selectedColor
-    }))
-};
-
-    btn.innerText = "SAVING ORDER...";
-    btn.disabled = true;
-
-    try {
-        // REPLACE THE URL BELOW WITH YOUR NEW GOOGLE APPS SCRIPT WEB APP URL
-        await fetch('https://script.google.com/macros/s/AKfycbwq8hC39cb-un1PP1I-ZTe6sfUohzOioQI56Fo7R_Vse3htXNgL6euWAYQWmA0Izgmp6w/exec', {
-            method: 'POST',
-            mode: 'no-cors', 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-
-        // Copy the order summary to clipboard for the customer to DM on Instagram
-        await navigator.clipboard.writeText(orderText);
-        
-        // Show Success UI
-        const summaryPhase = document.getElementById('phase-summary');
-        summaryPhase.innerHTML = `
-            <div class="py-10">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center font-black">✓</div>
-                </div>
-                <h3 class="font-heading font-black text-3xl uppercase mb-4">Order Logged</h3>
-                <p class="text-[10px] text-white/60 tracking-[0.2em] uppercase leading-loose mb-8">
-                    Your details are copied.<br>
-                    Follow these steps to finish:
-                </p>
-                
-                <div class="text-left space-y-6 mb-10 border-t border-white/5 pt-8">
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">01</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Open Instagram</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">02</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Open our insta dm <span class="underline">@kocestructuralwear</span></p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">03</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest"> And paste your order details and await for response</p>
-                    </div>
-                </div>
-<button onclick="closeModal();" class="w-full py-5 border border-white text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-    Dismiss
-</button>
-            </div>
-        `;
-
-        cart = []; 
-        updateCartUI();
-
-    } catch (err) {
-        console.error('System Error:', err);
-        btn.innerText = "RETRY";
-        btn.disabled = false;
-    }
-}
-
-/**
- * 6. CLOSE MODAL
- */
-function closeModal() {
-    const modal = document.getElementById('checkout-modal');
-    modal.classList.remove('active');
-
-    // Reset the modal content back to the shipping form after a short delay
-    setTimeout(() => {
-        document.getElementById('phase-shipping').classList.remove('hidden');
-        document.getElementById('phase-summary').classList.add('hidden');
-        
-        // This clears the "Success" screen and brings back the original buttons
-        const summaryPhase = document.getElementById('phase-summary');
-        summaryPhase.innerHTML = `
-            <h3 class="font-heading font-black text-2xl uppercase mb-2">Order Ready</h3>
-            <p class="text-[10px] text-white/40 tracking-widest uppercase mb-8">Details will be copied automatically</p>
-            <div id="order-hash-container" class="bg-gray-50 p-6 rounded-2xl font-mono text-[9px] mb-8 text-left max-h-[200px] overflow-y-auto leading-relaxed border border-black/5 text-black/60"></div>
-            <div class="flex flex-col gap-3">
-                <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-200 transition-all">
-                    Copy 
-                </button>
-                <div class="py-4 px-2">
-                    <p class="text-[9px] text-white/50 uppercase tracking-[0.2em] leading-loose">
-                        1. Click the button above to copy message
-                    </p>
-                </div>
-                <button onclick="backToShipping()" class="w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] text-white/50 hover:text-white transition-colors">Edit Details</button>
-            </div>
-        `;
-    }, 500); // Reset happens while the modal is fading out
-}
-
-       function initScrollEngine() {
-    const backToTop = document.getElementById('back-to-top');
-
-    window.addEventListener('scroll', () => {
-        // Existing Progress Bar Logic
-        const prog = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        document.getElementById('scroll-progress').style.width = prog + '%';
-        
-        // --- BACK TO TOP VISIBILITY LOGIC ---
-        if (window.scrollY > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-
-        // Rest of your existing indicator and nav logic...
-        const indHome = document.getElementById('scroll-indicator');
-        const indShop = document.getElementById('shop-scroll-indicator');
-        
-        if (window.scrollY > 10) {
-            if(indHome) indHome.style.opacity = "0";
-            if(indShop) indShop.style.opacity = "0";
-        } else {
-            if (document.getElementById('home').style.display !== 'none' && indHome) indHome.style.opacity = "1";
-            if (document.getElementById('shop').style.display !== 'none' && indShop) indShop.style.opacity = "1";
-        }
-
-        if (window.scrollY > 50) document.getElementById('main-nav').classList.add('scrolled'); 
-        else document.getElementById('main-nav').classList.remove('scrolled');
-    });
-}
-
-        function initObserver() {
-            const obs = new IntersectionObserver((es) => {
-                es.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
-        }
-
-       // Handle Enter key navigation in the shipping form
-document.querySelectorAll('#phase-shipping input, #phase-shipping select, #phase-shipping textarea').forEach((input, index, array) => {
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault(); // Prevents form submission
-            const next = array[index + 1];
-            if (next) {
-                next.focus();
-            } else {
-                generateOrderHash(); // If it's the last field (textarea), trigger the order generation
-            }
-        }
-    });
-});
-
-
-       // --- AUTO-LOADING ENGINE ---
-window.addEventListener('load', () => {
-    const bar = document.getElementById('loading-bar');
-    const text = document.getElementById('loading-text');
-    const percent = document.getElementById('loading-percentage');
-    
-    // Simulate progress while the browser finalizes rendering
-    let width = 0;
-    const interval = setInterval(() => {
-        if (width >= 100) {
-            clearInterval(interval);
-            completeLoading();
-        } else {
-            width += Math.random() * 15; // Realistic staggered loading
-            if (width > 100) width = 100;
-            
-            bar.style.width = width + '%';
-            percent.innerText = Math.floor(width) + '%';
-            
-            if (width > 40) text.innerText = "Synchronizing Assets...";
-            if (width > 80) text.innerText = "Finalizing Structure...";
-        }
-    }, 150);
-
-    function completeLoading() {
-        text.innerText = "Access Granted";
-        text.style.opacity = "1";
-        text.style.color = "#4ade80"; // Subtle green success
-        
-        // Brief pause for the user to see "Access Granted" before transition
-        setTimeout(() => {
-            enterSite(); 
-        }, 800);
-    }
-});
-
-// --- KÖCE GLOBAL LOAD ENGINE ---
-
-// --- KÖCE TOTAL RENDER ENGINE ---
-
-(function() {
-    let progress = 0;
-    const bar = document.getElementById('loading-bar');
-    const pct = document.getElementById('loading-percentage');
-    const txt = document.getElementById('loading-text');
-    const sub = document.getElementById('sub-status');
-
-    // 1. Progress Logic
-    const frame = () => {
-        // Smoothly approach 90% based on simulated performance
-        if (progress < 90) {
-            progress += Math.random() * 1.5;
-        } 
-        
-        // Only bridge 90% -> 100% when the browser actually says "Complete"
-        if (document.readyState === 'complete' && progress >= 90) {
-            progress += 2;
-        }
-
-        // Clamp to 100
-        if (progress > 100) progress = 100;
-
-        // Update UI
-        bar.style.width = progress + '%';
-        pct.innerText = Math.floor(progress).toString().padStart(2, '0') + '%';
-
-        // Branding logic
-        if (progress > 20 && progress < 50) {
-            txt.innerText = "Syncing Archives";
-            sub.innerText = "Loading Geometry Data";
-        } else if (progress >= 50 && progress < 80) {
-            txt.innerText = "Filtering Noise";
-            sub.innerText = "Optimizing Visual Signal";
-        } else if (progress >= 80 && progress < 100) {
-            txt.innerText = "Finalizing Form";
-            sub.innerText = "Verifying Structural Integrity";
-        }
-
-        if (progress < 100) {
-            requestAnimationFrame(frame);
-        } else {
-            finalizeEntrance();
-        }
-    };
-
-    // Start the animation loop
-    requestAnimationFrame(frame);
-
-    function finalizeEntrance() {
-        txt.innerText = "Access Granted";
-        txt.style.color = "#fff";
-        sub.innerText = "System Ready";
-        
-        // Ensure shop is rendered while screen is still black
-        renderShop();
+        document.getElementById('main-nav').style.opacity = "1";
+        renderShop(); 
 
         setTimeout(() => {
-            // Fade out Gateway
-            const gateway = document.getElementById('gateway');
-            gateway.style.opacity = '0';
-            gateway.style.pointerEvents = 'none';
-
-            // Reveal Nav
-            document.getElementById('main-nav').style.opacity = "1";
+            document.getElementById('gateway').classList.add('hidden');
+            document.body.classList.remove('no-scroll');
+            document.body.style.overflow = "auto"; // Fix for mobile lock
             
-            setTimeout(() => {
-                gateway.classList.add('hidden');
+            triggerHomeAnims();
+            initScrollEngine();
+            initObserver();
+            
+            document.getElementById('hero-meta').classList.add('active');
+            document.getElementById('scroll-indicator').style.opacity = "1";
+        }, 300);
+    }
+
+    function preloadProductImages() {
+        products.forEach(product => {
+            Object.values(product.img).forEach(url => {
+                const img = new Image();
+                img.src = url + "?w=800";
+            });
+        });
+    }
+    preloadProductImages();
+
+    function triggerHomeAnims() {
+        const left = document.querySelector('.hero-split-left');
+        const right = document.querySelector('.hero-split-right');
+        const meta = document.getElementById('hero-meta');
+        if(!left || !right) return;
+        left.style.animation = 'splitRevealLeft 1s var(--ease-heavy) forwards';
+        right.style.animation = 'splitRevealRight 1s var(--ease-heavy) forwards';
+        meta.style.opacity = "1";
+        meta.style.transform = "translateY(0)";
+    }
+
+    function navigate(pageId) {
+        grid.classList.add('active');
+        const blocks = Array.from(document.querySelectorAll('.pixel-block'));
+        blocks.forEach((b, i) => {
+            const x = i % 10; const y = Math.floor(i / 10);
+            b.style.transitionDelay = `${(x + y) * 20}ms`;
+        });
+
+        setTimeout(() => {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            const targetPage = document.getElementById(pageId);
+            targetPage.style.display = pageId === 'shop' ? 'block' : 'flex';
+            
+            if(pageId === 'shop') renderShop();
+            if(pageId === 'home') triggerHomeAnims();
+            
+            window.scrollTo(0, 0);
+            grid.classList.remove('active');
+            initObserver();
+
+            const isLocked = getComputedStyle(document.documentElement).getPropertyValue('--vault-lock-display').trim() === 'flex';
+            const shopEl = document.getElementById('shop');
+            const vaultOverlay = document.getElementById('vault-overlay');
+            const cartBtn = document.getElementById('cart-btn-trigger');
+
+            if (pageId === 'shop' && isLocked) {
+                shopEl.classList.add('vault-active');
+                vaultOverlay.style.display = 'flex';
+                cartBtn.classList.add('cart-locked'); 
+                document.body.classList.add('no-scroll');
+                startVaultTimer();
+            } else {
+                shopEl.classList.remove('vault-active');
+                if(vaultOverlay) vaultOverlay.style.display = 'none';
+                cartBtn.classList.remove('cart-locked');
                 document.body.classList.remove('no-scroll');
-                
-                // Fire animations
-                triggerHomeAnims();
-                initScrollEngine();
-                initObserver();
-
-                // Set Hero to Active
-                const heroMeta = document.getElementById('hero-meta');
-                if(heroMeta) heroMeta.classList.add('active');
-            }, 1000);
+                document.body.style.overflow = "auto";
+            }
         }, 600);
     }
-})();
 
-// Helper to ensure animations fire correctly
-function triggerHomeAnims() {
-    const left = document.querySelector('.hero-split-left');
-    const right = document.querySelector('.hero-split-right');
-    if(left) left.style.animation = 'splitRevealLeft 1.2s var(--ease-heavy) forwards';
-    if(right) right.style.animation = 'splitRevealRight 1.2s var(--ease-heavy) forwards';
-}
+    function startVaultTimer() {
+        const target = new Date("July 16, 2026 00:00:00").getTime();
+        const timerDisplay = document.getElementById('vault-countdown');
+        if(!timerDisplay) return;
+        setInterval(() => {
+            const dist = target - new Date().getTime();
+            const d = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+            const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            timerDisplay.innerText = `${d}:${h}:${m}:${s}`;
+        }, 1000);
+    }
 
-    </script>
+    function parseInventory(status, availableColors, availableSizes) {
+        const result = { disabledColors: [], colorSpecificOOS: {} };
+        if (!status || !status.startsWith('out-of-stock-')) return result;
+        const tokens = status.replace('out-of-stock-', '').split('-');
+        let currentCtx = null;
+        tokens.forEach(token => {
+            const color = availableColors.find(c => c.toLowerCase() === token);
+            const size = availableSizes.find(s => s.toLowerCase() === token);
+            if (color) {
+                currentCtx = color;
+                if (!result.colorSpecificOOS[currentCtx]) result.colorSpecificOOS[currentCtx] = [];
+            } else if (size && currentCtx) {
+                result.colorSpecificOOS[currentCtx].push(size.toLowerCase());
+            } else if (size && !currentCtx) {
+                availableColors.forEach(c => {
+                    if (!result.colorSpecificOOS[c]) result.colorSpecificOOS[c] = [];
+                    result.colorSpecificOOS[c].push(size.toLowerCase());
+                });
+            }
+        });
+        return result;
+    }
+
+    function renderShop() {
+        const grid = document.getElementById('shop-grid');
+        if(!grid) return;
+        grid.innerHTML = products.map((p) => {
+            const inventory = parseInventory(p.status, p.colors, p.sizes);
+            const isEntirelySO = p.status === 'sold-out' || p.status === 'out-of-stock';
+            const isCS = p.status === 'coming soon';
+            let defaultColor = p.colors.find(c => !inventory.disabledColors.includes(c)) || p.colors[0];
+            if(!selections[p.id]) selections[p.id] = { color: defaultColor };
+
+            let pixelMask = `<div class="pixel-mask">`;
+            for(let i=0; i<48; i++) pixelMask += `<div class="reveal-pixel" style="transition-delay: ${Math.random() * 500}ms"></div>`;
+            pixelMask += `</div>`;
+
+            let badge = '';
+            if(isEntirelySO) badge = '<div class="status-badge">OUT OF STOCK</div>';
+            else if(isCS) badge = '<div class="status-badge bg-white !text-black">COMING SOON</div>';
+
+            return `
+            <div class="product-item scroll-reveal" data-id="${p.id}" id="card-${p.id}">
+                ${badge}
+                <div class="img-container aspect-[4/5] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
+                    ${pixelMask}
+                    <img id="img-${p.id}" src="${p.img[defaultColor]}?w=800" fetchpriority="high" class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
+                </div>
+                <div class="px-1 md:px-2">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
+                        <h4 class="font-heading font-black text-lg md:text-2xl uppercase tracking-tighter">${p.name}</h4>
+                        <span class="text-[10px] md:text-sm font-black opacity-30">KSh ${p.price.toLocaleString()}</span>
+                    </div>
+                    <div class="mb-4 md:mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
+                        <div class="flex gap-2 md:gap-4">
+                            ${p.colors.map(c => {
+                                const isDisabled = inventory.disabledColors.includes(c);
+                                const isSelected = c === defaultColor ? 'selected' : '';
+                                return `<div class="color-opt color-${c} ${isSelected} ${isDisabled ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'color', '${c}', this)"></div>`
+                            }).join('')}
+                        </div>
+                        <div id="sizes-${p.id}" class="flex gap-1 md:gap-2">
+                            ${p.sizes.map(s => {
+                                const isOOS = (inventory.colorSpecificOOS[defaultColor] || []).includes(s.toLowerCase());
+                                return `<button class="size-btn !px-2 !py-1 md:!px-4 md:!py-2 ${isOOS ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'size', '${s}', this)">${s}</button>`
+                            }).join('')}
+                        </div>
+                    </div>
+                    <button onclick="handleAddToCart('${p.id}', this)" class="add-btn w-full py-3 md:py-5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all ${isEntirelySO || isCS ? 'opacity-20 pointer-events-none' : ''}">
+                        ${isEntirelySO ? 'UNIT DEPLETED' : isCS ? 'PENDING DROP' : 'ADD To BAG'}
+                    </button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function selectOpt(id, type, val, el) {
+        if(el.classList.contains('variant-oos')) return;
+        if(!selections[id]) selections[id] = {};
+        const p = products.find(x => x.id === id);
+        const inventory = parseInventory(p.status, p.colors, p.sizes);
+
+        if(type === 'color') {
+            selections[id].color = val;
+            document.getElementById(`img-${id}`).src = p.img[val] + "?w=800";
+            const sizeContainer = document.getElementById(`sizes-${id}`);
+            const oosForThisColor = inventory.colorSpecificOOS[val] || [];
+            sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
+                const s = btn.innerText.toLowerCase();
+                if (oosForThisColor.includes(s)) {
+                    btn.classList.add('variant-oos');
+                    btn.classList.remove('selected');
+                    if(selections[id].size === btn.innerText) delete selections[id].size;
+                } else {
+                    btn.classList.remove('variant-oos');
+                }
+            });
+        } else {
+            selections[id].size = val;
+        }
+        el.parentElement.querySelectorAll('*').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function handleAddToCart(id, btn) {
+        const p = products.find(x => x.id === id);
+        const sel = selections[id] || {};
+        if(!sel.color || !sel.size) {
+            const old = btn.innerText; btn.innerText = "SELECT VARIANT"; btn.style.color = "red";
+            setTimeout(() => { btn.innerText = old; btn.style.color = ""; }, 1000);
+            return;
+        }
+        const imgToFly = document.getElementById(`img-${id}`);
+        const bagTarget = document.getElementById('cart-btn-trigger');
+        const rect = imgToFly.getBoundingClientRect();
+        const bagRect = bagTarget.getBoundingClientRect();
+        const ghost = document.createElement('img');
+        ghost.src = imgToFly.src; ghost.className = 'ghost-img';
+        ghost.style.top = rect.top + 'px'; ghost.style.left = rect.left + 'px';
+        ghost.style.width = rect.width + 'px'; ghost.style.height = rect.height + 'px';
+        document.body.appendChild(ghost);
+
+        setTimeout(() => {
+            ghost.style.top = bagRect.top + 'px'; ghost.style.left = bagRect.left + 'px';
+            ghost.style.width = '20px'; ghost.style.height = '20px';
+            ghost.style.opacity = '0'; ghost.style.transform = 'rotate(45deg)';
+        }, 10);
+        setTimeout(() => ghost.remove(), 800);
+
+        cart.push({ ...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now() });
+        updateCartUI();
+        btn.innerText = "ADDED TO BAG";
+        setTimeout(() => { btn.innerText = "ADD tO BAG"; }, 1500);
+    }
+
+    function updateCartUI() {
+        document.getElementById('cart-count').innerText = cart.length;
+        const cartList = document.getElementById('cart-list');
+        if (cart.length === 0) {
+            cartList.innerHTML = `<div class="py-20 text-center opacity-20 text-[10px] uppercase font-black tracking-widest">Bag Empty</div>`;
+        } else {
+            cartList.innerHTML = cart.map(i => `
+                <div class="bag-item-card">
+                    <div class="bag-item-info">
+                        <h4>${i.name}</h4>
+                        <p class="bag-item-meta">${i.selectedSize} | ${i.selectedColor}</p>
+                    </div>
+                    <button onclick="removeItem(${i.cartId})" class="drop-btn">Drop</button>
+                </div>`).join('');
+        }
+        const total = cart.reduce((a, b) => a + b.price, 0);
+        document.getElementById('cart-total').innerHTML = `<span>KSh ${total.toLocaleString()}</span>`;
+    }
+
+    function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
+    
+    function toggleCart() { 
+        const sidebar = document.getElementById('cart-sidebar');
+        sidebar.classList.toggle('open');
+        if(sidebar.classList.contains('open')) document.body.classList.add('no-scroll');
+        else document.body.classList.remove('no-scroll');
+    }
+
+    function initiateCheckout() {
+        if (cart.length === 0) return;
+        document.getElementById('phase-shipping').classList.remove('hidden');
+        document.getElementById('phase-summary').classList.add('hidden');
+        document.getElementById('checkout-modal').classList.add('active');
+        document.body.classList.add('no-scroll');
+    }
+
+    function toggleCityView() {
+        const region = document.getElementById('cust-region').value;
+        const nairobiWrapper = document.getElementById('nairobi-neighborhoods-container');
+        const cityWrapper = document.getElementById('other-cities-container');
+        if (region === 'NAIROBI') {
+            nairobiWrapper.classList.remove('hidden');
+            cityWrapper.classList.add('hidden');
+        } else {
+            nairobiWrapper.classList.add('hidden');
+            cityWrapper.classList.remove('hidden');
+        }
+    }
+
+    function generateOrderHash() {
+        const name = document.getElementById('cust-name').value.trim();
+        const phone = document.getElementById('cust-phone').value.trim();
+        const region = document.getElementById('cust-region').value;
+        const location = document.getElementById('cust-location').value.trim();
+        if (!name || !phone || !location) return;
+
+        let finalCity = region === 'NAIROBI' ? `NAIROBI: ${document.getElementById('cust-nairobi-area').value}` : `OUTSIDE: ${document.getElementById('cust-city-select').value}`;
+        const orderID = `KOCE-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
+        const total = cart.reduce((a, b) => a + b.price, 0);
+        
+        let m = `[KÖCE ORDER]\nID: #${orderID}\nRECIPIENT: ${name}\nPHONE: ${phone}\nLOCATION: ${finalCity} - ${location}\n`;
+        cart.forEach(it => { m += `• ${it.name} ${it.selectedSize} | ${it.selectedColor}\n`; });
+        m += `TOTAL: KSh ${total.toLocaleString()}`;
+
+        document.getElementById('order-hash-container').innerText = m;
+        document.getElementById('phase-shipping').classList.add('hidden');
+        document.getElementById('phase-summary').classList.remove('hidden');
+    }
+
+    async function copyAndFinalize() {
+        const orderText = document.getElementById('order-hash-container').innerText;
+        await navigator.clipboard.writeText(orderText);
+        document.getElementById('phase-summary').innerHTML = `<h3 class="font-black text-2xl uppercase">Details Copied. DM @kocestructuralwear</h3>`;
+        cart = []; updateCartUI();
+    }
+
+    function closeModal() {
+        document.getElementById('checkout-modal').classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        document.body.style.overflow = "auto";
+    }
+
+    function initScrollEngine() {
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            const prog = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            const bar = document.getElementById('scroll-progress');
+            if(bar) bar.style.width = prog + '%';
+            if (window.scrollY > 300 && backToTop) backToTop.classList.add('visible');
+            else if(backToTop) backToTop.classList.remove('visible');
+
+            if (window.scrollY > 50) document.getElementById('main-nav').classList.add('scrolled'); 
+            else document.getElementById('main-nav').classList.remove('scrolled');
+        });
+    }
+
+    function initObserver() {
+        const obs = new IntersectionObserver((es) => {
+            es.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
+    }
+
+    // Single Consolidated Loading Engine
+    window.addEventListener('load', () => {
+        const bar = document.getElementById('loading-bar');
+        const percent = document.getElementById('loading-percentage');
+        let width = 0;
+        
+        const interval = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    const gate = document.getElementById('gateway');
+                    if(gate) gate.style.display = 'none'; // Ensure it's gone
+                    document.body.classList.remove('no-scroll');
+                    document.body.style.overflow = "auto";
+                    initObserver();
+                }, 500);
+            } else {
+                width += Math.random() * 15;
+                if (width > 100) width = 100;
+                if(bar) bar.style.width = width + '%';
+                if(percent) percent.innerText = Math.floor(width) + '%';
+            }
+        }, 150);
+    });
+</script>
 <!-- BACK TO TOP BUTTON -->
 <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <div class="top-arrow-pill">
