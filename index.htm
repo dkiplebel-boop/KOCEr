@@ -182,7 +182,7 @@
     
     /* In your <style> tag, update this class */
 .img-container { 
-    background: #252526; 
+    background: #1A1A1B; 
     overflow: hidden; 
     position: relative; 
     transition: transform 0.6s var(--ease-out); 
@@ -194,6 +194,7 @@
     height: 100%;
     object-fit: cover; /* This ensures the garment fills the larger box */
     object-position: center;
+   will-change: transform, opacity;
 }
     .product-item:hover .img-container { transform: translateY(-8px); }
 
@@ -296,10 +297,12 @@
         user-select: none;
     }
 
-    .no-scroll {
-        overflow: hidden !important;
-        height: 100vh;
-    }
+  .no-scroll {
+    overflow: hidden !important;
+    /* We remove position: fixed to prevent the jump to the top */
+    touch-action: none; /* Prevents scroll on mobile devices */
+    -ms-touch-action: none;
+}
 
     #scroll-progress {
         background: #ffffff;
@@ -783,6 +786,19 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     initObserver();
     }, 500); 
 }
+
+       // PRELOAD ENGINE: Forces images into browser cache immediately
+function preloadProductImages() {
+    products.forEach(product => {
+        Object.values(product.img).forEach(url => {
+            const img = new Image();
+            img.src = url + "?w=800"; // Matching the width you used in render
+        });
+    });
+}
+
+// Run it immediately
+preloadProductImages();
        
 
         function triggerHomeAnims() {
@@ -924,7 +940,11 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
             ${badge}
             <div class="img-container aspect-[4/5] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
                 ${pixelMask}
-                <img id="img-${p.id}" src="${p.img[defaultColor]}?w=800" class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
+                
+<img id="img-${p.id}" 
+     src="${p.img[defaultColor]}?w=800" 
+     fetchpriority="high" 
+     class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
             </div>
             <div class="px-1 md:px-2">
                 <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
@@ -1058,8 +1078,28 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
 }
 
         function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
-        function closeModal() { document.getElementById('checkout-modal').classList.remove('active'); }
+       function toggleCart() { 
+    const sidebar = document.getElementById('cart-sidebar');
+    sidebar.classList.toggle('open');
+    
+    // If sidebar is open, lock scroll; otherwise, unlock
+    if(sidebar.classList.contains('open')) {
+        document.body.classList.add('no-scroll');
+    } else {
+        document.body.classList.remove('no-scroll');
+    }
+}
+       function closeModal() {
+    const modal = document.getElementById('checkout-modal');
+    modal.classList.remove('active');
+    document.body.classList.remove('no-scroll'); // Unlock scroll[cite: 1]
+
+    setTimeout(() => {
+        document.getElementById('phase-shipping').classList.remove('hidden');
+        document.getElementById('phase-summary').classList.add('hidden');
+        // ... rest of your existing timeout logic
+    }, 500);
+}
 
      // --- KÖCE CHECKOUT ENGINE ---
 
@@ -1074,12 +1114,10 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
 function initiateCheckout() {
     if (cart.length === 0) return;
 
-    // Reset UI Visibility
     document.getElementById('phase-shipping').classList.remove('hidden');
     document.getElementById('phase-summary').classList.add('hidden');
     document.getElementById('form-error').classList.add('hidden');
 
-    // Reset Form Fields
     document.getElementById('cust-name').value = "";
     document.getElementById('cust-phone').value = "";
     document.getElementById('cust-location').value = "";
@@ -1087,9 +1125,9 @@ function initiateCheckout() {
     
     toggleCityView();
 
-    // Open Modal
     document.getElementById('checkout-modal').classList.add('active');
-   }
+    document.body.classList.add('no-scroll'); // Lock scroll
+}
        
 
 function toggleCityView() {
@@ -1335,6 +1373,21 @@ function closeModal() {
             }, { threshold: 0.1 });
             document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
         }
+
+       // Handle Enter key navigation in the shipping form
+document.querySelectorAll('#phase-shipping input, #phase-shipping select, #phase-shipping textarea').forEach((input, index, array) => {
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevents form submission
+            const next = array[index + 1];
+            if (next) {
+                next.focus();
+            } else {
+                generateOrderHash(); // If it's the last field (textarea), trigger the order generation
+            }
+        }
+    });
+});
 
        
 
