@@ -109,10 +109,13 @@
         100% { transform: translateX(0); opacity: 1; }
     }
     
-    .hero-split-left { animation: splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-    .hero-split-right { animation: splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-    .hero-fade-up { transform: translateY(20px); opacity: 0; transition: all 1s var(--ease-out) 1.2s; }
-    .hero-fade-up.active { transform: translateY(0); opacity: 1; }
+.hero-split-left { animation: splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
+.hero-split-right { animation: splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
+.hero-fade-up { 
+    transform: translateY(0); /* Start at 0 so it doesn't jump */
+    opacity: 1; /* Make it visible immediately */
+    transition: all 0.6s var(--ease-out); /* Make the fade faster */
+}    .hero-fade-up.active { transform: translateY(0); opacity: 1; }
 
     /* --- STATUS STYLING --- */
     .status-badge {
@@ -177,7 +180,10 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .product-item, .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 1s var(--ease-out); }
+    .product-item, .reveal-on-scroll { 
+    opacity: 1; /* Start visible so there's no "waiting" for the observer */
+    transform: translateY(0); 
+}
     .product-item.revealed, .reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
     
     /* In your <style> tag, update this class */
@@ -276,9 +282,10 @@
         40% { transform: translateY(-10px); }
         60% { transform: translateY(-5px); }
     }
-    .scroll-indicator {
-        animation: bounceDown 2s infinite;
-    }
+    #scroll-indicator {
+    opacity: 1 !important; 
+}
+    
 
     /* --- GLOBAL WATERMARK --- */
     .global-watermark {
@@ -507,7 +514,7 @@ input:focus, select:focus, textarea:focus {
             </div>
 
             <!-- Scroll Indicator - Lowered to avoid overlap -->
-            <div id="scroll-indicator" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 transition-opacity duration-1000">
+            <div id="scroll-indicator" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-100 transition-opacity duration-1000">
                 <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll Down</span>
                 <div class="w-[1px] h-8 bg-gradient-to-b from-black/20 to-transparent"></div>
             </div>
@@ -597,7 +604,7 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         </span>
             <div id="shop-scroll-indicator" class="flex flex-col items-center gap-2 mt-12 pointer-events-none transition-opacity duration-1000">
                 <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll</span>
-                <svg class="scroll-indicator w-4 h-4 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="scroll-indicator w-4 h-4 opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
                 </svg>
             </div>
@@ -772,19 +779,30 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
 
 
-            function enterSite() {
+           function enterSite() {
     const trigger = document.querySelector('.enter-trigger');
-    trigger.innerText = "AUTHENTICATING..."; // Change text to feel technical
+    trigger.innerText = "AUTHENTICATING..."; 
     
+    // 1. Immediately show the navigation
+    document.getElementById('main-nav').style.opacity = "1";
+    
+    // 2. Build the shop in the background if it hasn't been built
+    renderShop(); 
+
     setTimeout(() => {
-        document.body.classList.remove('no-scroll');
+        // 3. Kill the gateway
         document.getElementById('gateway').classList.add('hidden');
-        document.getElementById('main-nav').style.opacity = "1";
-        // ... rest of your logic
-         triggerHomeAnims();
-    initScrollEngine();
-    initObserver();
-    }, 500); 
+        document.body.classList.remove('no-scroll');
+        
+        // 4. Trigger the animations
+        triggerHomeAnims();
+        initScrollEngine();
+        initObserver();
+        
+        // 5. Force the Meta and Button to show up immediately on mobile
+        document.getElementById('hero-meta').classList.add('active');
+        document.getElementById('scroll-indicator').style.opacity = "1";
+    }, 300); // Super fast transition
 }
 
        // PRELOAD ENGINE: Forces images into browser cache immediately
@@ -802,24 +820,18 @@ preloadProductImages();
        
 
         function triggerHomeAnims() {
-            const left = document.querySelector('.hero-split-left');
-            const right = document.querySelector('.hero-split-right');
-            const meta = document.getElementById('hero-meta');
-            const ind = document.getElementById('scroll-indicator');
-            
-            left.style.animation = 'none'; right.style.animation = 'none';
-            meta.classList.remove('active'); ind.style.opacity = "0";
-
-            void left.offsetWidth; 
-            
-            left.style.animation = 'splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards';
-            right.style.animation = 'splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards';
-            
-            setTimeout(() => {
-                meta.classList.add('active');
-                setTimeout(() => ind.style.opacity = "1", 1000);
-            }, 500);
-        }
+    const left = document.querySelector('.hero-split-left');
+    const right = document.querySelector('.hero-split-right');
+    const meta = document.getElementById('hero-meta');
+    
+    // Keep the cool name animation
+    left.style.animation = 'splitRevealLeft 1s var(--ease-heavy) forwards';
+    right.style.animation = 'splitRevealRight 1s var(--ease-heavy) forwards';
+    
+    // Ensure everything else is just "there"
+    meta.style.opacity = "1";
+    meta.style.transform = "translateY(0)";
+}
 
         function navigate(pageId) {
     grid.classList.add('active');
