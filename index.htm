@@ -754,18 +754,35 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
 
    <script>
     const products = [
-        { id: 'BØ', name: 'Monolith', price: 799, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1MWTKpvKpNH0_I5_YLjY5l_qUr9L6Nq12', white: ' https://lh3.googleusercontent.com/u/0/d/1EXXV8wac-v0dAOcjCt55ZmAgehnveL3w' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+
+       { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
+        
+       
         { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
         { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B3', name: 'Caelum', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1mpXryRAqkaxP1KGwY6l0dCMcxhi3jwJX', white: 'https://lh3.googleusercontent.com/u/0/d/1gIxbaKywp6QqYa4Y6kJBZWOfODY6-Q8V' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B4', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B5', name: 'Zenith', price: 950, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B6', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B7', name: 'Void', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/16qoq_fYmDuh19anI828mi-2tRQITZKh1', white: 'https://lh3.googleusercontent.com/u/0/d/10DrR-JUAOEKodyYrxwnoxNfUR7DVWzM8' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
-        { id: 'B8', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'B9', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
-        { id: 'B10', name: 'Ascensation', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Ah3ziLjiHTibMI8S3L3KUZR9qQghHHPd', white: 'https://lh3.googleusercontent.com/u/0/d/18TvJ8s5IlMAPNQ3SZ-cBiRMRZ2zQFINe', darkgreen: 'https://lh3.googleusercontent.com/u/0/d/14E88kAZig_kfYMkOLSPXXmdX3NTlIjdP' }, colors: ['black', 'white', 'darkgreen'], sizes: ['S', 'M', 'L'], status: 'active' },
-        { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
+
+       { id: 'B3', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
+       { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+
+      { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
+        { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
+       
+        { id: 'B6', name: 'Future', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
+        { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
+
+       { id: 'B8', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
+
+      
+       
+        { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
+       
+        
+        
         { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
     ];
 
