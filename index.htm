@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E143HD6QC6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E143HD6QC6');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KÖCE | STRUCTUTAL WEAR</title>
@@ -100,13 +109,10 @@
         100% { transform: translateX(0); opacity: 1; }
     }
     
-.hero-split-left { animation: splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-.hero-split-right { animation: splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-.hero-fade-up { 
-    transform: translateY(0); /* Start at 0 so it doesn't jump */
-    opacity: 1; /* Make it visible immediately */
-    transition: all 0.6s var(--ease-out); /* Make the fade faster */
-}    .hero-fade-up.active { transform: translateY(0); opacity: 1; }
+    .hero-split-left { animation: splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
+    .hero-split-right { animation: splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
+    .hero-fade-up { transform: translateY(20px); opacity: 0; transition: all 1s var(--ease-out) 1.2s; }
+    .hero-fade-up.active { transform: translateY(0); opacity: 1; }
 
     /* --- STATUS STYLING --- */
     .status-badge {
@@ -171,28 +177,15 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .product-item, .reveal-on-scroll { 
-    opacity: 1; /* Start visible so there's no "waiting" for the observer */
-    transform: translateY(0); 
-}
+    .product-item, .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 1s var(--ease-out); }
     .product-item.revealed, .reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
     
-    
-.img-container { 
-    background: #1A1A1B; 
-    overflow: hidden; 
-    position: relative; 
-    transition: transform 0.6s var(--ease-out); 
-    /* Ensure the image covers the container without distortion */
-}
-
-.product-visual {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* This ensures the garment fills the larger box */
-    object-position: center;
-   will-change: transform, opacity;
-}
+    .img-container { 
+        background: #252526; 
+        overflow: hidden; 
+        position: relative; 
+        transition: transform 0.6s var(--ease-out); 
+    }
     .product-item:hover .img-container { transform: translateY(-8px); }
 
     .color-opt {
@@ -273,10 +266,9 @@
         40% { transform: translateY(-10px); }
         60% { transform: translateY(-5px); }
     }
-    #scroll-indicator {
-    opacity: 1 !important; 
-}
-    
+    .scroll-indicator {
+        animation: bounceDown 2s infinite;
+    }
 
     /* --- GLOBAL WATERMARK --- */
     .global-watermark {
@@ -295,12 +287,10 @@
         user-select: none;
     }
 
-  .no-scroll {
-    overflow: hidden !important;
-    /* We remove position: fixed to prevent the jump to the top */
-    touch-action: none; /* Prevents scroll on mobile devices */
-    -ms-touch-action: none;
-}
+    .no-scroll {
+        overflow: hidden !important;
+        height: 100vh;
+    }
 
     #scroll-progress {
         background: #ffffff;
@@ -348,8 +338,8 @@
 }
 
 .drop-btn:hover {
-    background: #1A1A1B;
-    color: black !important;
+    background: #ff4444;
+    color: white !important;
 }
 
        /* --- BACK TO TOP ARROW --- */
@@ -393,7 +383,8 @@
 #back-to-top:hover .top-arrow-pill svg {
     transform: translateY(-3px);
 }
-     /* FORCE DARK BACKGROUND & WHITE TEXT */
+
+       /* FORCE DARK BACKGROUND & WHITE TEXT */
 input, select, textarea {
     background-color: #1A1A1B !important; /* Matches your site's deep dark bg */
     color: #FFFFFF !important;            /* Forces text to be white */
@@ -422,17 +413,6 @@ input:focus, select:focus, textarea:focus {
     outline: none;
     background-color: #252526 !important; /* Slightly lighter when typing */
 }
-
-      /* Force the pill style to be visible when scrolled */
-#main-nav.scrolled .nav-pill {
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 12px 32px !important;
-    border-radius: 100px !important;
-    transition: all 0.4s var(--ease-out);
-}
 </style>          
     
 </head>
@@ -446,42 +426,22 @@ input:focus, select:focus, textarea:focus {
     <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-black z- w-0"></div>
     <div id="transition-grid"></div>
 
-  <div id="gateway">
-    <div class="flex flex-col items-center gap-8">
-        <!-- Structural Loading UI -->
-        <div id="loading-status" class="flex flex-col items-center gap-6">
-            <!-- Progress Track -->
-            <div class="w-64 h-[1px] bg-white/10 relative overflow-hidden">
-                <div id="loading-bar" class="absolute inset-0 bg-white w-0 transition-all duration-300 ease-out"></div>
-            </div>
-            
-            <!-- Metadata -->
-            <div class="flex flex-col items-center gap-3">
-                <div class="flex items-center gap-4">
-                    <span id="loading-text" class="text-white uppercase font-black tracking-[0.8em] text-[8px] opacity-40">System Booting</span>
-                    <span id="loading-percentage" class="text-white font-mono text-[9px] opacity-60">00%</span>
-                </div>
-                <!-- Sub-status for flavor -->
-                <span id="sub-status" class="text-[6px] uppercase tracking-[0.4em] text-white/20">Establishing Structural Integrity</span>
-            </div>
-        </div>
+    <div id="gateway">
+        <button class="enter-trigger text-white uppercase font-black tracking-[1em] text-[10px]" onclick="enterSite()">Enter</button>
     </div>
-</div>
-
-   
 
     <div id="vault-overlay">
-    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mb-5">System Access Status</span>
+    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mb-5">TBD unofficial countdown</span>
     <div id="vault-countdown" class="font-heading font-black text-[8vw] tracking-tighter">00:00:00:00</div>
-    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mt-5">Pre-Order: July 16, 2026</span>
+    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mt-5">Dropping later this year</span>
 </div>
 
-    <nav id="main-nav" class="fixed top-0 w-full p-8 md:p-10 flex justify-between items-center opacity-100">
+    <nav id="main-nav" class="fixed top-0 w-full p-8 md:p-10 flex justify-between items-center opacity-0">
         <div onclick="navigate('home')" class="cursor-pointer">
             <div class="nav-pill text-xl font-light tracking-[0.6em] font-heading">KÖCE</div>
         </div>
         <button onclick="toggleCart()" id="cart-btn-trigger">
-            <div class="nav-pill text-[10px] font-black uppercase tracking-[0.4em]">BAG[<span id="cart-count">0</span>]</div>
+            <div class="nav-pill text-[10px] font-black uppercase tracking-[0.4em]">BAG [<span id="cart-count">0</span>]</div>
         </button>
     </nav>
 
@@ -530,13 +490,13 @@ input:focus, select:focus, textarea:focus {
                 
                 <h2 class="text-[10px] md:text-[12px] uppercase font-medium tracking-[1em] text-white/80">Structural Wear</h2>
                 
-                <button onclick="navigate('shop')" class="mt-4 px-20 py-6 border border-black text-white font-black uppercase text-[10px] tracking-[0.4em] rounded-full hover:bg-white hover:text-black transition-all transform hover:scale-110 active:scale-95">
-                    Browse Archive
+                <button onclick="navigate('shop')" class="mt-4 px-20 py-6 border border-white text-white font-black uppercase text-[10px] tracking-[0.4em] rounded-full hover:bg-white hover:text-black transition-all transform hover:scale-110 active:scale-95">
+                    Enter ARCHIVE
                 </button>
             </div>
 
             <!-- Scroll Indicator - Lowered to avoid overlap -->
-            <div id="scroll-indicator" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-100 transition-opacity duration-1000">
+            <div id="scroll-indicator" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 transition-opacity duration-1000">
                 <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll Down</span>
                 <div class="w-[1px] h-8 bg-gradient-to-b from-black/20 to-transparent"></div>
             </div>
@@ -545,8 +505,8 @@ input:focus, select:focus, textarea:focus {
         <!-- TICKER STRIP -->
         <div class="ticker-container">
             <div class="ticker-content">
-                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //  
-                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS // 
+                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS  //  
+                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //   
             </div>
         </div>
 
@@ -610,15 +570,12 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
                 <div class="border border-black/5 p-12 rounded-[32px] flex flex-col justify-center reveal-on-scroll" style="transition-delay: 200ms;">
                     <h5 class="font-heading font-bold text-3xl uppercase tracking-tighter mb-6">Origin.</h5>
                     <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-                        Rooted in the industrial pulse of Kenya. Designed for the global citizen who appreciates the raw, the real, and the refined.
+                        Rooted in the industrial pulse of Kenya (NRU-NRB). Designed for the global citizen who appreciates the raw, the real, and the refined.
                     </p>
                 </div>
             </div>
         </div>
     </div>
-
-      <!-- FOOTER CERTIFICATION -->
-
 
     <!-- PAGE: SHOP -->
     <div id="shop" class="page" style="display:none">
@@ -629,7 +586,7 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         </span>
             <div id="shop-scroll-indicator" class="flex flex-col items-center gap-2 mt-12 pointer-events-none transition-opacity duration-1000">
                 <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll</span>
-                <svg class="scroll-indicator w-4 h-4 opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="scroll-indicator w-4 h-4 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
                 </svg>
             </div>
@@ -643,25 +600,18 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
 <div id="checkout-modal" onclick="closeModal()">
     <div class="bg-white w-[90%] max-w-[500px] p-10 rounded-[32px] text-center shadow-2xl" onclick="event.stopPropagation()">
         
-<div id="phase-shipping" class="relative">
-    <!-- The "X" Button -->
-    <button onclick="closeModal()" class="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/40 transition-all font-light text-sm z-50">
-        ✕
-    </button>
-
-    <h3 class="font-heading font-black text-2xl uppercase mb-2">Shipping Details</h3>
-    <p class="text-[10px] text-black/40 tracking-widest uppercase mb-8">Enter your delivery information</p>
-    
-    <div class="flex flex-col gap-4 mb-6">
-        <!-- Name & Phone -->
-        <input type="text" id="cust-name" placeholder="PACKAGE NAME (RECIPIENT)" 
-            class="w-full px-6 py-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white transition-all">
-        
-        <input type="tel" id="cust-phone" placeholder="PHONE NUMBER" 
-            class="w-full px-6 py-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white transition-all">
-        
-        <!-- Region Selector with Watermark & Arrow -->
-        <div class="relative group">
+        <div id="phase-shipping">
+            <h3 class="font-heading font-black text-2xl uppercase mb-2">Shipping Details</h3>
+            <p class="text-[10px] text-black/40 tracking-widest uppercase mb-8">Enter your delivery information</p>
+            
+            <div class="flex flex-col gap-4 mb-6">
+                <input type="text" id="cust-name" placeholder="PACKAGE NAME (RECIPIENT)" 
+                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 transition-all">
+                
+                <input type="tel" id="cust-phone" placeholder="PHONE NUMBER" 
+                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 transition-all">
+                
+                 <div class="relative group">
             <span class="absolute top-2 left-6 text-[6px] font-black uppercase tracking-[0.3em] opacity-20 pointer-events-none">Network Hub</span>
             <select id="cust-region" onchange="toggleCityView()" class="w-full px-6 pt-6 pb-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white appearance-none">
                 <option value="NAIROBI">REGION: NAIROBI</option>
@@ -683,6 +633,7 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
                 <option value="HURLINGHAM">HURLINGHAM</option>
                 <option value="RUNDA">RUNDA</option>
                 <option value="MUTHAIGA">MUTHAIGA</option>
+               <option value="OTHER">UPPERHILL</option>
                 <option value="GIGIRI">GIGIRI</option>
                 <option value="PARKLANDS">PARKLANDS</option>
                 <option value="SOUTH C">SOUTH C</option>
@@ -717,16 +668,16 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
             </div>
         </div>
 
-        <textarea id="cust-location" placeholder="SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT)" 
-            class="w-full px-6 py-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white h-24 resize-none"></textarea>
-    </div>
+                <textarea id="cust-location" placeholder="SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT)" 
+                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 h-24 resize-none"></textarea>
+            </div>
 
-    <p id="form-error" class="text-[9px] text-red-500 font-bold uppercase tracking-tighter mb-4 hidden">Please fill in all fields to proceed.</p>
+            <p id="form-error" class="text-[9px] text-red-500 font-bold uppercase tracking-tighter mb-4 hidden">Please fill in all fields to proceed.</p>
 
-    <button onclick="generateOrderHash()" class="w-full py-5 bg-white text-black rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-200 transition-all">
-        Generate Order
-    </button>
-</div>
+            <button onclick="generateOrderHash()" class="w-full py-5 bg-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
+                Generate Order
+            </button>
+        </div>
 
         <div id="phase-summary" class="hidden">
     <h3 class="font-heading font-black text-2xl uppercase mb-2">Order Ready</h3>
@@ -736,7 +687,7 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     
     <div class="flex flex-col gap-3">
         <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-            Copy 
+            Copy and Finalize
         </button>
 
         <div class="py-4 px-2">
@@ -752,10 +703,10 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     </div>
 </div>
 
-   <script>
-    const products = [
+    <script>
+        const products = [
 
-       { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+                   { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
        
         
        
@@ -771,7 +722,7 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
        
         { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
        
-        { id: 'B6', name: 'Future', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1J6xDewKw-PmW30MKzGv4-Z5mqjS-mJG0', white: 'https://lh3.googleusercontent.com/u/0/d/1bBBGkRGIkIZ_K35djFEUg9Q8OwIqiNXU' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+        { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
        
         { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
 
@@ -784,320 +735,414 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
         
         
         { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
-    ];
+        ];
 
-    let cart = [];
-    let selections = {};
-    const grid = document.getElementById('transition-grid');
-    for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
+        let cart = [];
+        let selections = {};
+        const grid = document.getElementById('transition-grid');
+        for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
 
-    function enterSite() {
-        const trigger = document.querySelector('.enter-trigger');
-        trigger.innerText = "AUTHENTICATING..."; 
-        
+
+            function enterSite() {
+    const trigger = document.querySelector('.enter-trigger');
+    trigger.innerText = "AUTHENTICATING..."; // Change text to feel technical
+    
+    setTimeout(() => {
+        document.body.classList.remove('no-scroll');
+        document.getElementById('gateway').classList.add('hidden');
         document.getElementById('main-nav').style.opacity = "1";
-        renderShop(); 
+        // ... rest of your logic
+         triggerHomeAnims();
+    initScrollEngine();
+    initObserver();
+    }, 1200); 
+}
+       
 
-        setTimeout(() => {
-            document.getElementById('gateway').classList.add('hidden');
-            document.body.classList.remove('no-scroll');
-            document.body.style.overflow = "auto"; // Fix for mobile lock
+        function triggerHomeAnims() {
+            const left = document.querySelector('.hero-split-left');
+            const right = document.querySelector('.hero-split-right');
+            const meta = document.getElementById('hero-meta');
+            const ind = document.getElementById('scroll-indicator');
             
-            triggerHomeAnims();
-            initScrollEngine();
-            initObserver();
+            left.style.animation = 'none'; right.style.animation = 'none';
+            meta.classList.remove('active'); ind.style.opacity = "0";
+
+            void left.offsetWidth; 
             
-            document.getElementById('hero-meta').classList.add('active');
-            document.getElementById('scroll-indicator').style.opacity = "1";
-        }, 300);
-    }
-
-    function preloadProductImages() {
-        products.forEach(product => {
-            Object.values(product.img).forEach(url => {
-                const img = new Image();
-                img.src = url + "?w=800";
-            });
-        });
-    }
-    preloadProductImages();
-
-    function triggerHomeAnims() {
-        const left = document.querySelector('.hero-split-left');
-        const right = document.querySelector('.hero-split-right');
-        const meta = document.getElementById('hero-meta');
-        if(!left || !right) return;
-        left.style.animation = 'splitRevealLeft 1s var(--ease-heavy) forwards';
-        right.style.animation = 'splitRevealRight 1s var(--ease-heavy) forwards';
-        meta.style.opacity = "1";
-        meta.style.transform = "translateY(0)";
-    }
-
-    function navigate(pageId) {
-        grid.classList.add('active');
-        const blocks = Array.from(document.querySelectorAll('.pixel-block'));
-        blocks.forEach((b, i) => {
-            const x = i % 10; const y = Math.floor(i / 10);
-            b.style.transitionDelay = `${(x + y) * 20}ms`;
-        });
-
-        setTimeout(() => {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            const targetPage = document.getElementById(pageId);
-            targetPage.style.display = pageId === 'shop' ? 'block' : 'flex';
+            left.style.animation = 'splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards';
+            right.style.animation = 'splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards';
             
-            if(pageId === 'shop') renderShop();
-            if(pageId === 'home') triggerHomeAnims();
+            setTimeout(() => {
+                meta.classList.add('active');
+                setTimeout(() => ind.style.opacity = "1", 1000);
+            }, 500);
+        }
+
+        function navigate(pageId) {
+    grid.classList.add('active');
+    const blocks = Array.from(document.querySelectorAll('.pixel-block'));
+    
+    blocks.forEach((b, i) => {
+        const x = i % 10; const y = Math.floor(i / 10);
+        b.style.transitionDelay = `${(x + y) * 20}ms`;
+    });
+
+    setTimeout(() => {
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        const targetPage = document.getElementById(pageId);
+        targetPage.style.display = pageId === 'shop' ? 'block' : 'flex';
+        
+        if(pageId === 'shop') renderShop();
+        if(pageId === 'home') triggerHomeAnims();
+        
+        window.scrollTo(0, 0);
+        grid.classList.remove('active');
+        initObserver();
+
+        // --- VAULT SCROLL LOCK ---
+        const isLocked = getComputedStyle(document.documentElement).getPropertyValue('--vault-lock-display').trim() === 'flex';
+        const shopEl = document.getElementById('shop');
+        const vaultOverlay = document.getElementById('vault-overlay');
+        const cartBtn = document.getElementById('cart-btn-trigger');
+
+        if (pageId === 'shop' && isLocked) {
+            shopEl.classList.add('vault-active');
+            vaultOverlay.style.display = 'flex';
+            cartBtn.classList.add('cart-locked'); 
+            document.body.classList.add('no-scroll'); // Locks background scroll
+            startVaultTimer();
+        } else {
+            shopEl.classList.remove('vault-active');
+            vaultOverlay.style.display = 'none';
+            cartBtn.classList.remove('cart-locked');
+            document.body.classList.remove('no-scroll'); // Unlocks for Home
+        }
+    }, 600);
+}
+
+
+        function startVaultTimer() {
+            const target = new Date("July 16, 2026 00:00:00").getTime();
+            const timerDisplay = document.getElementById('vault-countdown');
             
-            window.scrollTo(0, 0);
-            grid.classList.remove('active');
-            initObserver();
+            setInterval(() => {
+                const dist = target - new Date().getTime();
+                const d = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                const s = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                timerDisplay.innerText = `${d}:${h}:${m}:${s}`;
+            }, 1000);
+        }
 
-            const isLocked = getComputedStyle(document.documentElement).getPropertyValue('--vault-lock-display').trim() === 'flex';
-            const shopEl = document.getElementById('shop');
-            const vaultOverlay = document.getElementById('vault-overlay');
-            const cartBtn = document.getElementById('cart-btn-trigger');
+        // --- NEW INVENTORY ENGINE ---
+        function parseInventory(status, availableColors, availableSizes) {
+            const result = { disabledColors: [], colorSpecificOOS: {} };
+            if (!status || !status.startsWith('out-of-stock-')) return result;
 
-            if (pageId === 'shop' && isLocked) {
-                shopEl.classList.add('vault-active');
-                vaultOverlay.style.display = 'flex';
-                cartBtn.classList.add('cart-locked'); 
-                document.body.classList.add('no-scroll');
-                startVaultTimer();
-            } else {
-                shopEl.classList.remove('vault-active');
-                if(vaultOverlay) vaultOverlay.style.display = 'none';
-                cartBtn.classList.remove('cart-locked');
-                document.body.classList.remove('no-scroll');
-                document.body.style.overflow = "auto";
-            }
-        }, 600);
-    }
+            const tokens = status.replace('out-of-stock-', '').split('-');
+            let currentCtx = null;
 
-    function startVaultTimer() {
-        const target = new Date("July 16, 2026 00:00:00").getTime();
-        const timerDisplay = document.getElementById('vault-countdown');
-        if(!timerDisplay) return;
-        setInterval(() => {
-            const dist = target - new Date().getTime();
-            const d = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            const s = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            timerDisplay.innerText = `${d}:${h}:${m}:${s}`;
-        }, 1000);
-    }
+            tokens.forEach(token => {
+                const color = availableColors.find(c => c.toLowerCase() === token);
+                const size = availableSizes.find(s => s.toLowerCase() === token);
 
-    function parseInventory(status, availableColors, availableSizes) {
-        const result = { disabledColors: [], colorSpecificOOS: {} };
-        if (!status || !status.startsWith('out-of-stock-')) return result;
-        const tokens = status.replace('out-of-stock-', '').split('-');
-        let currentCtx = null;
-        tokens.forEach(token => {
-            const color = availableColors.find(c => c.toLowerCase() === token);
-            const size = availableSizes.find(s => s.toLowerCase() === token);
-            if (color) {
-                currentCtx = color;
-                if (!result.colorSpecificOOS[currentCtx]) result.colorSpecificOOS[currentCtx] = [];
-            } else if (size && currentCtx) {
-                result.colorSpecificOOS[currentCtx].push(size.toLowerCase());
-            } else if (size && !currentCtx) {
-                availableColors.forEach(c => {
-                    if (!result.colorSpecificOOS[c]) result.colorSpecificOOS[c] = [];
-                    result.colorSpecificOOS[c].push(size.toLowerCase());
-                });
-            }
-        });
-        return result;
-    }
-
-    function renderShop() {
-        const grid = document.getElementById('shop-grid');
-        if(!grid) return;
-        grid.innerHTML = products.map((p) => {
-            const inventory = parseInventory(p.status, p.colors, p.sizes);
-            const isEntirelySO = p.status === 'sold-out' || p.status === 'out-of-stock';
-            const isCS = p.status === 'coming soon';
-            let defaultColor = p.colors.find(c => !inventory.disabledColors.includes(c)) || p.colors[0];
-            if(!selections[p.id]) selections[p.id] = { color: defaultColor };
-
-            let pixelMask = `<div class="pixel-mask">`;
-            for(let i=0; i<48; i++) pixelMask += `<div class="reveal-pixel" style="transition-delay: ${Math.random() * 500}ms"></div>`;
-            pixelMask += `</div>`;
-
-            let badge = '';
-            if(isEntirelySO) badge = '<div class="status-badge">OUT OF STOCK</div>';
-            else if(isCS) badge = '<div class="status-badge bg-white !text-black">COMING SOON</div>';
-
-            return `
-            <div class="product-item scroll-reveal" data-id="${p.id}" id="card-${p.id}">
-                ${badge}
-                <div class="img-container aspect-[4/5] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
-                    ${pixelMask}
-                    <img id="img-${p.id}" src="${p.img[defaultColor]}?w=800" fetchpriority="high" class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
-                </div>
-                <div class="px-1 md:px-2">
-                    <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
-                        <h4 class="font-heading font-black text-lg md:text-2xl uppercase tracking-tighter">${p.name}</h4>
-                        <span class="text-[10px] md:text-sm font-black opacity-30">KSh ${p.price.toLocaleString()}</span>
-                    </div>
-                    <div class="mb-4 md:mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
-                        <div class="flex gap-2 md:gap-4">
-                            ${p.colors.map(c => {
-                                const isDisabled = inventory.disabledColors.includes(c);
-                                const isSelected = c === defaultColor ? 'selected' : '';
-                                return `<div class="color-opt color-${c} ${isSelected} ${isDisabled ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'color', '${c}', this)"></div>`
-                            }).join('')}
-                        </div>
-                        <div id="sizes-${p.id}" class="flex gap-1 md:gap-2">
-                            ${p.sizes.map(s => {
-                                const isOOS = (inventory.colorSpecificOOS[defaultColor] || []).includes(s.toLowerCase());
-                                return `<button class="size-btn !px-2 !py-1 md:!px-4 md:!py-2 ${isOOS ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'size', '${s}', this)">${s}</button>`
-                            }).join('')}
-                        </div>
-                    </div>
-                    <button onclick="handleAddToCart('${p.id}', this)" class="add-btn w-full py-3 md:py-5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all ${isEntirelySO || isCS ? 'opacity-20 pointer-events-none' : ''}">
-                        ${isEntirelySO ? 'UNIT DEPLETED' : isCS ? 'PENDING DROP' : 'ADD To BAG'}
-                    </button>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    function selectOpt(id, type, val, el) {
-        if(el.classList.contains('variant-oos')) return;
-        if(!selections[id]) selections[id] = {};
-        const p = products.find(x => x.id === id);
-        const inventory = parseInventory(p.status, p.colors, p.sizes);
-
-        if(type === 'color') {
-            selections[id].color = val;
-            document.getElementById(`img-${id}`).src = p.img[val] + "?w=800";
-            const sizeContainer = document.getElementById(`sizes-${id}`);
-            const oosForThisColor = inventory.colorSpecificOOS[val] || [];
-            sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
-                const s = btn.innerText.toLowerCase();
-                if (oosForThisColor.includes(s)) {
-                    btn.classList.add('variant-oos');
-                    btn.classList.remove('selected');
-                    if(selections[id].size === btn.innerText) delete selections[id].size;
-                } else {
-                    btn.classList.remove('variant-oos');
+                if (color) {
+                    currentCtx = color;
+                    if (!result.colorSpecificOOS[currentCtx]) result.colorSpecificOOS[currentCtx] = [];
+                } else if (size && currentCtx) {
+                    result.colorSpecificOOS[currentCtx].push(size.toLowerCase());
+                } else if (size && !currentCtx) {
+                    // Global size OOS across all colors
+                    availableColors.forEach(c => {
+                        if (!result.colorSpecificOOS[c]) result.colorSpecificOOS[c] = [];
+                        result.colorSpecificOOS[c].push(size.toLowerCase());
+                    });
                 }
             });
-        } else {
-            selections[id].size = val;
+
+            // If a color was listed but no sizes followed it, that color is fully disabled
+            tokens.forEach((token, idx) => {
+                const color = availableColors.find(c => c.toLowerCase() === token);
+                if (color) {
+                    const nextToken = tokens[idx + 1];
+                    const nextIsSize = nextToken && availableSizes.find(s => s.toLowerCase() === nextToken);
+                    if (!nextIsSize) result.disabledColors.push(color);
+                }
+            });
+
+            return result;
         }
-        el.parentElement.querySelectorAll('*').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
 
-    function handleAddToCart(id, btn) {
-        const p = products.find(x => x.id === id);
-        const sel = selections[id] || {};
-        if(!sel.color || !sel.size) {
-            const old = btn.innerText; btn.innerText = "SELECT VARIANT"; btn.style.color = "red";
-            setTimeout(() => { btn.innerText = old; btn.style.color = ""; }, 1000);
-            return;
-        }
-        const imgToFly = document.getElementById(`img-${id}`);
-        const bagTarget = document.getElementById('cart-btn-trigger');
-        const rect = imgToFly.getBoundingClientRect();
-        const bagRect = bagTarget.getBoundingClientRect();
-        const ghost = document.createElement('img');
-        ghost.src = imgToFly.src; ghost.className = 'ghost-img';
-        ghost.style.top = rect.top + 'px'; ghost.style.left = rect.left + 'px';
-        ghost.style.width = rect.width + 'px'; ghost.style.height = rect.height + 'px';
-        document.body.appendChild(ghost);
-
-        setTimeout(() => {
-            ghost.style.top = bagRect.top + 'px'; ghost.style.left = bagRect.left + 'px';
-            ghost.style.width = '20px'; ghost.style.height = '20px';
-            ghost.style.opacity = '0'; ghost.style.transform = 'rotate(45deg)';
-        }, 10);
-        setTimeout(() => ghost.remove(), 800);
-
-        cart.push({ ...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now() });
-        updateCartUI();
-        btn.innerText = "ADDED TO BAG";
-        setTimeout(() => { btn.innerText = "ADD tO BAG"; }, 1500);
-    }
-
-    function updateCartUI() {
-        document.getElementById('cart-count').innerText = cart.length;
-        const cartList = document.getElementById('cart-list');
-        if (cart.length === 0) {
-            cartList.innerHTML = `<div class="py-20 text-center opacity-20 text-[10px] uppercase font-black tracking-widest">Bag Empty</div>`;
-        } else {
-            cartList.innerHTML = cart.map(i => `
-                <div class="bag-item-card">
-                    <div class="bag-item-info">
-                        <h4>${i.name}</h4>
-                        <p class="bag-item-meta">${i.selectedSize} | ${i.selectedColor}</p>
-                    </div>
-                    <button onclick="removeItem(${i.cartId})" class="drop-btn">Drop</button>
-                </div>`).join('');
-        }
-        const total = cart.reduce((a, b) => a + b.price, 0);
-        document.getElementById('cart-total').innerHTML = `<span>KSh ${total.toLocaleString()}</span>`;
-    }
-
-    function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
-    
-    function toggleCart() { 
-        const sidebar = document.getElementById('cart-sidebar');
-        sidebar.classList.toggle('open');
-        if(sidebar.classList.contains('open')) document.body.classList.add('no-scroll');
-        else document.body.classList.remove('no-scroll');
-    }
-
-    function initiateCheckout() {
-        if (cart.length === 0) return;
-        document.getElementById('phase-shipping').classList.remove('hidden');
-        document.getElementById('phase-summary').classList.add('hidden');
-        document.getElementById('checkout-modal').classList.add('active');
-        document.body.classList.add('no-scroll');
-    }
-
-    function toggleCityView() {
-        const region = document.getElementById('cust-region').value;
-        const nairobiWrapper = document.getElementById('nairobi-neighborhoods-container');
-        const cityWrapper = document.getElementById('other-cities-container');
-        if (region === 'NAIROBI') {
-            nairobiWrapper.classList.remove('hidden');
-            cityWrapper.classList.add('hidden');
-        } else {
-            nairobiWrapper.classList.add('hidden');
-            cityWrapper.classList.remove('hidden');
-        }
-    }
-
-    function generateOrderHash() {
-        const name = document.getElementById('cust-name').value.trim();
-        const phone = document.getElementById('cust-phone').value.trim();
-        const region = document.getElementById('cust-region').value;
-        const location = document.getElementById('cust-location').value.trim();
-        if (!name || !phone || !location) return;
-
-        let finalCity = region === 'NAIROBI' ? `NAIROBI: ${document.getElementById('cust-nairobi-area').value}` : `OUTSIDE: ${document.getElementById('cust-city-select').value}`;
-        const orderID = `KOCE-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
-        const total = cart.reduce((a, b) => a + b.price, 0);
+        function renderShop() {
+    const grid = document.getElementById('shop-grid');
+    grid.innerHTML = products.map((p) => {
+        const inventory = parseInventory(p.status, p.colors, p.sizes);
+        const isEntirelySO = p.status === 'sold-out' || p.status === 'out-of-stock';
+        const isCS = p.status === 'coming soon';
         
-        let m = `[KÖCE ORDER]\nID: #${orderID}\nRECIPIENT: ${name}\nPHONE: ${phone}\nLOCATION: ${finalCity} - ${location}\n`;
-        cart.forEach(it => { m += `• ${it.name} ${it.selectedSize} | ${it.selectedColor}\n`; });
-        m += `TOTAL: KSh ${total.toLocaleString()}`;
+        let defaultColor = p.colors.find(c => !inventory.disabledColors.includes(c)) || p.colors;
+        if(!selections[p.id]) selections[p.id] = { color: defaultColor };
 
-        document.getElementById('order-hash-container').innerText = m;
-        document.getElementById('phase-shipping').classList.add('hidden');
-        document.getElementById('phase-summary').classList.remove('hidden');
+        let pixelMask = `<div class="pixel-mask">`;
+        for(let i=0; i<48; i++) pixelMask += `<div class="reveal-pixel" style="transition-delay: ${Math.random() * 500}ms"></div>`;
+        pixelMask += `</div>`;
+
+        let badge = '';
+        if(isEntirelySO) badge = '<div class="status-badge">OUT OF STOCK</div>';
+        else if(isCS) badge = '<div class="status-badge bg-white !text-black">COMING SOON</div>';
+
+        return `
+        <div class="product-item scroll-reveal" data-id="${p.id}" id="card-${p.id}">
+            ${badge}
+            <div class="img-container aspect-[3/4] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
+                ${pixelMask}
+                <img id="img-${p.id}" src="${p.img[defaultColor]}?w=800" class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
+            </div>
+            <div class="px-1 md:px-2">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
+                    <h4 class="font-heading font-black text-lg md:text-2xl uppercase tracking-tighter">${p.name}</h4>
+                    <span class="text-[10px] md:text-sm font-black opacity-30">KSh ${p.price.toLocaleString()}</span>
+                </div>
+                <div class="mb-4 md:mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
+                    <div class="flex gap-2 md:gap-4">
+                        ${p.colors.map(c => {
+                            const isDisabled = inventory.disabledColors.includes(c);
+                            const isSelected = c === defaultColor ? 'selected' : '';
+                            return `<div class="color-opt color-${c} ${isSelected} ${isDisabled ? 'variant-oos' : ''}" 
+                                onclick="selectOpt('${p.id}', 'color', '${c}', this)"></div>`
+                        }).join('')}
+                    </div>
+                    <div id="sizes-${p.id}" class="flex gap-1 md:gap-2">
+                        ${p.sizes.map(s => {
+                            const isOOS = (inventory.colorSpecificOOS[defaultColor] || []).includes(s.toLowerCase());
+                            return `<button class="size-btn !px-2 !py-1 md:!px-4 md:!py-2 ${isOOS ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'size', '${s}', this)">${s}</button>`
+                        }).join('')}
+                    </div>
+                </div>
+                <button onclick="handleAddToCart('${p.id}', this)" class="add-btn w-full py-3 md:py-5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all ${isEntirelySO || isCS ? 'opacity-20 pointer-events-none' : ''}">
+                    ${isEntirelySO ? 'UNIT DEPLETED' : isCS ? 'PENDING DROP' : 'ADD TO BAG'}
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+        function selectOpt(id, type, val, el) {
+            if(el.classList.contains('variant-oos')) return;
+
+            if(!selections[id]) selections[id] = {};
+            const p = products.find(x => x.id === id);
+            const inventory = parseInventory(p.status, p.colors, p.sizes);
+
+            if(type === 'color') {
+                selections[id].color = val;
+                document.getElementById(`img-${id}`).src = p.img[val] + "?w=800";
+                
+                // Refresh sizes for the new color
+                const sizeContainer = document.getElementById(`sizes-${id}`);
+                const oosForThisColor = inventory.colorSpecificOOS[val] || [];
+                
+                sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
+                    const s = btn.innerText.toLowerCase();
+                    if (oosForThisColor.includes(s)) {
+                        btn.classList.add('variant-oos');
+                        btn.classList.remove('selected');
+                        if(selections[id].size === btn.innerText) delete selections[id].size;
+                    } else {
+                        btn.classList.remove('variant-oos');
+                    }
+                });
+            } else {
+                selections[id].size = val;
+            }
+            
+            el.parentElement.querySelectorAll('*').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function handleAddToCart(id, btn) {
+            const p = products.find(x => x.id === id);
+            const sel = selections[id] || {};
+            if(!sel.color || !sel.size) {
+                const old = btn.innerText; btn.innerText = "SELECT VARIANT"; btn.style.color = "red";
+                setTimeout(() => { btn.innerText = old; btn.style.color = ""; }, 1000);
+                return;
+            }
+
+            const imgToFly = document.getElementById(`img-${id}`);
+            const bagTarget = document.getElementById('cart-btn-trigger');
+            const rect = imgToFly.getBoundingClientRect();
+            const bagRect = bagTarget.getBoundingClientRect();
+
+            const ghost = document.createElement('img');
+            ghost.src = imgToFly.src;
+            ghost.className = 'ghost-img';
+            ghost.style.top = rect.top + 'px';
+            ghost.style.left = rect.left + 'px';
+            ghost.style.width = rect.width + 'px';
+            ghost.style.height = rect.height + 'px';
+            document.body.appendChild(ghost);
+
+            setTimeout(() => {
+                ghost.style.top = bagRect.top + 'px';
+                ghost.style.left = bagRect.left + 'px';
+                ghost.style.width = '20px';
+                ghost.style.height = '20px';
+                ghost.style.opacity = '0';
+                ghost.style.transform = 'rotate(45deg)';
+            }, 10);
+
+            setTimeout(() => ghost.remove(), 800);
+
+            cart.push({ ...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now() });
+            updateCartUI();
+            btn.innerText = "ADDED TO BAG";
+            setTimeout(() => { btn.innerText = "ADD TO BAG"; }, 1500);
+        }
+
+       function updateCartUI() {
+    document.getElementById('cart-count').innerText = cart.length;
+    const cartList = document.getElementById('cart-list');
+    
+    if (cart.length === 0) {
+        cartList.innerHTML = `<div class="py-20 text-center opacity-20 text-[10px] uppercase font-black tracking-widest">Bag Empty</div>`;
+    } else {
+        cartList.innerHTML = cart.map(i => `
+            <div class="bag-item-card">
+                <div class="bag-item-info">
+                    <h4>${i.name}</h4>
+                    <p class="bag-item-meta">${i.selectedSize} // ${i.selectedColor}</p>
+                </div>
+                <button onclick="removeItem(${i.cartId})" class="drop-btn">Drop</button>
+            </div>`).join('');
     }
+    
+    const total = cart.reduce((a, b) => a + b.price, 0);
+    const isFreeShipping = total >= 1600000000000000000000;
+    
+    // Update Total and add Free Shipping Badge if applicable
+    document.getElementById('cart-total').innerHTML = `
+        <div class="flex flex-col items-end">
+            ${isFreeShipping ? '<span class="text-[8px] text-green-500 font-black tracking-widest mb-1">FREE SHIPPING ELIGIBLE</span>' : ''}
+            <span>KSh ${total.toLocaleString()}</span>
+        </div>
+    `;
+}
 
-  async function copyAndFinalize() {
+        function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+        function closeModal() { document.getElementById('checkout-modal').classList.remove('active'); }
+
+     // --- KÖCE CHECKOUT ENGINE ---
+
+/**
+ * 1. INITIALIZE CHECKOUT
+ * Opens the modal and resets it to Phase 1 (Shipping Form)
+ */
+/**
+ * 1. INITIALIZE CHECKOUT
+ * Opens the modal and resets it to Phase 1 (Shipping Form)
+ */
+function initiateCheckout() {
+    if (cart.length === 0) return;
+
+    // Reset UI Visibility
+    document.getElementById('phase-shipping').classList.remove('hidden');
+    document.getElementById('phase-summary').classList.add('hidden');
+    document.getElementById('form-error').classList.add('hidden');
+
+    // Reset Form Fields
+    document.getElementById('cust-name').value = "";
+    document.getElementById('cust-phone').value = "";
+    document.getElementById('cust-location').value = "";
+    document.getElementById('cust-region').value = "NAIROBI";
+    
+    toggleCityView();
+
+    // Open Modal
+    document.getElementById('checkout-modal').classList.add('active');
+}
+
+/**
+ * 2. DYNAMIC LOCATION UI
+ */
+function toggleCityView() {
+    const region = document.getElementById('cust-region').value;
+    const cityContainer = document.getElementById('other-cities-container');
+    const locationField = document.getElementById('cust-location');
+
+    if (region === 'NAIROBI') {
+        cityContainer.classList.add('hidden');
+        locationField.placeholder = "SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT NAME)";
+    } else {
+        cityContainer.classList.remove('hidden');
+        locationField.placeholder = "NEAREST COURIER OFFICE (E.G., MOLOLINE, 2NK)";
+    }
+}
+
+/**
+ * 3. GENERATE ORDER HASH
+ */
+function generateOrderHash() {
+    const name = document.getElementById('cust-name').value.trim();
+    const phone = document.getElementById('cust-phone').value.trim();
+    const region = document.getElementById('cust-region').value;
+    const location = document.getElementById('cust-location').value.trim();
+    const errorMsg = document.getElementById('form-error');
+
+    if (!name || !phone || !location) {
+        errorMsg.classList.remove('hidden');
+        return;
+    }
+    errorMsg.classList.add('hidden');
+
+    let finalCity = region === 'OUTSIDE_NAIROBI' 
+        ? document.getElementById('cust-city-select').value 
+        : 'NAIROBI';
+
+    const orderID = `KOCE-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
+    const total = cart.reduce((a, b) => a + b.price, 0);
+    
+    
+    let m = `[KÖCE STRUCTURAL WEAR ORDER]\n`;
+    m += `ID: #${orderID}\n`;
+    m += `--------------------------\n`;
+    m += `RECIPIENT: ${name.toUpperCase()}\n`;
+    m += `PHONE: ${phone}\n`;
+    m += `LOCATION: ${finalCity} - ${location.toUpperCase()}\n`;
+    m += `--------------------------\n`;
+    cart.forEach(it => {
+        m += `• ${it.id} (${it.selectedSize}/${it.selectedColor})\n`;
+    });
+    m += `--------------------------\n`;
+    m += `TOTAL: KSh ${total.toLocaleString()}\n`;
+    m += `--------------------------\n`;
+
+    document.getElementById('order-hash-container').innerText = m;
+    document.getElementById('phase-shipping').classList.add('hidden');
+    document.getElementById('phase-summary').classList.remove('hidden');
+}
+
+/**
+ * 4. EDIT DETAILS
+ */
+function backToShipping() {
+    document.getElementById('phase-summary').classList.add('hidden');
+    document.getElementById('phase-shipping').classList.remove('hidden');
+}
+
+/**
+ * 5. COPY, REDIRECT, AND CLEAR CART
+ */
+async function copyAndFinalize() {
     const btn = document.getElementById('final-copy-btn');
     const orderText = document.getElementById('order-hash-container').innerText;
     
     const orderIDMatch = orderText.match(/KOCE-[A-Z0-9]+/);
     const orderID = orderIDMatch ? orderIDMatch[0] : "KOCE-UNKNOWN";
+ 
     
     const totalPrice = cart.reduce((a, b) => a + b.price, 0);
 
@@ -1130,41 +1175,44 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
             body: JSON.stringify(orderData)
         });
 
+        // Copy the summary to clipboard
         await navigator.clipboard.writeText(orderText);
         
+        // --- NEW SUCCESS UI ---
         const summaryPhase = document.getElementById('phase-summary');
         summaryPhase.innerHTML = `
-            <div class="py-10">
+            <div class="py-10 animate-fade-in">
                 <div class="mb-6 flex justify-center">
-                    <div class="w-16 h-16 bg-white text-black rounded-full flex items-center justify-center font-black">✓</div>
+                    <div class="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center font-black">✓</div>
                 </div>
                 <h3 class="font-heading font-black text-3xl uppercase mb-4">Order Logged</h3>
-                <p class="text-[10px] text-white/60 tracking-[0.2em] uppercase leading-loose mb-8">
-                    Your details are copied.<br>
-                    Follow the DM steps to finish.
+                <p class="text-[10px] text-black/60 tracking-[0.2em] uppercase leading-loose mb-8">
+                    Your details are copied to your clipboard.<br>
+                    Follow these steps to finish:
                 </p>
                 
-                <div class="text-left space-y-6 mb-10 border-t border-white/5 pt-8">
+                <div class="text-left space-y-6 mb-10 border-t border-black/5 pt-8">
                     <div class="flex gap-4">
                         <span class="font-black opacity-20 text-xs">01</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Open Instagram</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Leave the site and open Instagram</p>
                     </div>
                     <div class="flex gap-4">
                         <span class="font-black opacity-20 text-xs">02</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">DM <span class="underline">@kocestructuralwear</span></p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Search for <span class="underline">@kocestructuralwear</span></p>
                     </div>
                     <div class="flex gap-4">
                         <span class="font-black opacity-20 text-xs">03</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Paste details and await response</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Paste your message in our DMs</p>
                     </div>
                 </div>
-                <!-- This button clears everything and takes you back to the shop grid -->
-                <button onclick="resetOrderSystem();" class="w-full py-5 border border-white text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-                    Back to Shop
+
+                <button onclick="closeModal();" class="w-full py-5 border border-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                    Dismiss
                 </button>
             </div>
         `;
 
+        // Clear the cart
         cart = []; 
         updateCartUI();
 
@@ -1175,44 +1223,14 @@ KÖCE functions as a Noise Suppression System. We strip away the unnecessary unt
     }
 }
 
-function resetOrderSystem() {
-    // 1. Clear customer input fields
-    document.getElementById('cust-name').value = '';
-    document.getElementById('cust-phone').value = '';
-    document.getElementById('cust-location').value = '';
-    
-    // 2. Rebuild the Summary UI to its original state for future orders
-    const summaryPhase = document.getElementById('phase-summary');
-    summaryPhase.innerHTML = `
-        <h3 class="font-heading font-black text-2xl uppercase mb-2">Order Ready</h3>
-        <p class="text-[10px] text-black/40 tracking-widest uppercase mb-8">Details will be copied automatically</p>
-        <div id="order-hash-container" class="bg-gray-50 p-6 rounded-2xl font-mono text-[9px] mb-8 text-left max-h-[200px] overflow-y-auto leading-relaxed border border-black/5 text-black/60"></div>
-        <div class="flex flex-col gap-3">
-            <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-                Copy 
-            </button>
-            <button onclick="backToShipping()" class="w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] text-white/50 hover:text-black transition-colors">Edit Details</button>
-        </div>
-    `;
-
-    // 3. Reset visibility to the first step of checkout
-    document.getElementById('phase-summary').classList.add('hidden');
-    document.getElementById('phase-shipping').classList.remove('hidden');
-    
-    // 4. Close the checkout modal
-    const modal = document.getElementById('checkout-modal');
-    if (modal) modal.classList.remove('active');
-    
-    // 5. Close the Bag Sidebar[cite: 1]
-    const sidebar = document.getElementById('cart-sidebar');
-    if(sidebar) sidebar.classList.remove('open');
-    
-    // 6. Restore page scrolling[cite: 1]
-    document.body.classList.remove('no-scroll');
-    document.body.style.overflow = "auto";
+/**
+ * 6. CLOSE MODAL
+ */
+function closeModal() {
+    document.getElementById('checkout-modal').classList.remove('active');
 }
 
-    function initScrollEngine() {
+        function initScrollEngine() {
     const nav = document.getElementById('main-nav');
     const backToTop = document.getElementById('back-to-top');
     const bar = document.getElementById('scroll-progress');
@@ -1240,69 +1258,18 @@ function resetOrderSystem() {
     }, { passive: true });
 }
 
-// CONSOLIDATED LOADING ENGINE
-window.addEventListener('load', () => {
-    const bar = document.getElementById('loading-bar');
-    const percent = document.getElementById('loading-percentage');
-    let width = 0;
-    
-    const interval = setInterval(() => {
-        width += Math.random() * 20;
-        if (width >= 100) {
-            width = 100;
-            clearInterval(interval);
-            
-            // Critical: Unlock the site
-            setTimeout(() => {
-                document.getElementById('gateway').style.opacity = '0';
-                document.getElementById('gateway').style.pointerEvents = 'none';
-                document.body.classList.remove('no-scroll');
-                document.body.style.overflow = "auto";
-                
-                // Fire the engines
-                initScrollEngine();
-                initObserver();
-                renderShop();
-            }, 500);
+        function initObserver() {
+            const obs = new IntersectionObserver((es) => {
+                es.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
         }
-        if(bar) bar.style.width = width + '%';
-        if(percent) percent.innerText = Math.floor(width).toString().padStart(2, '0') + '%';
-    }, 100);
-});
 
-    function initObserver() {
-        const obs = new IntersectionObserver((es) => {
-            es.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
-    }
+       
 
-    // Single Consolidated Loading Engine
-    window.addEventListener('load', () => {
-        const bar = document.getElementById('loading-bar');
-        const percent = document.getElementById('loading-percentage');
-        let width = 0;
-        
-        const interval = setInterval(() => {
-            if (width >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    const gate = document.getElementById('gateway');
-                    if(gate) gate.style.display = 'none'; // Ensure it's gone
-                    document.body.classList.remove('no-scroll');
-                    document.body.style.overflow = "auto";
-                    initObserver();
-                }, 500);
-            } else {
-                width += Math.random() * 15;
-                if (width > 100) width = 100;
-                if(bar) bar.style.width = width + '%';
-                if(percent) percent.innerText = Math.floor(width) + '%';
-            }
-        }, 150);
-    });
-</script>
-<!-- BACK TO TOP BUTTON -->
+    </script>
+
+   <!-- BACK TO TOP BUTTON -->
 <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     <div class="top-arrow-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -1313,7 +1280,7 @@ window.addEventListener('load', () => {
 
    <footer class="w-full py-20 px-10 border-t border-white/5 flex flex-col items-center justify-center text-center gap-6">
     <!-- Origin Label -->
-    <div class="flex items-center gap-4 opacity-30">
+    <div class="flex items-center gap-2 opacity-30">
         <div class="w-8 h-[1px] bg-white"></div>
         <span class="text-[9px] font-black uppercase tracking-[0.5em]">Origin: Republic of Kenya</span>
         <div class="w-8 h-[1px] bg-white"></div>
@@ -1340,7 +1307,6 @@ window.addEventListener('load', () => {
         </div>
     </div>
 </footer>
-
 
    
 
