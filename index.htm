@@ -102,7 +102,7 @@
     .spinning-logo-img {
         width: 100%; height: 100%; object-fit: contain;
         animation: rotate3D 8s infinite linear; transform-style: preserve-3d;
-        filter: invert(1);
+        
     }
     @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 
@@ -210,20 +210,33 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+      #loader-container {
+    border-radius: 2px;
+}
+
+#loader-bar {
+    /* This ensures the width transition is smooth over exactly 2 seconds */
+    transition: width 2s cubic-bezier(0.65, 0, 0.35, 1);
+}
 </style>          
 </head>
 
 <body class="overflow-hidden">
-    <div id="success-toast">Artifact Synced</div>
+    <div id="success-toast">✅ADDED TO CART </div>
     <canvas id="pixel-canvas"></canvas>
 
     <!-- LOADING GATEWAY -->
     <div id="gateway">
-        <div class="logo-container mb-8">
-            <img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img" alt="KOCE">
-        </div>
-        <button class="enter-trigger uppercase" onclick="enterSite()">ACCESS ARCHIVE</button>
+    <div class="logo-container mb-8">
+        <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img" alt="KÖCE">
     </div>
+    <div id="loader-container" class="w-48 h-[2px] bg-gray-100 mt-4 overflow-hidden relative">
+        <div id="loader-bar" class="absolute top-0 left-0 h-full bg-black w-0 transition-all duration-[2000ms] ease-out"></div>
+    </div>
+    </div>
+
+   
 
     <!-- NAVIGATION -->
     <nav id="main-nav" class="opacity-0">
@@ -232,10 +245,10 @@
                 <button onclick="triggerTransition('home')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">Home</button>
             </div>
             <div class="logo-container">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img" alt="KOCE">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img" alt="KOCE">
             </div>
             <div class="flex-1 flex justify-end items-center gap-6">
-                <button onclick="triggerTransition('shop')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">Archive</button>
+                <button onclick="triggerTransition('shop')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">SHOP</button>
                 <button onclick="toggleCart()" class="relative pt-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     <div id="cart-count-badge" class="absolute -top-1 -right-2 bg-black text-white text-[7px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
@@ -262,15 +275,15 @@
                 </div>
                 <div class="space-y-10">
                     <div class="space-y-4">
-                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Chromatic Profile</p>
+                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Color</p>
                         <div id="full-view-colors" class="flex gap-5"></div>
                     </div>
                     <div class="space-y-4">
-                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Dimensional Grade</p>
+                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Size</p>
                         <div id="full-view-sizes" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
-                <button id="full-view-add-btn" class="w-full py-5 bg-black text-white font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all rounded-md">Add to Inventory</button>
+                <button id="full-view-add-btn" class="w-full py-5 bg-black text-white font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all rounded-md">Add to bag</button>
             </div>
         </div>
     </div>
@@ -278,7 +291,7 @@
     <!-- CART SIDEBAR -->
     <div id="cart-sidebar">
         <div class="p-8 flex justify-between items-center border-b border-gray-100">
-            <h2 class="font-heading font-bold text-xl uppercase tracking-tighter">Inventory</h2>
+            <h2 class="font-heading font-bold text-xl uppercase tracking-tighter">Bag</h2>
             <button onclick="toggleCart()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
         </div>
         <div id="cart-list" class="flex-grow overflow-y-auto p-8 space-y-4"></div>
@@ -293,7 +306,7 @@
         <div class="max-w-xl mx-auto min-h-screen py-24 px-8">
             <div class="flex justify-between items-center mb-16">
                 <button onclick="closeCheckout()" class="text-[9px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-all">← Back to Shop</button>
-                <div class="logo-container w-8 h-8"><img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img opacity-20" alt="KOCE"></div>
+                <div class="logo-container w-8 h-8"><img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img opacity-20" alt="KOCE"></div>
             </div>
 
             <!-- PHASE 1: SHIPPING -->
@@ -395,8 +408,8 @@
     <section class="h-[95vh] w-full flex flex-col items-center justify-center text-center px-6 relative">
         <h1 class="text-[20vw] md:text-[14vw] font-heading font-bold tracking-[-0.08em] leading-none mb-4">KÖCE</h1>
         <div class="flex flex-col items-center gap-6">
-            <p class="text-[9px] md:text-[11px] uppercase tracking-[0.8em] opacity-30 font-black">Structural Wear / Nairobi Collective</p>
-            <button onclick="triggerTransition('shop')" class="px-12 py-4 border border-black hover:bg-black hover:text-white text-[9px] font-black tracking-[0.4em] uppercase transition-all rounded-full">Explore Archive</button>
+            <p class="text-[9px] md:text-[11px] uppercase tracking-[0.8em] opacity-30 font-black">Structural Wear </p>
+            <button onclick="triggerTransition('shop')" class="px-12 py-4 border border-black hover:bg-black hover:text-white text-[9px] font-black tracking-[0.4em] uppercase transition-all rounded-full">Shop</button>
         </div>
 
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
@@ -472,30 +485,43 @@
 </div>
 
     <!-- SHOP PAGE -->
-    <div id="shop" class="page pt-32 pb-24" style="display:none">
-        <div class="max-w-[1400px] mx-auto px-6">
+  <div id="shop" class="page pt-32 pb-24 relative min-h-screen" style="display:none">
+    <div class="max-w-[1400px] mx-auto px-6">
+        <div id="vault-timer" class="fixed inset-0 flex flex-col items-center justify-center z-40 hidden pointer-events-none">
+            <p class="text-[10px] font-black uppercase tracking-[0.8em] mb-4 opacity-30">Vault Protocol Active</p>
+            <div id="countdown-display" class="font-heading font-bold text-5xl md:text-[10vw] tracking-tighter leading-none">00:00:00:00</div>
+            <p id="shop-status-text" class="text-[9px] font-black uppercase tracking-[0.4em] mt-8 opacity-20">LOCKED / PRE-ORDER VAULT</p>
+        </div>
+
+        <div id="vault-warning" class="fixed inset-0 bg-red-600 z- flex flex-col items-center justify-center text-white opacity-0 pointer-events-none transition-all duration-1000">
+            <h2 class="font-heading font-black text-6xl md:text-9xl tracking-tighter italic animate-pulse">SYSTEM_BREACH</h2>
+            <p class="text-[11px] font-black tracking-[1em] uppercase mt-4">Structural integrity compromised in 120s</p>
+        </div>
+
+        <div id="shop-content-wrapper" class="transition-opacity duration-1000">
             <div class="mb-16">
                 <h3 class="text-5xl md:text-8xl font-heading font-bold uppercase tracking-tighter">Archive</h3>
                 <p class="text-[10px] font-black uppercase tracking-[0.4em] opacity-20">001 / Structural Foundation</p>
             </div>
-           <div id="shop-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16"></div>
+            <div id="shop-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16"></div>
         </div>
     </div>
+</div>
 
     <script>
         const products = [
             { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'sold-out' },
-            { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navy: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navy'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navy: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navy'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
             { id: 'B3', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'vault' },
-            { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B8', name: 'Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
+            { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'coming-soon' },
+            { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'B8', name: 'Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'coming-soon' }
         ];
 
         let cart = [];
@@ -537,11 +563,14 @@
         }
 
         function enterSite() {
-            document.body.classList.remove('overflow-hidden');
-            document.getElementById('gateway').classList.add('hidden');
-            document.getElementById('main-nav').style.opacity = "1";
-            window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50); });
-        }
+    document.body.classList.remove('overflow-hidden');
+    document.getElementById('gateway').classList.add('hidden');
+    document.getElementById('main-nav').style.opacity = "1";
+    // Setup scroll listener for the nav background
+    window.addEventListener('scroll', () => { 
+        document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50); 
+    });
+}
 
         function navigate(id) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
@@ -550,58 +579,79 @@
             window.scrollTo(0, 0);
         }
 
-        function renderShop() {
-            const grid = document.getElementById('shop-grid');
-            grid.innerHTML = products.map((p) => {
-                const label = p.status !== 'active' ? `<div class="status-label">${p.status.replace('-', ' ')}</div>` : '';
-                const isComingSoon = p.status === 'coming-soon';
-                const opacityClass = p.status === 'active' ? '' : 'opacity-60';
-                const blurClass = isComingSoon ? 'blur-preview' : '';
-                
-                // Show black image by default if available
-                const displayImg = p.img.black || p.img[Object.keys(p.img)];
+       function renderShop() {
+    const grid = document.getElementById('shop-grid');
+    grid.innerHTML = products.map((p) => {
+        // Define inactive statuses
+        const isInactive = ['sold-out', 'out-of-stock', 'coming-soon', 'vault'].includes(p.status);
+        
+        // Formatting the label for display
+        const labelText = p.status.replace('-', ' ');
+        const label = p.status !== 'active' ? `<div class="status-label">${labelText}</div>` : '';
+        
+        // Apply blur only to coming-soon items, lower opacity for all inactive
+        const blurClass = p.status === 'coming-soon' ? 'blur-preview' : '';
+        const opacityClass = isInactive ? 'opacity-60 grayscale' : '';
+        
+        // Disable click if inactive
+        const clickAction = isInactive ? '' : `onclick="openProductView('${p.id}')"`;
+        const cursorClass = isInactive ? 'cursor-not-allowed' : 'cursor-pointer';
 
-                return `
-                <div class="product-card ${opacityClass}" onclick="openProductView('${p.id}')">
-                    <div class="img-container aspect-[4/5] mb-6">
-                        <img src="${displayImg}" class="w-full h-full object-cover ${blurClass}">
-                        ${label}
-                        <div class="view-label">View Specification</div>
-                    </div>
-                    <div class="space-y-1">
-                        <h4 class="text-[10px] font-black uppercase tracking-[0.1em]">${p.name}</h4>
-                        <div class="flex justify-between items-center">
-                            <span class="text-[8px] opacity-30 font-black uppercase tracking-widest">${p.id}</span>
-                            <span class="text-[10px] font-heading font-medium">KSh ${p.price}</span>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
+        const displayImg = p.img.black || p.img[Object.keys(p.img)];
 
-        function openProductView(id) {
-            currentFullId = id;
-            const p = products.find(x => x.id === id);
-            
-            // Set default color to black if available, otherwise first color
-            const defaultColor = p.colors.includes('black') ? 'black' : p.colors;
-            if(!selections[id]) { selections[id] = { color: defaultColor, size: null }; }
-            
-            document.getElementById('full-view-name').innerText = p.name;
-            document.getElementById('full-view-price').innerText = `KSh ${p.price}`;
-            document.getElementById('full-view-img').src = p.img[selections[id].color];
-            
-            document.getElementById('full-view-colors').innerHTML = p.colors.map(c => `<div class="color-opt bg-${c}-opt ${c === selections[id].color ? 'selected' : ''}" onclick="updateDetailOpt('color', '${c}', this)"></div>`).join('');
-            document.getElementById('full-view-sizes').innerHTML = p.sizes.map(s => `<button class="px-5 py-2 border border-gray-100 text-[10px] font-black uppercase tracking-widest transition-all ${s === selections[id].size ? 'bg-black text-white border-black' : 'hover:border-gray-300'}" onclick="updateDetailOpt('size', '${s}', this)">${s}</button>`).join('');
+        return `
+        <div class="product-card ${opacityClass} ${cursorClass}" ${clickAction}>
+            <div class="img-container aspect-[4/5] mb-6">
+                <img src="${displayImg}" class="w-full h-full object-cover ${blurClass}">
+                ${label}
+                ${!isInactive ? '<div class="view-label">View Specification</div>' : ''}
+            </div>
+            <div class="space-y-1">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.1em]">${p.name}</h4>
+                <div class="flex justify-between items-center">
+                    <span class="text-[8px] opacity-30 font-black uppercase tracking-widest">${p.id}</span>
+                    <span class="text-[10px] font-heading font-medium">${isInactive ? '---' : 'KSh ' + p.price}</span>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
 
-            const btn = document.getElementById('full-view-add-btn');
-            if(p.status !== 'active') { btn.innerText = p.status.toUpperCase(); btn.classList.add('opacity-30', 'pointer-events-none'); }
-            else { btn.innerText = "Add to Inventory"; btn.classList.remove('opacity-30', 'pointer-events-none'); btn.onclick = () => addToCart(id); }
+function openProductView(id) {
+  
+    const p = products.find(x => x.id === id);
+    
+    // Safety check: if someone forces the function open for an inactive item, block it
+    if (['sold-out', 'out-of-stock', 'coming-soon', 'vault'].includes(p.status)) return;
 
-            const view = document.getElementById('product-full-view');
-            view.style.display = 'flex'; setTimeout(() => view.classList.add('active'), 10);
-            document.body.style.overflow = 'hidden';
-        }
+    currentFullId = id;
+    
+    const defaultColor = p.colors.includes('black') ? 'black' : p.colors;
+    if(!selections[id]) { selections[id] = { color: defaultColor, size: null }; }
+    
+    document.getElementById('full-view-name').innerText = p.name;
+    document.getElementById('full-view-price').innerText = `KSh ${p.price}`;
+    document.getElementById('full-view-img').src = p.img[selections[id].color];
+    
+    document.getElementById('full-view-colors').innerHTML = p.colors.map(c => 
+        `<div class="color-opt bg-${c}-opt ${c === selections[id].color ? 'selected' : ''}" 
+        onclick="updateDetailOpt('color', '${c}', this)"></div>`).join('');
+        
+    document.getElementById('full-view-sizes').innerHTML = p.sizes.map(s => 
+        `<button class="px-5 py-2 border border-gray-100 text-[10px] font-black uppercase tracking-widest transition-all 
+        ${s === selections[id].size ? 'bg-black text-white border-black' : 'hover:border-gray-300'}" 
+        onclick="updateDetailOpt('size', '${s}', this)">${s}</button>`).join('');
+
+    const btn = document.getElementById('full-view-add-btn');
+    btn.innerText = "Add to Inventory";
+    btn.classList.remove('opacity-30', 'pointer-events-none');
+    btn.onclick = () => addToCart(id);
+
+    const view = document.getElementById('product-full-view');
+    view.style.display = 'flex'; 
+    setTimeout(() => view.classList.add('active'), 10);
+    document.body.style.overflow = 'hidden';
+}
 
         function updateDetailOpt(type, val, el) {
             const p = products.find(x => x.id === currentFullId);
@@ -611,7 +661,7 @@
 
         function closeProductView() { document.getElementById('product-full-view').classList.remove('active'); setTimeout(() => { document.getElementById('product-full-view').style.display = 'none'; document.body.style.overflow = 'auto'; }, 500); }
         
-        function addToCart(id) {
+       function addToCart(id) {
             const p = products.find(x => x.id === id); const sel = selections[id];
             if(!sel.size) { document.getElementById('full-view-add-btn').innerText = "Dimension Needed"; setTimeout(() => document.getElementById('full-view-add-btn').innerText = "Add to Inventory", 1000); return; }
             cart.push({...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now()});
@@ -681,7 +731,7 @@
         async function copyAndFinalize() {
             const btn = document.getElementById('final-copy-btn');
             const orderText = document.getElementById('order-hash-container').innerText;
-            btn.innerText = "PREPARING...";
+            btn.innerText = "SAVING ORDER...";
 
             try {
                 const orderID = orderText.match(/KOCE-[A-Z0-9]+/);
@@ -724,6 +774,83 @@
     }, observerOptions);
 
     document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+});
+
+    const DROP_DATE = new Date("february 26, 2026 12:00:00").getTime();
+let vaultUnlocked = false;
+
+function updateVault() {
+    const now = new Date().getTime();
+    const distance = DROP_DATE - now;
+
+    const shopWrapper = document.getElementById('shop-content-wrapper');
+    const timerContainer = document.getElementById('vault-timer');
+    const warningOverlay = document.getElementById('vault-warning');
+
+    if (distance > 0) {
+        // LOCK STATE
+        vaultUnlocked = false;
+        shopWrapper.style.opacity = '0';
+        shopWrapper.style.pointerEvents = 'none';
+        timerContainer.classList.remove('hidden');
+
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown-display').innerText = 
+            `${String(d).padStart(2, '0')}:${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+        // 2-Minute Breach Warning
+        if (distance < 120000) {
+            warningOverlay.style.opacity = "1";
+            warningOverlay.style.pointerEvents = "auto";
+        }
+    } else {
+        // UNLOCK STATE
+        if (!vaultUnlocked) {
+            vaultUnlocked = true;
+            // Immediate visual feedback of the "Decryption"
+            warningOverlay.style.background = "white";
+            warningOverlay.innerHTML = `<h2 class="text-black font-heading font-black text-4xl md:text-6xl uppercase tracking-tighter animate-bounce">ARCHIVE_DECRYPTED</h2>`;
+            
+            setTimeout(() => {
+                warningOverlay.style.opacity = "0";
+                warningOverlay.style.pointerEvents = "none";
+                timerContainer.classList.add('hidden');
+                shopWrapper.style.opacity = '1';
+                shopWrapper.style.pointerEvents = 'auto';
+                renderShop(); // Refresh products
+            }, 2500);
+        }
+    }
+}
+
+// Initial call and interval
+setInterval(updateVault, 1000);
+
+       document.addEventListener('DOMContentLoaded', () => {
+    const bar = document.getElementById('loader-bar');
+    const container = document.getElementById('loader-container');
+
+    // 1. Start the loading bar animation
+    setTimeout(() => {
+        if(bar) bar.style.width = '100%';
+    }, 100);
+
+    // 2. Wait for the bar to finish (2000ms) + buffer
+    setTimeout(() => {
+        if(container) {
+            container.style.opacity = '0';
+            container.style.transition = 'opacity 0.5s ease';
+        }
+        
+        // 3. Reveal the site
+        setTimeout(() => {
+            enterSite();
+        }, 500);
+    }, 2200); 
 });
     </script>
 </body>
