@@ -1,6 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KÖCE | CRIMSON LEVIATHAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #010103;
+            color: #fff;
+            overflow-x: hidden;
+            touch-action: pan-y;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        #your-website-root {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            min-height: 300vh;
+            background: transparent; 
+            pointer-events: none;
+        }
+
+        #your-website-root * {
+            pointer-events: auto;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 2px;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .scroll-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            opacity: 0.3;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanline"></div>
+    <div id="canvas-container"></div>
+    <div class="scroll-hint"></div>
+
+    <div id="your-website-root">
+
+       <!DOCTYPE html>
+<html lang="en">
+<head>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E143HD6QC6"></script>
 <script>
@@ -1310,5 +1394,367 @@ function closeModal() {
 
    
 
+</body>
+</html>
+        <div class="h-screen flex items-center justify-center p-6">
+            
+                
+            </div>
+
+    <script>
+        let scene, camera, renderer, objects = [], particles = [], starField, starFieldTwo;
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
+        let intersectedObj = null;
+        let isDragging = false;
+        let lastTime = performance.now();
+        
+        let boundsX, boundsY;
+        const KINETIC_SPEED = 0.046; 
+        const SHIP_Z = -1400; 
+        const STAR_Z = -1800; 
+        let currentShip = null;
+        let spawnTime = Date.now();
+
+        function updateBounds() {
+            const aspect = window.innerWidth / window.innerHeight;
+            const distance = 13; 
+            const vFov = camera.fov * Math.PI / 180;
+            boundsY = Math.tan(vFov / 2) * distance;
+            boundsX = boundsY * aspect;
+        }
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 35000);
+            camera.position.z = 18;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            const ambient = new THREE.AmbientLight(0xffffff, 0.95);
+            scene.add(ambient);
+            
+            const pointLight = new THREE.PointLight(0xffffff, 1.5);
+            pointLight.position.set(10, 10, 20);
+            scene.add(pointLight);
+
+            updateBounds();
+            createStars();
+            createFullShapeMatrix();
+            
+            // --- LEVIATHAN TIMER ---
+            setInterval(() => {
+                if (!currentShip && Math.random() > 0.3) {
+                    spawnCrimsonLeviathan();
+                }
+            }, 4000);
+
+            // Initial trigger
+            spawnCrimsonLeviathan();
+
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('mousedown', onPointerDown);
+            window.addEventListener('mousemove', onPointerMove);
+            window.addEventListener('mouseup', onPointerUp);
+
+            animate();
+        }
+
+        function createStars() {
+            const starGeo = new THREE.BufferGeometry();
+            const starPos = [];
+            for(let i=0; i<25000; i++) {
+                starPos.push((Math.random()-0.5)*25000, (Math.random()-0.5)*25000, (Math.random()-0.5)*15000 + STAR_Z);
+            }
+            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+            const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 2.0, transparent: true, opacity: 0.4 });
+            starField = new THREE.Points(starGeo, starMat);
+            scene.add(starField);
+
+            const starGeo2 = new THREE.BufferGeometry();
+            const starPos2 = [];
+            for(let i=0; i<8000; i++) {
+                starPos2.push((Math.random()-0.5)*15000, (Math.random()-0.5)*15000, (Math.random()-0.5)*8000 - 800);
+            }
+            starGeo2.setAttribute('position', new THREE.Float32BufferAttribute(starPos2, 3));
+            const starMat2 = new THREE.PointsMaterial({ color: 0xffffff, size: 3.5, transparent: true, opacity: 0.6 });
+            starFieldTwo = new THREE.Points(starGeo2, starMat2);
+            scene.add(starFieldTwo);
+        }
+
+        function createFullShapeMatrix() {
+            const geos = [
+                new THREE.TorusKnotGeometry(1, 0.4, 100, 16, 2, 3), 
+                new THREE.OctahedronGeometry(1.5, 0),               
+                new THREE.IcosahedronGeometry(1.2, 1),              
+                new THREE.BoxGeometry(1.8, 1.8, 1.8),
+                new THREE.TorusKnotGeometry(1.2, 0.2, 200, 20, 3, 7),
+                new THREE.DodecahedronGeometry(1.4, 0),             
+                new THREE.TorusKnotGeometry(1.5, 0.05, 300, 8, 5, 2)
+            ];
+
+            const colors = [0x9900ff, 0xffcc00, 0x00ffff, 0xffffff, 0xff0055, 0x00ffaa, 0x44ff00];
+
+            for (let i = 0; i < 20; i++) {
+                const geo = geos[i % geos.length];
+                const color = colors[i % colors.length];
+                const mat = new THREE.MeshPhongMaterial({
+                    color: color, wireframe: true, emissive: color,
+                    emissiveIntensity: 1.5, 
+                    transparent: true, opacity: 0.8 
+                });
+
+                const group = new THREE.Group();
+                const mesh = new THREE.Mesh(geo, mat);
+                group.add(mesh);
+
+                group.position.set(
+                    (Math.random() - 0.5) * boundsX * 2.5,
+                    (Math.random() - 0.5) * boundsY * 2.5,
+                    2
+                );
+
+                group.userData = {
+                    velocity: new THREE.Vector3((Math.random()-0.5)*KINETIC_SPEED, (Math.random()-0.5)*KINETIC_SPEED, 0),
+                    radius: 2.2, 
+                    rotSpeed: new THREE.Vector3(Math.random()*0.008, Math.random()*0.008, Math.random()*0.008),
+                    zOffset: Math.random() * Math.PI * 2,
+                    initialZ: 4
+                };
+
+                objects.push(group);
+                scene.add(group);
+            }
+        }
+
+        function spawnCrimsonLeviathan() {
+            const shipGroup = new THREE.Group();
+            const shipColors = [0xff0000, 0x110000, 0x330000, 0x990000, 0xff2222];
+            const hullWidth = 18000; 
+            const hullHeight = 800;
+            const hullDepth = 3000;
+
+            for(let i=0; i<1200; i++) {
+                const color = shipColors[Math.floor(Math.random() * shipColors.length)];
+                const isBright = Math.random() > 0.8;
+                const mat = new THREE.MeshPhongMaterial({
+                    color: color, 
+                    wireframe: Math.random() > 0.2, 
+                    emissive: color,
+                    emissiveIntensity: isBright ? 12.0 : 4.0, 
+                    transparent: true, 
+                    opacity: isBright ? 0.4 : 0.15
+                });
+
+                let geo;
+                const rng = Math.random();
+                if (rng > 0.4) {
+                    geo = new THREE.BoxGeometry(800 + Math.random()*1500, 200 + Math.random()*600, 800 + Math.random()*1500);
+                } else {
+                    geo = new THREE.TorusKnotGeometry(500 + Math.random()*700, 120, 160, 32);
+                }
+
+                const mod = new THREE.Mesh(geo, mat);
+                mod.position.set(
+                    (Math.random()-0.5)*hullWidth, 
+                    (Math.random()-0.5)*hullHeight*15, 
+                    (Math.random()-0.5)*hullDepth
+                );
+                mod.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+                shipGroup.add(mod);
+            }
+
+            const direction = Math.random() > 0.5 ? 1 : -1;
+            shipGroup.position.set(direction === 1 ? -45000 : 45000, (Math.random()-0.5)*4000, SHIP_Z);
+            shipGroup.userData = {
+                velocity: new THREE.Vector3((0.7 + Math.random()*0.5) * direction, 0, 0),
+                isShip: true,
+                pulseSpeed: 0.5 + Math.random() * 0.5
+            };
+
+            currentShip = shipGroup;
+            scene.add(shipGroup);
+            objects.push(shipGroup);
+        }
+
+        function createSparks(pos, color) {
+            if (Date.now() - spawnTime < 2000) return;
+            const particleCount = 6; 
+            const geo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for(let i=0; i<particleCount; i++) {
+                positions[i*3] = pos.x; positions[i*3+1] = pos.y; positions[i*3+2] = pos.z;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const mat = new THREE.PointsMaterial({ 
+                color: color, 
+                size: 0.08, 
+                transparent: true, 
+                opacity: 0.8, 
+                blending: THREE.AdditiveBlending 
+            });
+            const pSystem = new THREE.Points(geo, mat);
+            pSystem.userData = { 
+                vels: Array.from({length:particleCount}, () => new THREE.Vector3((Math.random()-0.5)*0.12, (Math.random()-0.5)*0.12, (Math.random()-0.5)*0.12)), 
+                life: 1.0 
+            };
+            particles.push(pSystem);
+            scene.add(pSystem);
+        }
+
+        function handlePhysics(delta) {
+            updateBounds();
+            const time = performance.now() * 0.001;
+            
+            for (let i = 0; i < objects.length; i++) {
+                const a = objects[i];
+
+                if (a.userData.isShip) {
+                    a.position.add(a.userData.velocity);
+                    const s = 1 + Math.sin(time * a.userData.pulseSpeed) * 0.08;
+                    a.scale.set(s, s, s);
+
+                    if (Math.abs(a.position.x) > 50000) {
+                        scene.remove(a);
+                        if (currentShip === a) currentShip = null;
+                        objects.splice(i, 1);
+                    }
+                    continue;
+                }
+
+                const zDrift = Math.sin(time * 0.3 + a.userData.zOffset) * 8; 
+                a.position.z = THREE.MathUtils.lerp(a.position.z, a.userData.initialZ + zDrift, 0.02);
+                
+                a.position.x += a.userData.velocity.x;
+                a.position.y += a.userData.velocity.y;
+
+                const hitMargin = 1.35;
+                if (a.position.x > boundsX - hitMargin) {
+                    a.position.x = boundsX - hitMargin;
+                    a.userData.velocity.x *= -0.985;
+                } else if (a.position.x < -boundsX + hitMargin) {
+                    a.position.x = -boundsX + hitMargin;
+                    a.userData.velocity.x *= -0.985;
+                }
+                
+                if (a.position.y > boundsY - hitMargin) {
+                    a.position.y = boundsY - hitMargin;
+                    a.userData.velocity.y *= -0.985;
+                } else if (a.position.y < -boundsY + hitMargin) {
+                    a.position.y = -boundsY + hitMargin;
+                    a.userData.velocity.y *= -0.985;
+                }
+
+                for (let j = i + 1; j < objects.length; j++) {
+                    const b = objects[j];
+                    if (b.userData.isShip) continue;
+                    const dist = a.position.distanceTo(b.position);
+                    const minDistance = a.userData.radius + b.userData.radius;
+                    if (dist < minDistance) {
+                        const normal = a.position.clone().sub(b.position).normalize();
+                        const relativeVelocity = a.userData.velocity.clone().sub(b.userData.velocity);
+                        const velocityAlongNormal = relativeVelocity.dot(normal);
+                        if (velocityAlongNormal < 0) {
+                            const restitution = 0.8; 
+                            const impulse = (-(1 + restitution) * velocityAlongNormal) / 2;
+                            const impulseVec = normal.multiplyScalar(impulse);
+                            a.userData.velocity.add(impulseVec);
+                            b.userData.velocity.sub(impulseVec);
+                            createSparks(a.position.clone().lerp(b.position, 0.5), 0xffffff);
+                        }
+                    }
+                }
+
+                const speed = a.userData.velocity.length();
+                if (speed > 0.07) a.userData.velocity.multiplyScalar(0.96);
+                if (speed < 0.012) a.userData.velocity.multiplyScalar(1.04);
+            }
+        }
+
+        function animate() {
+            const currentTime = performance.now();
+            const delta = (currentTime - lastTime) / 1000;
+            lastTime = currentTime;
+
+            requestAnimationFrame(animate);
+
+            if (starField) {
+                starField.rotation.y += 0.00003;
+                starField.material.opacity = 0.4 + Math.sin(currentTime * 0.003) * 0.25;
+            }
+            if (starFieldTwo) {
+                starFieldTwo.rotation.y -= 0.00005;
+                starFieldTwo.material.opacity = 0.6 + Math.sin(currentTime * 0.008) * 0.4;
+            }
+            
+            objects.forEach(obj => {
+                if(obj !== intersectedObj) {
+                    obj.rotation.x += obj.userData.rotSpeed?.x || 0.0008;
+                    obj.rotation.y += obj.userData.rotSpeed?.y || 0.0008;
+                }
+            });
+            
+            handlePhysics(delta);
+
+            for(let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                const posArr = p.geometry.attributes.position.array;
+                p.userData.life -= 0.015; 
+                p.material.opacity = p.userData.life;
+                for(let j=0; j<p.userData.vels.length; j++) {
+                    posArr[j*3] += p.userData.vels[j].x;
+                    posArr[j*3+1] += p.userData.vels[j].y;
+                    posArr[j*3+2] += p.userData.vels[j].z;
+                }
+                p.geometry.attributes.position.needsUpdate = true;
+                if(p.userData.life <= 0) { scene.remove(p); particles.splice(i, 1); }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function onPointerDown(e) {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(scene.children, true);
+            if (intersects.length > 0) {
+                let target = intersects.object;
+                while(target.parent && !objects.includes(target)) target = target.parent;
+                if (target && !target.userData.isShip) {
+                    intersectedObj = target;
+                    isDragging = true;
+                    intersectedObj.userData.velocity.set(0,0,0);
+                }
+            }
+        }
+
+        function onPointerMove(e) {
+            if (isDragging && intersectedObj) {
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
+                const dir = vector.sub(camera.position).normalize();
+                const dist = (camera.position.z - intersectedObj.position.z) / -dir.z;
+                const pos = camera.position.clone().add(dir.multiplyScalar(dist));
+                const prevPos = intersectedObj.position.clone();
+                intersectedObj.position.x = THREE.MathUtils.lerp(intersectedObj.position.x, pos.x, 0.15);
+                intersectedObj.position.y = THREE.MathUtils.lerp(intersectedObj.position.y, pos.y, 0.15);
+                intersectedObj.userData.velocity.set((intersectedObj.position.x - prevPos.x) * 0.3, (intersectedObj.position.y - prevPos.y) * 0.3, 0);
+            }
+        }
+
+        function onPointerUp() { isDragging = false; intersectedObj = null; }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.onload = init;
+    </script>
 </body>
 </html>
