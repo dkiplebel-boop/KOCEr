@@ -231,6 +231,26 @@
     -webkit-touch-callout: none;/* Prevents iOS long-press menu */
     -webkit-user-drag: none;    /* Prevents dragging image to a new tab */
 }
+      /* Black Gateway Theme */
+#gateway {
+    background-color: #000000 !important; /* Forces black background */
+}
+
+/* Ensure the logo is white during loading */
+#gateway .spinning-logo-img {
+    filter: invert(1); 
+}
+
+/* Update the loading bar for visibility on black */
+#loader-container {
+    background-color: rgba(255, 255, 255, 0.1); /* Dim track */
+}
+
+#loader-bar {
+    background-color: #FFFFFF; /* Pure white progress bar */
+}
+
+      
 </style>          
 </head>
 
@@ -239,14 +259,15 @@
     <canvas id="pixel-canvas"></canvas>
 
     <!-- LOADING GATEWAY -->
-    <div id="gateway">
-    <div class="logo-container mb-8">
-        <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img" alt="KÖCE">
+    <div id="gateway" class="fixed inset-0 z- flex flex-col items-center justify-center transition-opacity duration-1000 ease-heavy">
+    <div class="relative w-32 h-32 mb-12">
+        <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img w-full h-full object-contain" alt="KÖCE">
     </div>
-    <div id="loader-container" class="w-48 h-[2px] bg-gray-100 mt-4 overflow-hidden relative">
-        <div id="loader-bar" class="absolute top-0 left-0 h-full bg-black w-0 transition-all duration-[2000ms] ease-out"></div>
+
+    <div id="loader-container" class="w-48 h-[2px] mt-4 overflow-hidden relative">
+        <div id="loader-bar" class="absolute top-0 left-0 h-full w-0 transition-all duration-[2000ms] ease-out"></div>
     </div>
-    </div>
+</div>
 
    
 
@@ -576,7 +597,7 @@
             requestAnimationFrame(animate);
         }
 
-        function enterSite() {
+      function enterSite() {
     document.body.classList.remove('overflow-hidden');
     document.getElementById('gateway').classList.add('hidden');
     document.getElementById('main-nav').style.opacity = "1";
@@ -869,6 +890,7 @@ setInterval(updateVault, 1000);
         }, 500);
     }, 2200); 
 });
+      
     </script>
 </body>
 </html>
