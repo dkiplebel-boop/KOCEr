@@ -1,1760 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KÖCE | CRIMSON LEVIATHAN</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syncopate:wght@400;700&display=swap');
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #010103;
-            color: #fff;
-            overflow-x: hidden;
-            touch-action: pan-y;
-        }
-
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        #your-website-root {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            min-height: 300vh;
-            background: transparent; 
-            pointer-events: none;
-        }
-
-        #your-website-root * {
-            pointer-events: auto;
-        }
-
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
-            background-size: 100% 2px;
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0.1;
-        }
-
-        .scroll-hint {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.5em;
-            opacity: 0.3;
-            z-index: 1000;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="scanline"></div>
-    <div id="canvas-container"></div>
-    <div class="scroll-hint"></div>
-
-    <div id="your-website-root">
-
-       <!DOCTYPE html>
-<html lang="en">
-<head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-E143HD6QC6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-E143HD6QC6');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E143HD6QC6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E143HD6QC6');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KÖCE | STRUCTUTAL WEAR</title>
+    <title>KÖCE | STRUCTURAL WEAR</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     
    <style>
     :root {
-        /* Updated for 1A1A1B Background */
-        --bg: #1A1A1B; 
-        --text: #ffffff;
-         
+        --bg: #FFFFFF; 
+        --text: #000000;
+        --accent: #F5F5F7;
         --ease-heavy: cubic-bezier(0.9, 0, 0.1, 1);
         --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         --ios-blur: blur(20px);
-        
-        --vault-lock-display: none; 
-        --vault-blur: 0px;
-        --vault-opacity: 1;
-    }
-
-    /* Blurs the entire shop page content */
-    #shop.vault-active {
-        filter: blur(var(--vault-blur));
-        opacity: var(--vault-opacity);
-        pointer-events: none;
-    }
-
-    /* Specifically dims and locks the Bag button */
-    .cart-locked {
-        opacity: 0.2 !important;
-        pointer-events: none !important;
-        cursor: not-allowed;
-    }
-
-    /* Vault text styling */
-    #vault-overlay {
-        display: none; 
-        position: fixed; 
-        inset: 0; 
-        z-index: 1500;
-        pointer-events: none; 
-        align-items: center; 
-        justify-content: center; 
-        flex-direction: column;
-    }
-
-    #vault-countdown {
-        pointer-events: auto; 
     }
 
     body {
-        background-color: var(--bg); color: var(--text);
-        font-family: 'Inter', sans-serif; overflow-x: hidden;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
     }
 
     .font-heading { font-family: 'Space Grotesk', sans-serif; }
 
-    /* --- VORTEX TRANSITION SYSTEM --- */
-    #transition-grid {
-        position: fixed; inset: 0; display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        grid-template-rows: repeat(10, 1fr);
-        z-index: 5000; pointer-events: none;
+    /* --- SUCCESS TOAST --- */
+    #success-toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        background: #000000;
+        color: #ffffff;
+        padding: 12px 24px;
+        z-index: 10000;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        border-radius: 2px;
+        transition: transform 0.6s var(--ease-heavy);
+        pointer-events: none;
     }
-    .pixel-block {
-        background: #fff; transform: scale(0) rotate(-45deg);
-        transition: all 0.6s var(--ease-heavy);
-    }
-    #transition-grid.active .pixel-block {
-        transform: scale(1.1) rotate(0deg);
-    }
+    #success-toast.active { transform: translateX(-50%) translateY(0); }
 
-    /* --- GATEWAY SCREEN --- */
-    #gateway {
-        position: fixed; inset: 0; background: #000;
-        z-index: 9999; display: flex; align-items: center; justify-content: center;
-        transition: opacity 1s var(--ease-heavy);
-    }
-    #gateway.hidden { opacity: 0; pointer-events: none; }
-    
-    @keyframes glowPulse {
-        0% { text-shadow: 0 0 5px rgba(255,255,255,0.2); opacity: 0.6; }
-        50% { text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(255,255,255,0.4); opacity: 1; }
-        100% { text-shadow: 0 0 5px rgba(255,255,255,0.2); opacity: 0.6; }
-    }
-    .enter-trigger { animation: glowPulse 2s infinite ease-in-out; }
-
-    /* --- HERO ANIMATIONS --- */
-    @keyframes splitRevealLeft {
-        0% { transform: translateX(-60vw); opacity: 0; }
-        100% { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes splitRevealRight {
-        0% { transform: translateX(60vw); opacity: 0; }
-        100% { transform: translateX(0); opacity: 1; }
-    }
-    
-    .hero-split-left { animation: splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-    .hero-split-right { animation: splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards; opacity: 0; }
-    .hero-fade-up { transform: translateY(20px); opacity: 0; transition: all 1s var(--ease-out) 1.2s; }
-    .hero-fade-up.active { transform: translateY(0); opacity: 1; }
-
-    /* --- STATUS STYLING --- */
-    .status-badge {
-        position: absolute; top: 20px; right: 20px; z-index: 30;
-        background: #fff; color: #000; padding: 4px 12px;
-        font-size: 8px; font-weight: 900; text-transform: uppercase;
-        letter-spacing: 0.2em; border-radius: 4px;
-    }
-    
-    .coming-soon-blur {
-        filter: blur(25px) grayscale(1);
-        transform: scale(1.1);
-    }
-
-    .variant-oos {
-        opacity: 0.1 !important;
-        pointer-events: none !important;
-        filter: grayscale(1);
-        text-decoration: line-through;
-    }
-
-    /* COLORS */
-    .color-black { background: #000; }
-    .color-white { background: #fff; border: 1px solid #ddd; }
-    .color-marron { background: #800000; }
-    .color-purple { background: #6b21a8; }
-    .color-beige { background: #f5f5dc; }
-    .color-darkgreen { background: #064e3b; }
-    .color-navyblue { background: #1e3a8a; }
-    .color-pink { background: #f472b6; }
-    .color-lightblue { background: #bae6fd; }
-
-    /* --- PIXEL REVEAL --- */
-    .pixel-mask {
-        display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(8, 1fr);
-        position: absolute; inset: 0; z-index: 10; pointer-events: none;
-    }
-    .reveal-pixel {
-        background: #ffffff; transition: transform 0.6s var(--ease-heavy);
-    }
-    .revealed .reveal-pixel { transform: scale(0); }
-
-    .home-bg-accents {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        overflow: hidden; pointer-events: none; z-index: -1;
-    }
-    .accent-blur {
-        position: absolute; width: 80vw; height: 80vw; background: rgba(255,255,255,0.02);
-        filter: blur(150px); border-radius: 50%; animation: float 20s infinite alternate;
-    }
-    @keyframes float {
-        0% { transform: translate(-10%, -10%) scale(1); }
-        100% { transform: translate(10%, 10%) scale(1.2); }
+    /* --- PIXEL TRANSITION --- */
+    #pixel-canvas {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 9998;
+        pointer-events: none;
     }
 
     /* --- NAVIGATION --- */
-    nav { transition: all 0.5s var(--ease-out); z-index: 1000 !important; }
-    .scrolled .nav-pill {
-        background: rgba(26, 26, 27, 0.8); padding: 12px 28px;
-        border-radius: 40px; backdrop-filter: var(--ios-blur);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.4s var(--ease-out);
+        border-bottom: 1px solid rgba(0,0,0,0);
+        padding: 1.5rem 0;
+    }
+    nav.scrolled {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: var(--ios-blur);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 0.8rem 0;
+    }
+    .nav-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
-    .product-item, .reveal-on-scroll { opacity: 0; transform: translateY(40px); transition: all 1s var(--ease-out); }
-    .product-item.revealed, .reveal-on-scroll.revealed { opacity: 1; transform: translateY(0); }
+    .logo-container {
+        perspective: 1000px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .spinning-logo-img {
+        width: 100%; height: 100%; object-fit: contain;
+        animation: rotate3D 8s infinite linear; transform-style: preserve-3d;
+        filter: invert(1);
+    }
+    @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+
+    /* --- GATEWAY --- */
+    #gateway {
+        position: fixed; inset: 0; background: #FFFFFF; z-index: 9999;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        transition: opacity 1.5s var(--ease-heavy);
+    }
+    #gateway.hidden { opacity: 0; pointer-events: none; }
+    .enter-trigger { letter-spacing: 1.5em; animation: pulse 3s infinite; font-weight: 300; font-size: 10px; color: black; }
+    @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+    /* --- PRODUCT CARDS --- */
+    .product-card { cursor: pointer; transition: all 0.6s var(--ease-out); position: relative; }
+    .img-container { background: #F9F9F9; overflow: hidden; position: relative; border-radius: 4px; border: 1px solid #f0f0f0; }
+    .img-container img { transition: transform 1.2s var(--ease-out); width: 100%; height: 100%; object-fit: cover; }
+    .product-card:hover .img-container img { transform: scale(1.05); }
     
-    .img-container { 
-        background: #252526; 
-        overflow: hidden; 
-        position: relative; 
-        transition: transform 0.6s var(--ease-out); 
+    .view-label {
+        position: absolute; bottom: 12px; left: 12px;
+        z-index: 20; font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
+        text-transform: uppercase; background: white; color: black;
+        padding: 6px 10px; opacity: 1; /* Always visible */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .product-item:hover .img-container { transform: translateY(-8px); }
 
-    .color-opt {
-        width: 22px; height: 22px; border-radius: 50%; cursor: pointer; transition: 0.4s var(--ease-out);
+    .status-label {
+        position: absolute; top: 12px; left: 12px;
+        z-index: 20; font-size: 7px; font-weight: 900; letter-spacing: 0.2em;
+        text-transform: uppercase; background: black; color: white;
+        padding: 4px 8px;
     }
-    .color-opt.selected { transform: scale(1.4); outline: 2px solid #fff; outline-offset: 4px; }
-    
-    .size-btn {
-        background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 8px 16px; font-size: 11px; font-weight: 900; border-radius: 6px;
-        transition: all 0.3s var(--ease-out);
-        color: #fff;
-    }
-    .size-btn.selected { background: #fff; color: #1A1A1B; }
 
-    /* --- BAG SIDEBAR --- */
+    /* Blur for coming soon items */
+    .blur-preview {
+        filter: blur(15px) grayscale(100%);
+        transform: scale(1.1);
+    }
+
+    /* --- PRODUCT FULL VIEW --- */
+    #product-full-view {
+        position: fixed; inset: 0; background: #FFFFFF; z-index: 5000;
+        display: none; flex-direction: column; overflow-y: auto;
+        opacity: 0; transition: opacity 0.5s var(--ease-out);
+    }
+    #product-full-view.active { display: flex; opacity: 1; }
+
+    /* --- CART SIDEBAR --- */
     #cart-sidebar {
-        position: fixed; right: -100%; top: 0; width: 100%; max-width: 420px;
-        height: 100vh; background: #1A1A1B; z-index: 2100;
-        transition: right 0.8s var(--ease-heavy); padding: 0;
-        display: flex; flex-direction: column;
-        border-left: 1px solid rgba(255, 255, 255, 0.05);
+        position: fixed; right: -100%; top: 0; width: 100%; max-width: 400px;
+        height: 100vh; background: #FFFFFF; z-index: 2100;
+        transition: right 0.6s var(--ease-heavy); display: flex; flex-direction: column;
+        border-left: 1px solid rgba(0,0,0,0.05);
+        box-shadow: -20px 0 50px rgba(0,0,0,0.02);
     }
     #cart-sidebar.open { right: 0; }
-    .bag-header { padding: 40px 30px 20px; flex-shrink: 0; }
-    .bag-items { flex-grow: 1; overflow-y: auto; padding: 0 30px; }
-    .bag-footer { 
-        padding: 20px 30px 40px; 
-        background: #1A1A1B; 
-        border-top: 1px solid rgba(255, 255, 255, 0.05); 
-    }
 
-    /* --- CHECKOUT MODAL --- */
-    #checkout-modal {
-        position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
-        z-index: 3000; display: none; align-items: center; justify-content: center;
-    }
-    #checkout-modal.active { display: flex; opacity: 1; }
-    #checkout-modal .bg-white {
-        background-color: #252526 !important;
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    /* --- TICKER --- */
+    .ticker-container { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 10px 0; }
+    .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; font-size: 8px; font-weight: 800; letter-spacing: 0.4em; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    input, select, textarea {
-        background-color: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
+    /* --- CHECKOUT OVERLAY --- */
+    #checkout-overlay {
+        position: fixed; inset: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px);
+        z-index: 6000; display: none; overflow-y: auto;
     }
+    #checkout-overlay.active { display: block; }
+    
+    .checkout-field {
+        background: #F9F9F9;
+        border: 1px solid #EEEEEE;
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .checkout-field:focus { outline: none; border-color: #000; background: #FFF; }
 
-    .page { width: 100%; }
+    .color-opt { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
+    .color-opt.selected { outline: 1px solid #000; outline-offset: 3px; }
 
-    /* TICKER */
-    .ticker-container {
-        width: 100%; overflow: hidden; background: #fff; color: #000;
-        padding: 10px 0; white-space: nowrap;
-    }
-    .ticker-content {
-        display: inline-block; animation: ticker 30s linear infinite;
-        font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5em;
-    }
-    @keyframes ticker {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
+    .bg-black-opt { background: #000; }
+    .bg-white-opt { background: #fff; border: 1px solid #ddd; }
+    .bg-marron-opt { background: #800000; }
+    .bg-navy-opt { background: #1e3a8a; }
+    .bg-beige-opt { background: #EEDC82; }
+    .bg-pink-opt { background: #f472b6; }
+    .bg-lightblue-opt { background: #bae6fd; }
+    .bg-purple-opt { background: #6b21a8; }
 
-    /* GHOST IMAGE ANIMATION */
-    .ghost-img {
-        position: fixed; z-index: 9999; pointer-events: none;
-        width: 80px; height: 110px; border-radius: 12px;
-        object-fit: cover; opacity: 0.8;
-        transition: all 0.8s var(--ease-heavy);
-    }
-
-    /* INDICATOR ANIMATION */
-    @keyframes bounceDown {
-        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-        40% { transform: translateY(-10px); }
-        60% { transform: translateY(-5px); }
-    }
-    .scroll-indicator {
-        animation: bounceDown 2s infinite;
-    }
-
-    /* --- GLOBAL WATERMARK --- */
-    .global-watermark {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(-15deg);
-        font-family: 'Space Grotesk', sans-serif;
-        font-weight: 900;
-        font-size: 40vw;
-        color: rgba(255, 255, 255, 0.02);
-        letter-spacing: -0.05em;
-        pointer-events: none;
-        z-index: -1;
-        white-space: nowrap;
-        user-select: none;
-    }
-
-    .no-scroll {
-        overflow: hidden !important;
-        height: 100vh;
-    }
-
-    #scroll-progress {
-        background: #ffffff;
-    }
-
-            /* --- CART/BAG ITEM VISIBILITY --- */
-
-/* --- DARK BAG ITEM STYLING --- */
-.bag-item-card {
-    background: #252526 !important; /* Slightly lighter than the sidebar bg */
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    padding: 20px;
-    border-radius: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.3s ease;
+      .reveal-on-scroll {
+    transition: all 1.0s var(--ease-out);
 }
-
-.bag-item-info h4 {
-    color: #ffffff !important;
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-}
-
-.bag-item-meta {
-    color: rgba(255, 255, 255, 0.4) !important;
-    font-size: 9px;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
-
-/* Close/Drop Button */
-.drop-btn {
-    color: #ff4444 !important;
-    font-size: 9px;
-    font-weight: 900;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: rgba(255, 68, 68, 0.1);
-    transition: all 0.2s ease;
-}
-
-.drop-btn:hover {
-    background: #ff4444;
-    color: white !important;
-}
-
-       /* --- BACK TO TOP ARROW --- */
-#back-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 2000;
+.reveal-hidden {
     opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.5s var(--ease-out);
-    cursor: pointer;
+    transform: translateY(30px);
 }
-
-#back-to-top.visible {
+.reveal-visible {
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
 }
-
-.top-arrow-pill {
-    background: rgba(26, 26, 27, 0.8);
-    padding: 15px;
-    border-radius: 50%;
-    backdrop-filter: var(--ios-blur);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.top-arrow-pill svg {
-    width: 18px;
-    height: 18px;
-    stroke: white;
-    transition: transform 0.3s ease;
-}
-
-#back-to-top:hover .top-arrow-pill svg {
-    transform: translateY(-3px);
-}
-
-       /* FORCE DARK BACKGROUND & WHITE TEXT */
-input, select, textarea {
-    background-color: #1A1A1B !important; /* Matches your site's deep dark bg */
-    color: #FFFFFF !important;            /* Forces text to be white */
-    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Visible white border */
-    padding: 12px 16px;
-    border-radius: 8px;
-    appearance: none;                     /* Removes default browser styling */
-    -webkit-appearance: none;
-}
-
-/* FIX FOR DROPDOWN OPTIONS */
-/* This prevents the "White on White" issue in the list */
-select option {
-    background-color: #1A1A1B !important;
-    color: #FFFFFF !important;
-}
-
-/* INPUT PLACEHOLDER VISIBILITY */
-input::placeholder, textarea::placeholder {
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-/* ACTIVE STATE */
-input:focus, select:focus, textarea:focus {
-    border-color: #FFFFFF !important;
-    outline: none;
-    background-color: #252526 !important; /* Slightly lighter when typing */
-}
 </style>          
-    
 </head>
 
-    
-    
-<body class="no-scroll">
+<body class="overflow-hidden">
+    <div id="success-toast">Artifact Synced</div>
+    <canvas id="pixel-canvas"></canvas>
 
-    <div class="global-watermark">KÖCE</div>
-
-    <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-black z- w-0"></div>
-    <div id="transition-grid"></div>
-
+    <!-- LOADING GATEWAY -->
     <div id="gateway">
-        <button class="enter-trigger text-white uppercase font-black tracking-[1em] text-[10px]" onclick="enterSite()">Enter</button>
+        <div class="logo-container mb-8">
+            <img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img" alt="KOCE">
+        </div>
+        <button class="enter-trigger uppercase" onclick="enterSite()">ACCESS ARCHIVE</button>
     </div>
 
-    <div id="vault-overlay">
-    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mb-5">TBD unofficial countdown</span>
-    <div id="vault-countdown" class="font-heading font-black text-[8vw] tracking-tighter">00:00:00:00</div>
-    <span class="font-black uppercase tracking-[0.8em] text-[10px] opacity-40 mt-5">Dropping later this year</span>
-</div>
-
-    <nav id="main-nav" class="fixed top-0 w-full p-8 md:p-10 flex justify-between items-center opacity-0">
-        <div onclick="navigate('home')" class="cursor-pointer">
-            <div class="nav-pill text-xl font-light tracking-[0.6em] font-heading">KÖCE</div>
+    <!-- NAVIGATION -->
+    <nav id="main-nav" class="opacity-0">
+        <div class="nav-container">
+            <div class="flex-1">
+                <button onclick="triggerTransition('home')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">Home</button>
+            </div>
+            <div class="logo-container">
+                <img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img" alt="KOCE">
+            </div>
+            <div class="flex-1 flex justify-end items-center gap-6">
+                <button onclick="triggerTransition('shop')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">Archive</button>
+                <button onclick="toggleCart()" class="relative pt-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <div id="cart-count-badge" class="absolute -top-1 -right-2 bg-black text-white text-[7px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
+                </button>
+            </div>
         </div>
-        <button onclick="toggleCart()" id="cart-btn-trigger">
-            <div class="nav-pill text-[10px] font-black uppercase tracking-[0.4em]">BAG [<span id="cart-count">0</span>]</div>
-        </button>
     </nav>
 
-    <!-- BAG SIDEBAR -->
-    <div id="cart-sidebar">
-        <div class="bag-header flex justify-between items-center">
-            <h2 class="font-heading font-bold text-2xl uppercase tracking-tighter">Current Bag</h2>
-            <button onclick="toggleCart()" class="w-10 h-10 border border-black/5 rounded-full flex items-center justify-center">X</button>
+    <!-- PRODUCT FULL VIEW -->
+    <div id="product-full-view">
+        <div class="p-6 flex justify-between items-center border-b border-gray-50">
+            <button onclick="closeProductView()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg></button>
+            <span class="text-[8px] font-black uppercase tracking-[0.5em] opacity-40">Artifact Specification</span>
+            <button onclick="closeProductView()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
         </div>
-        <div id="cart-list" class="bag-items space-y-4"></div>
-        <div class="bag-footer">
-            <div class="flex justify-between items-end mb-6">
-                <span class="text-[9px] font-black uppercase tracking-widest opacity-40">Total</span>
-                <div id="cart-total" class="text-3xl font-heading font-black tracking-tighter">KSh 0</div>
+        <div class="flex-grow grid grid-cols-1 lg:grid-cols-2">
+            <div class="bg-[#F9F9F9] flex items-center justify-center p-8">
+                <img id="full-view-img" src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="max-h-[70vh] w-auto object-contain">
             </div>
-            <button onclick="initiateCheckout()" class="w-full py-6 bg-black text-white font-black uppercase text-[10px] tracking-[0.4em] rounded-2xl shadow-2xl shadow-black/10 transition-transform active:scale-95">Checkout</button>
+            <div class="p-8 lg:p-24 flex flex-col justify-center space-y-12 bg-white">
+                <div class="space-y-4">
+                    <h2 id="full-view-name" class="font-heading font-bold text-6xl lg:text-8xl uppercase tracking-tighter">Artifact</h2>
+                    <div id="full-view-price" class="text-xl font-heading font-medium opacity-40 italic">KSh 0</div>
+                </div>
+                <div class="space-y-10">
+                    <div class="space-y-4">
+                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Chromatic Profile</p>
+                        <div id="full-view-colors" class="flex gap-5"></div>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Dimensional Grade</p>
+                        <div id="full-view-sizes" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+                <button id="full-view-add-btn" class="w-full py-5 bg-black text-white font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all rounded-md">Add to Inventory</button>
+            </div>
         </div>
     </div>
 
-    <!-- PAGE: HOME -->
-    <div id="home" class="page min-h-screen relative flex flex-col items-center overflow-x-hidden">
-        <div class="home-bg-accents">
-            <div class="accent-blur" style="top: -10%; left: -10%;"></div>
-            <div class="accent-blur" style="bottom: -10%; right: -10%; animation-delay: -5s; background: rgba(0,0,0,0.01);"></div>
+    <!-- CART SIDEBAR -->
+    <div id="cart-sidebar">
+        <div class="p-8 flex justify-between items-center border-b border-gray-100">
+            <h2 class="font-heading font-bold text-xl uppercase tracking-tighter">Inventory</h2>
+            <button onclick="toggleCart()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
         </div>
-        
-        <!-- JOINED SPLIT HERO -->
-        <div class="h-screen w-full flex flex-col items-center justify-center relative">
-            <div class="flex items-center justify-center w-full z-10 mb-2">
-                <div class="flex items-center">
-                    <div class="hero-split-left">
-                        <h1 class="font-black text-[25vw] md:text-[20vw] font-heading leading-none tracking-tighter">KÖ</h1>
-                    </div>
-                    <div class="hero-split-right">
-                        <h1 class="font-black text-[25vw] md:text-[20vw] font-heading leading-none tracking-tighter">CE</h1>
-                    </div>
-                </div>
+        <div id="cart-list" class="flex-grow overflow-y-auto p-8 space-y-4"></div>
+        <div class="p-8 border-t border-gray-100 space-y-4">
+            <div class="flex justify-between items-end"><span class="text-[9px] font-black uppercase tracking-widest opacity-40">Subtotal</span><div id="cart-total" class="text-2xl font-heading font-bold tracking-tighter">KSh 0</div></div>
+            <button onclick="openCheckout()" class="w-full py-5 bg-black text-white font-black uppercase text-[9px] tracking-[0.3em] hover:bg-zinc-800 transition-colors rounded-md">Begin Checkout</button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT INTEGRATED OVERLAY -->
+    <div id="checkout-overlay">
+        <div class="max-w-xl mx-auto min-h-screen py-24 px-8">
+            <div class="flex justify-between items-center mb-16">
+                <button onclick="closeCheckout()" class="text-[9px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-all">← Back to Shop</button>
+                <div class="logo-container w-8 h-8"><img src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="spinning-logo-img opacity-20" alt="KOCE"></div>
             </div>
 
-            <div id="hero-meta" class="hero-fade-up z-10 text-center flex flex-col items-center gap-4">
-                <div class="flex items-center gap-6">
-                    <span class="text-[8px] font-black uppercase tracking-[0.5em] text-white/30">{KO}</span>
-                    
-                    <span class="text-[8px] font-black uppercase tracking-[0.5em] text-white/30">{shey}</span>
+            <!-- PHASE 1: SHIPPING -->
+            <div id="phase-shipping" class="space-y-12">
+                <div class="space-y-2">
+                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Checkout</h3>
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-30">Shipping & Logistics</p>
                 </div>
                 
-                <h2 class="text-[10px] md:text-[12px] uppercase font-medium tracking-[1em] text-white/80">Structural Wear</h2>
-                
-                <button onclick="navigate('shop')" class="mt-4 px-20 py-6 border border-white text-white font-black uppercase text-[10px] tracking-[0.4em] rounded-full hover:bg-white hover:text-black transition-all transform hover:scale-110 active:scale-95">
-                    Enter ARCHIVE
+                <div class="space-y-4">
+                    <input type="text" id="cust-name" placeholder="Full Name / Recipient" class="checkout-field">
+                    <input type="tel" id="cust-phone" placeholder="Contact Phone" class="checkout-field">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <select id="cust-region" onchange="toggleCityView()" class="checkout-field appearance-none">
+                            <option value="NAIROBI">Nairobi Hub</option>
+                            <option value="OUTSIDE_NAIROBI">Outside Nairobi</option>
+                        </select>
+                        <select id="cust-nairobi-area" class="checkout-field appearance-none">
+                            <option value="LAVINGTON">Lavington</option>
+                            <option value="KAREN">Karen</option>
+                            <option value="WESTLANDS">Westlands</option>
+                            <option value="KILIMANI">Kilimani</option>
+                            <option value="KILELESHWA">Kileleshwa</option>
+                            <option value="RUNDA">Runda</option>
+                            <option value="MUTHAIGA">Muthaiga</option>
+                            <option value="UPPERHILL">Upperhill</option>
+                            <option value="GIGIRI">Gigiri</option>
+                            <option value="CBD">CBD (Town)</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                        <select id="cust-city-select" class="checkout-field appearance-none hidden">
+                            <option value="NAKURU">Nakuru</option>
+                            <option value="MOMBASA">Mombasa</option>
+                            <option value="KISUMU">Kisumu</option>
+                            <option value="ELDORET">Eldoret</option>
+                        </select>
+                    </div>
+
+                    <textarea id="cust-location" placeholder="Specific Location Details / Apartment" class="checkout-field h-32 resize-none pt-4"></textarea>
+                </div>
+
+                <p id="form-error" class="text-[9px] text-red-500 font-bold uppercase tracking-widest hidden">Required Fields Missing</p>
+
+                <button onclick="generateOrderHash()" class="w-full py-5 bg-black text-white rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
+                    Generate Order Summary
                 </button>
             </div>
 
-            <!-- Scroll Indicator - Lowered to avoid overlap -->
-            <div id="scroll-indicator" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 transition-opacity duration-1000">
-                <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll Down</span>
-                <div class="w-[1px] h-8 bg-gradient-to-b from-black/20 to-transparent"></div>
-            </div>
-        </div>
-
-        <!-- TICKER STRIP -->
-        <div class="ticker-container">
-            <div class="ticker-content">
-                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS  //  
-                &nbsp; STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //   
-            </div>
-        </div>
-
-        <!-- CONTENT LAYOUT -->
-        <div class="max-w-6xl w-full px-10 py-60">
-            <!-- Philosophy Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-20 lg:gap-20 items-end mb-80">
-                <div class="lg:col-span-7 reveal-on-scroll">
-                    <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-10">CORE_LOGIC</span>
-                    <h3 class="font-heading font-bold text-6xl md:text-8xl tracking-tighter uppercase leading-[0.85] mb-12">Suppressing noise.</h3>
-                    
-                       <b><h4>  I. THE CORE PROBLEM: VISUAL NOISE & FABRIC DECAY</h4></b>
-                        <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-Modern fashion is currently in a state of chaos. We call this "Visual Noise." It is the constant bombardment of loud, meaningless graphics and "hype" that expires within weeks. This noise creates a cycle of Fast-Fashion Fatigue, where clothes aren’t designed to last—physically or aesthetically. Most apparel loses its silhouette after a few washes and its relevance before the season is even over. </p>
-                    <br>
-
-   <b><h4> II. THE SOLUTION: NOISE SUPPRESSION & UNIVERSAL DESIGN</h4></b>
-    <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-KÖCE functions as a Noise Suppression System. We strip away the unnecessary until only the "Signal" remains. Our pieces solve the issue of garment longevity through Structural Engineering.
-
-                    </p>
+            <!-- PHASE 2: SUMMARY -->
+            <div id="phase-summary" class="hidden space-y-12">
+                <div class="space-y-2">
+                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Review</h3>
+                    <p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-30">Artifact Validation</p>
                 </div>
-                <div class="lg:col-span-5 reveal-on-scroll" style="transition-delay: 200ms;">
-                    <div class="border-l-4 border-black pl-8 py-4">
-                        <h4 class="text-[10px] font-black tracking-widest mb-6 opacity-40 uppercase">ENGINEERING SPECS</h4>
-                        <ul class="space-y-4 text-[11px] uppercase tracking-widest font-bold opacity-60">
-                            <li>- 100% Pure cotton</li>
-                            <li>- Geometrical Load Balancing</li>
-                            <li>- Multi-Seasonal Resilience</li>
-                            
-                        </ul>
+                
+                <div id="order-hash-container" class="bg-gray-50 p-8 rounded-xl font-mono text-[10px] whitespace-pre-wrap leading-relaxed border border-gray-100"></div>
+                
+                <div class="space-y-4">
+                    <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-black text-white rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
+                        Validate & Copy
+                    </button>
+                    <button onclick="backToShipping()" class="w-full text-[9px] font-black uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-colors">Modify Details</button>
+                </div>
+            </div>
+
+            <!-- PHASE 3: FINAL INSTRUCTIONS -->
+            <div id="phase-final" class="hidden text-center space-y-12 py-10">
+                <div class="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto text-3xl">✓</div>
+                <div class="space-y-4">
+                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Order Prepared</h3>
+                    <p class="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 leading-relaxed max-w-xs mx-auto">Your order data has been copied. Finalize the transaction via Instagram.</p>
+                </div>
+                
+                <div class="text-left space-y-6 bg-gray-50 p-8 rounded-xl">
+                    <div class="flex gap-4">
+                        <span class="text-xs font-black opacity-10">01</span>
+                        <p class="text-[9px] font-bold uppercase tracking-widest">Open Instagram DM to @kocestructuralwear</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-xs font-black opacity-10">02</span>
+                        <p class="text-[9px] font-bold uppercase tracking-widest">Paste the copied order summary</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-xs font-black opacity-10">03</span>
+                        <p class="text-[9px] font-bold uppercase tracking-widest"> Wait for confirmation & to receive M-PESA details for payment</p>
                     </div>
                 </div>
+
+                <button onclick="window.location.reload()" class="w-full py-5 border border-black text-black rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-black hover:text-white transition-all">
+                    Dismiss
+                </button>
             </div>
+        </div>
+    </div>
 
-            <!-- Full Width Statement -->
-            <div class="w-full h-[60vh] bg-[#000000] rounded-[40px] mb-80 flex flex-col items-center justify-center text-center p-10 reveal-on-scroll overflow-hidden relative">
-                <div class="absolute inset-0 opacity-[0.03] pointer-events-none select-none overflow-hidden flex flex-col justify-center">
-                    <span class="text-[30vw] font-black leading-none uppercase">KÖCE</span>
-                </div>
-                <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-12">THE_MISSION</span>
-                <p class="font-heading font-black text-2xl md:text-4xl tracking-tight leading-snug max-w-3xl z-10">
+    <!-- HOME PAGE -->
+    <div id="home" class="page min-h-screen">
+    <section class="h-[95vh] w-full flex flex-col items-center justify-center text-center px-6 relative">
+        <h1 class="text-[20vw] md:text-[14vw] font-heading font-bold tracking-[-0.08em] leading-none mb-4">KÖCE</h1>
+        <div class="flex flex-col items-center gap-6">
+            <p class="text-[9px] md:text-[11px] uppercase tracking-[0.8em] opacity-30 font-black">Structural Wear / Nairobi Collective</p>
+            <button onclick="triggerTransition('shop')" class="px-12 py-4 border border-black hover:bg-black hover:text-white text-[9px] font-black tracking-[0.4em] uppercase transition-all rounded-full">Explore Archive</button>
+        </div>
 
-                    "To engineer minimalist apparel that prioritizes structural form and timeless utility over fleeting trends."
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll Down</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-black to-transparent"></div>
+        </div>
+    </section>
 
+    <div class="ticker-container">
+        <div class="ticker-content">
+            STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //  
+            STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //   
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-10 py-60 text-black">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-20 lg:gap-20 items-end mb-80 reveal-on-scroll reveal-hidden">
+            <div class="lg:col-span-7">
+                <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-10">CORE_LOGIC</span>
+                <h3 class="font-heading font-bold text-6xl md:text-8xl tracking-tighter uppercase leading-[0.85] mb-12">Suppressing noise.</h3>
+                
+                <h4 class="font-bold text-[11px] uppercase tracking-widest mb-4">I. THE CORE PROBLEM: VISUAL NOISE & FABRIC DECAY</h4>
+                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
+                    Modern fashion is currently in a state of chaos. We call this "Visual Noise." It is the constant bombardment of loud, meaningless graphics and "hype" that expires within weeks. This noise creates a cycle of Fast-Fashion Fatigue, where clothes aren’t designed to last—physically or aesthetically.
+                </p>
+                <br>
+                <h4 class="font-bold text-[11px] uppercase tracking-widest mb-4">II. THE SOLUTION: NOISE SUPPRESSION & UNIVERSAL DESIGN</h4>
+                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
+                    KÖCE functions as a Noise Suppression System. We strip away the unnecessary until only the "Signal" remains. Our pieces solve the issue of garment longevity through Structural Engineering.
                 </p>
             </div>
-
-            <!-- Founders Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-60">
-                <div class="bg-black text-white p-12 rounded-[32px] reveal-on-scroll">
-                     <span class="text-[8px] font-black uppercase tracking-[0.5em] opacity-40 block mb-10">ASSEMBLY_DIRECTOR</span>
-                     <p class="text-xl italic font-light leading-relaxed mb-12">
-                        "Permanence is the ultimate luxury. In a world of fast-fashion, we build things that refuse to die."
-                     </p>
-                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-[1px] bg-white/20"></div>
-                        <span class="text-[10px] font-black tracking-widest uppercase">Founder: Darren Chemoiwa</span>
-                     </div>
-                </div>
-                <div class="border border-black/5 p-12 rounded-[32px] flex flex-col justify-center reveal-on-scroll" style="transition-delay: 200ms;">
-                    <h5 class="font-heading font-bold text-3xl uppercase tracking-tighter mb-6">Origin.</h5>
-                    <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-                        Rooted in the industrial pulse of Kenya (NRU-NRB). Designed for the global citizen who appreciates the raw, the real, and the refined.
-                    </p>
+            <div class="lg:col-span-5">
+                <div class="border-l-4 border-black pl-8 py-4">
+                    <h4 class="text-[10px] font-black tracking-widest mb-6 opacity-40 uppercase">ENGINEERING SPECS</h4>
+                    <ul class="space-y-4 text-[11px] uppercase tracking-widest font-bold opacity-60">
+                        <li>- 100% Pure cotton</li>
+                        <li>- Geometrical Load Balancing</li>
+                        <li>- Multi-Seasonal Resilience</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- PAGE: SHOP -->
-    <div id="shop" class="page" style="display:none">
-        <header class="h-screen flex flex-col justify-center items-center px-10 text-center relative">
-            <h3 class="text-[10vw] font-heading font-black uppercase tracking-tighter">THE ARCHIVE</h3>
-            <span class="text-[10px] font-black uppercase tracking-[0.5em] opacity-40 mt-4">
-            
-        </span>
-            <div id="shop-scroll-indicator" class="flex flex-col items-center gap-2 mt-12 pointer-events-none transition-opacity duration-1000">
-                <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll</span>
-                <svg class="scroll-indicator w-4 h-4 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
-                </svg>
+        <div class="w-full h-[60vh] bg-black text-white rounded-[40px] mb-80 flex flex-col items-center justify-center text-center p-10 reveal-on-scroll reveal-hidden overflow-hidden relative">
+            <div class="absolute inset-0 opacity-[0.05] pointer-events-none select-none flex flex-col justify-center">
+                <span class="text-[30vw] font-black leading-none uppercase">KÖCE</span>
             </div>
-        </header>
-        <main class="container mx-auto px-10 pb-60">
-           <div id="shop-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-x-4 md:gap-x-12 gap-y-20 md:gap-y-48"></div>
-        </main>
-    </div>
-
-    
-<div id="checkout-modal" onclick="closeModal()">
-    <div class="bg-white w-[90%] max-w-[500px] p-10 rounded-[32px] text-center shadow-2xl" onclick="event.stopPropagation()">
-        
-        <div id="phase-shipping">
-            <h3 class="font-heading font-black text-2xl uppercase mb-2">Shipping Details</h3>
-            <p class="text-[10px] text-black/40 tracking-widest uppercase mb-8">Enter your delivery information</p>
-            
-            <div class="flex flex-col gap-4 mb-6">
-                <input type="text" id="cust-name" placeholder="PACKAGE NAME (RECIPIENT)" 
-                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 transition-all">
-                
-                <input type="tel" id="cust-phone" placeholder="PHONE NUMBER" 
-                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 transition-all">
-                
-                 <div class="relative group">
-            <span class="absolute top-2 left-6 text-[6px] font-black uppercase tracking-[0.3em] opacity-20 pointer-events-none">Network Hub</span>
-            <select id="cust-region" onchange="toggleCityView()" class="w-full px-6 pt-6 pb-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white appearance-none">
-                <option value="NAIROBI">REGION: NAIROBI</option>
-            </select>
-            <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none opacity-40">
-                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
+            <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-12">THE_MISSION</span>
+            <p class="font-heading font-black text-2xl md:text-4xl tracking-tight leading-snug max-w-3xl z-10">
+                "To engineer minimalist apparel that prioritizes structural form and timeless utility over fleeting trends."
+            </p>
         </div>
 
-        <!-- Nairobi Wrapper -->
-        <div id="nairobi-neighborhoods-container" class="relative group">
-            <span class="absolute top-2 left-6 text-[6px] font-black uppercase tracking-[0.3em] opacity-20 pointer-events-none">Powered by KÖCE</span>
-            <select id="cust-nairobi-area" class="w-full px-6 pt-6 pb-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white appearance-none">
-                <option value="LAVINGTON">LAVINGTON</option>
-                <option value="KAREN">KAREN</option>
-                <option value="WESTLANDS">WESTLANDS</option>
-                <option value="KILIMANI">KILIMANI</option>
-                <option value="KILELESHWA">KILELESHWA</option>
-                <option value="HURLINGHAM">HURLINGHAM</option>
-                <option value="RUNDA">RUNDA</option>
-                <option value="MUTHAIGA">MUTHAIGA</option>
-               <option value="OTHER">UPPERHILL</option>
-                <option value="GIGIRI">GIGIRI</option>
-                <option value="PARKLANDS">PARKLANDS</option>
-                <option value="SOUTH C">SOUTH C</option>
-                <option value="SOUTH B">SOUTH B</option>
-                <option value="LANGATA">LANGATA</option>
-                <option value="MADARAKA">MADARAKA</option>
-                <option value="MBAGATHI">MBAGATHI / AREA 4</option>
-                <option value="NGONG ROAD">NGONG ROAD</option>
-                <option value="KASARANI">KASARANI</option>
-                <option value="ROYSAMBU">ROYSAMBU</option>
-                <option value="EMBAKASI">EMBAKASI</option>
-                <option value="SYOKIMAU">SYOKIMAU / JKIA</option>
-                <option value="CBD">CBD (TOWN)</option>
-                <option value="OTHER">OTHER (SPECIFY BELOW)</option>
-            </select>
-            <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none opacity-40">
-                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-40">
+            <div class="bg-black text-white p-12 rounded-[32px] reveal-on-scroll reveal-hidden">
+                 <span class="text-[8px] font-black uppercase tracking-[0.5em] opacity-40 block mb-10">ASSEMBLY_DIRECTOR</span>
+                 <p class="text-xl italic font-light leading-relaxed mb-12">
+                    "Permanence is the ultimate luxury. In a world of fast-fashion, we build things that refuse to die."
+                 </p>
+                 <div class="flex items-center gap-4">
+                    <div class="w-10 h-[1px] bg-white/20"></div>
+                    <span class="text-[10px] font-black tracking-widest uppercase">Founder: Darren Chemoiwa</span>
+                 </div>
+            </div>
+            <div class="border border-black/10 p-12 rounded-[32px] flex flex-col justify-center reveal-on-scroll reveal-hidden">
+                <h5 class="font-heading font-bold text-3xl uppercase tracking-tighter mb-6">Origin.</h5>
+                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
+                    Rooted in the industrial pulse of Kenya (NRU-NRB). Designed for the global citizen who appreciates the raw, the real, and the refined.
+                </p>
             </div>
         </div>
-
-        <!-- Outside Nairobi Wrapper -->
-        <div id="other-cities-container" class="relative group hidden">
-            <span class="absolute top-2 left-6 text-[6px] font-black uppercase tracking-[0.3em] opacity-20 pointer-events-none">Powered by KÖCE</span>
-            <select id="cust-city-select" class="w-full px-6 pt-6 pb-4 bg-[#1A1A1B] border border-white/30 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-white appearance-none">
-                <option value="NAKURU">NAKURU</option>
-                <option value="MOMBASA">MOMBASA</option>
-                <option value="KISUMU">KISUMU</option>
-                <option value="ELDORET">ELDORET</option>
-            </select>
-            <div class="absolute inset-y-0 right-5 flex items-center pointer-events-none opacity-40">
-                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
-        </div>
-
-                <textarea id="cust-location" placeholder="SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT)" 
-                    class="w-full px-6 py-4 bg-gray-50 border border-black/5 rounded-xl text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-black/20 h-24 resize-none"></textarea>
-            </div>
-
-            <p id="form-error" class="text-[9px] text-red-500 font-bold uppercase tracking-tighter mb-4 hidden">Please fill in all fields to proceed.</p>
-
-            <button onclick="generateOrderHash()" class="w-full py-5 bg-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-                Generate Order
-            </button>
-        </div>
-
-        <div id="phase-summary" class="hidden">
-    <h3 class="font-heading font-black text-2xl uppercase mb-2">Order Ready</h3>
-    <p class="text-[10px] text-black/40 tracking-widest uppercase mb-8">Details will be copied automatically</p>
-    
-    <div id="order-hash-container" class="bg-gray-50 p-6 rounded-2xl font-mono text-[9px] mb-8 text-left max-h-[200px] overflow-y-auto leading-relaxed border border-black/5 text-black/60"></div>
-    
-    <div class="flex flex-col gap-3">
-        <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-            Copy and Finalize
-        </button>
-
-        <div class="py-4 px-2">
-            <p class="text-[9px] text-white/50 uppercase tracking-[0.2em] leading-loose">
-                1. Click the button above to copy message<br>
-        </div>
-        
-        <button onclick="backToShipping()" class="w-full py-4 text-[10px] font-black uppercase tracking-[0.4em] text-white/50 hover:text-black transition-colors">Edit Details</button>
     </div>
 </div>
 
-        
+    <!-- SHOP PAGE -->
+    <div id="shop" class="page pt-32 pb-24" style="display:none">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="mb-16">
+                <h3 class="text-5xl md:text-8xl font-heading font-bold uppercase tracking-tighter">Archive</h3>
+                <p class="text-[10px] font-black uppercase tracking-[0.4em] opacity-20">001 / Structural Foundation</p>
+            </div>
+           <div id="shop-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16"></div>
+        </div>
     </div>
-</div>
 
     <script>
         const products = [
-
-                   { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-        
-       
-        { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-        { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navyblue: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navyblue'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-       { id: 'B3', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-       { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-      { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-        { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'active' },
-       
-        { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-        { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active ' },
-
-       { id: 'B8', name: ' Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
-
-      
-       
-        { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
-       
-        
-        
-        { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
+            { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'sold-out' },
+            { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navy: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navy'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B3', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
+            { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'vault' },
+            { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B8', name: 'Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'active' },
+            { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'active' }
         ];
 
         let cart = [];
         let selections = {};
-        const grid = document.getElementById('transition-grid');
-        for(let i=0; i<100; i++) grid.innerHTML += `<div class="pixel-block"></div>`;
+        let currentFullId = null;
 
+        const canvas = document.getElementById('pixel-canvas');
+        const ctx = canvas.getContext('2d');
+        let pixelSize = 50;
+        let pixels = [];
 
-            function enterSite() {
-    const trigger = document.querySelector('.enter-trigger');
-    trigger.innerText = "AUTHENTICATING..."; // Change text to feel technical
-    
-    setTimeout(() => {
-        document.body.classList.remove('no-scroll');
-        document.getElementById('gateway').classList.add('hidden');
-        document.getElementById('main-nav').style.opacity = "1";
-        // ... rest of your logic
-         triggerHomeAnims();
-    initScrollEngine();
-    initObserver();
-    }, 1200); 
-}
-       
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        function triggerHomeAnims() {
-            const left = document.querySelector('.hero-split-left');
-            const right = document.querySelector('.hero-split-right');
-            const meta = document.getElementById('hero-meta');
-            const ind = document.getElementById('scroll-indicator');
-            
-            left.style.animation = 'none'; right.style.animation = 'none';
-            meta.classList.remove('active'); ind.style.opacity = "0";
-
-            void left.offsetWidth; 
-            
-            left.style.animation = 'splitRevealLeft 1.2s var(--ease-heavy) 0.5s forwards';
-            right.style.animation = 'splitRevealRight 1.2s var(--ease-heavy) 0.5s forwards';
-            
-            setTimeout(() => {
-                meta.classList.add('active');
-                setTimeout(() => ind.style.opacity = "1", 1000);
-            }, 500);
-        }
-
-        function navigate(pageId) {
-    grid.classList.add('active');
-    const blocks = Array.from(document.querySelectorAll('.pixel-block'));
-    
-    blocks.forEach((b, i) => {
-        const x = i % 10; const y = Math.floor(i / 10);
-        b.style.transitionDelay = `${(x + y) * 20}ms`;
-    });
-
-    setTimeout(() => {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        const targetPage = document.getElementById(pageId);
-        targetPage.style.display = pageId === 'shop' ? 'block' : 'flex';
-        
-        if(pageId === 'shop') renderShop();
-        if(pageId === 'home') triggerHomeAnims();
-        
-        window.scrollTo(0, 0);
-        grid.classList.remove('active');
-        initObserver();
-
-        // --- VAULT SCROLL LOCK ---
-        const isLocked = getComputedStyle(document.documentElement).getPropertyValue('--vault-lock-display').trim() === 'flex';
-        const shopEl = document.getElementById('shop');
-        const vaultOverlay = document.getElementById('vault-overlay');
-        const cartBtn = document.getElementById('cart-btn-trigger');
-
-        if (pageId === 'shop' && isLocked) {
-            shopEl.classList.add('vault-active');
-            vaultOverlay.style.display = 'flex';
-            cartBtn.classList.add('cart-locked'); 
-            document.body.classList.add('no-scroll'); // Locks background scroll
-            startVaultTimer();
-        } else {
-            shopEl.classList.remove('vault-active');
-            vaultOverlay.style.display = 'none';
-            cartBtn.classList.remove('cart-locked');
-            document.body.classList.remove('no-scroll'); // Unlocks for Home
-        }
-    }, 600);
-}
-
-
-        function startVaultTimer() {
-            const target = new Date("July 16, 2026 00:00:00").getTime();
-            const timerDisplay = document.getElementById('vault-countdown');
-            
-            setInterval(() => {
-                const dist = target - new Date().getTime();
-                const d = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-                const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-                const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-                const s = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
-                timerDisplay.innerText = `${d}:${h}:${m}:${s}`;
-            }, 1000);
-        }
-
-        // --- NEW INVENTORY ENGINE ---
-        function parseInventory(status, availableColors, availableSizes) {
-            const result = { disabledColors: [], colorSpecificOOS: {} };
-            if (!status || !status.startsWith('out-of-stock-')) return result;
-
-            const tokens = status.replace('out-of-stock-', '').split('-');
-            let currentCtx = null;
-
-            tokens.forEach(token => {
-                const color = availableColors.find(c => c.toLowerCase() === token);
-                const size = availableSizes.find(s => s.toLowerCase() === token);
-
-                if (color) {
-                    currentCtx = color;
-                    if (!result.colorSpecificOOS[currentCtx]) result.colorSpecificOOS[currentCtx] = [];
-                } else if (size && currentCtx) {
-                    result.colorSpecificOOS[currentCtx].push(size.toLowerCase());
-                } else if (size && !currentCtx) {
-                    // Global size OOS across all colors
-                    availableColors.forEach(c => {
-                        if (!result.colorSpecificOOS[c]) result.colorSpecificOOS[c] = [];
-                        result.colorSpecificOOS[c].push(size.toLowerCase());
-                    });
+        function triggerTransition(targetId) {
+            const cols = Math.ceil(canvas.width / pixelSize);
+            const rows = Math.ceil(canvas.height / pixelSize);
+            pixels = [];
+            for (let x = 0; x < cols; x++) { for (let y = 0; y < rows; y++) { pixels.push({ x: x * pixelSize, y: y * pixelSize, delay: Math.random() * 400 }); } }
+            let start = null;
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#000000';
+                let allDone = true;
+                pixels.forEach(p => { if (progress > p.delay) { const s = Math.min((progress - p.delay) / 300, 1); ctx.fillRect(p.x, p.y, pixelSize * s, pixelSize * s); if (s < 1) allDone = false; } else { allDone = false; } });
+                if (progress > 400) navigate(targetId);
+                if (!allDone) requestAnimationFrame(animate);
+                else {
+                    setTimeout(() => {
+                        let fStart = null;
+                        function fade(ft) { if (!fStart) fStart = ft; const fp = (ft - fStart) / 400; ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.globalAlpha = 1 - fp; ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, canvas.width, canvas.height); if (fp < 1) requestAnimationFrame(fade); else ctx.globalAlpha = 1; }
+                        requestAnimationFrame(fade);
+                    }, 100);
                 }
-            });
+            }
+            requestAnimationFrame(animate);
+        }
 
-            // If a color was listed but no sizes followed it, that color is fully disabled
-            tokens.forEach((token, idx) => {
-                const color = availableColors.find(c => c.toLowerCase() === token);
-                if (color) {
-                    const nextToken = tokens[idx + 1];
-                    const nextIsSize = nextToken && availableSizes.find(s => s.toLowerCase() === nextToken);
-                    if (!nextIsSize) result.disabledColors.push(color);
-                }
-            });
+        function enterSite() {
+            document.body.classList.remove('overflow-hidden');
+            document.getElementById('gateway').classList.add('hidden');
+            document.getElementById('main-nav').style.opacity = "1";
+            window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50); });
+        }
 
-            return result;
+        function navigate(id) {
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            if(id === 'shop') renderShop();
+            window.scrollTo(0, 0);
         }
 
         function renderShop() {
-    const grid = document.getElementById('shop-grid');
-    grid.innerHTML = products.map((p) => {
-        const inventory = parseInventory(p.status, p.colors, p.sizes);
-        const isEntirelySO = p.status === 'sold-out' || p.status === 'out-of-stock';
-        const isCS = p.status === 'coming soon';
-        
-        let defaultColor = p.colors.find(c => !inventory.disabledColors.includes(c)) || p.colors;
-        if(!selections[p.id]) selections[p.id] = { color: defaultColor };
+            const grid = document.getElementById('shop-grid');
+            grid.innerHTML = products.map((p) => {
+                const label = p.status !== 'active' ? `<div class="status-label">${p.status.replace('-', ' ')}</div>` : '';
+                const isComingSoon = p.status === 'coming-soon';
+                const opacityClass = p.status === 'active' ? '' : 'opacity-60';
+                const blurClass = isComingSoon ? 'blur-preview' : '';
+                
+                // Show black image by default if available
+                const displayImg = p.img.black || p.img[Object.keys(p.img)];
 
-        let pixelMask = `<div class="pixel-mask">`;
-        for(let i=0; i<48; i++) pixelMask += `<div class="reveal-pixel" style="transition-delay: ${Math.random() * 500}ms"></div>`;
-        pixelMask += `</div>`;
-
-        let badge = '';
-        if(isEntirelySO) badge = '<div class="status-badge">OUT OF STOCK</div>';
-        else if(isCS) badge = '<div class="status-badge bg-white !text-black">COMING SOON</div>';
-
-        return `
-        <div class="product-item scroll-reveal" data-id="${p.id}" id="card-${p.id}">
-            ${badge}
-            <div class="img-container aspect-[3/4] mb-6 md:mb-12 rounded-2xl ${isEntirelySO ? 'opacity-30 grayscale' : ''}">
-                ${pixelMask}
-                <img id="img-${p.id}" src="${p.img[defaultColor]}?w=800" class="product-visual w-full h-full object-cover transition-all duration-700 ${isCS ? 'coming-soon-blur' : ''}">
-            </div>
-            <div class="px-1 md:px-2">
-                <div class="flex flex-col md:flex-row justify-between items-start mb-4 md:mb-8">
-                    <h4 class="font-heading font-black text-lg md:text-2xl uppercase tracking-tighter">${p.name}</h4>
-                    <span class="text-[10px] md:text-sm font-black opacity-30">KSh ${p.price.toLocaleString()}</span>
-                </div>
-                <div class="mb-4 md:mb-8 flex flex-col gap-4 md:flex-row justify-between items-center">
-                    <div class="flex gap-2 md:gap-4">
-                        ${p.colors.map(c => {
-                            const isDisabled = inventory.disabledColors.includes(c);
-                            const isSelected = c === defaultColor ? 'selected' : '';
-                            return `<div class="color-opt color-${c} ${isSelected} ${isDisabled ? 'variant-oos' : ''}" 
-                                onclick="selectOpt('${p.id}', 'color', '${c}', this)"></div>`
-                        }).join('')}
+                return `
+                <div class="product-card ${opacityClass}" onclick="openProductView('${p.id}')">
+                    <div class="img-container aspect-[4/5] mb-6">
+                        <img src="${displayImg}" class="w-full h-full object-cover ${blurClass}">
+                        ${label}
+                        <div class="view-label">View Specification</div>
                     </div>
-                    <div id="sizes-${p.id}" class="flex gap-1 md:gap-2">
-                        ${p.sizes.map(s => {
-                            const isOOS = (inventory.colorSpecificOOS[defaultColor] || []).includes(s.toLowerCase());
-                            return `<button class="size-btn !px-2 !py-1 md:!px-4 md:!py-2 ${isOOS ? 'variant-oos' : ''}" onclick="selectOpt('${p.id}', 'size', '${s}', this)">${s}</button>`
-                        }).join('')}
+                    <div class="space-y-1">
+                        <h4 class="text-[10px] font-black uppercase tracking-[0.1em]">${p.name}</h4>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8px] opacity-30 font-black uppercase tracking-widest">${p.id}</span>
+                            <span class="text-[10px] font-heading font-medium">KSh ${p.price}</span>
+                        </div>
                     </div>
-                </div>
-                <button onclick="handleAddToCart('${p.id}', this)" class="add-btn w-full py-3 md:py-5 border border-white/10 text-[8px] md:text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all ${isEntirelySO || isCS ? 'opacity-20 pointer-events-none' : ''}">
-                    ${isEntirelySO ? 'UNIT DEPLETED' : isCS ? 'PENDING DROP' : 'ADD TO BAG'}
-                </button>
-            </div>
-        </div>`;
-    }).join('');
-}
+                </div>`;
+            }).join('');
+        }
 
-        function selectOpt(id, type, val, el) {
-            if(el.classList.contains('variant-oos')) return;
-
-            if(!selections[id]) selections[id] = {};
+        function openProductView(id) {
+            currentFullId = id;
             const p = products.find(x => x.id === id);
-            const inventory = parseInventory(p.status, p.colors, p.sizes);
-
-            if(type === 'color') {
-                selections[id].color = val;
-                document.getElementById(`img-${id}`).src = p.img[val] + "?w=800";
-                
-                // Refresh sizes for the new color
-                const sizeContainer = document.getElementById(`sizes-${id}`);
-                const oosForThisColor = inventory.colorSpecificOOS[val] || [];
-                
-                sizeContainer.querySelectorAll('.size-btn').forEach(btn => {
-                    const s = btn.innerText.toLowerCase();
-                    if (oosForThisColor.includes(s)) {
-                        btn.classList.add('variant-oos');
-                        btn.classList.remove('selected');
-                        if(selections[id].size === btn.innerText) delete selections[id].size;
-                    } else {
-                        btn.classList.remove('variant-oos');
-                    }
-                });
-            } else {
-                selections[id].size = val;
-            }
             
-            el.parentElement.querySelectorAll('*').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
+            // Set default color to black if available, otherwise first color
+            const defaultColor = p.colors.includes('black') ? 'black' : p.colors;
+            if(!selections[id]) { selections[id] = { color: defaultColor, size: null }; }
+            
+            document.getElementById('full-view-name').innerText = p.name;
+            document.getElementById('full-view-price').innerText = `KSh ${p.price}`;
+            document.getElementById('full-view-img').src = p.img[selections[id].color];
+            
+            document.getElementById('full-view-colors').innerHTML = p.colors.map(c => `<div class="color-opt bg-${c}-opt ${c === selections[id].color ? 'selected' : ''}" onclick="updateDetailOpt('color', '${c}', this)"></div>`).join('');
+            document.getElementById('full-view-sizes').innerHTML = p.sizes.map(s => `<button class="px-5 py-2 border border-gray-100 text-[10px] font-black uppercase tracking-widest transition-all ${s === selections[id].size ? 'bg-black text-white border-black' : 'hover:border-gray-300'}" onclick="updateDetailOpt('size', '${s}', this)">${s}</button>`).join('');
+
+            const btn = document.getElementById('full-view-add-btn');
+            if(p.status !== 'active') { btn.innerText = p.status.toUpperCase(); btn.classList.add('opacity-30', 'pointer-events-none'); }
+            else { btn.innerText = "Add to Inventory"; btn.classList.remove('opacity-30', 'pointer-events-none'); btn.onclick = () => addToCart(id); }
+
+            const view = document.getElementById('product-full-view');
+            view.style.display = 'flex'; setTimeout(() => view.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
         }
 
-        function handleAddToCart(id, btn) {
-            const p = products.find(x => x.id === id);
-            const sel = selections[id] || {};
-            if(!sel.color || !sel.size) {
-                const old = btn.innerText; btn.innerText = "SELECT VARIANT"; btn.style.color = "red";
-                setTimeout(() => { btn.innerText = old; btn.style.color = ""; }, 1000);
-                return;
-            }
-
-            const imgToFly = document.getElementById(`img-${id}`);
-            const bagTarget = document.getElementById('cart-btn-trigger');
-            const rect = imgToFly.getBoundingClientRect();
-            const bagRect = bagTarget.getBoundingClientRect();
-
-            const ghost = document.createElement('img');
-            ghost.src = imgToFly.src;
-            ghost.className = 'ghost-img';
-            ghost.style.top = rect.top + 'px';
-            ghost.style.left = rect.left + 'px';
-            ghost.style.width = rect.width + 'px';
-            ghost.style.height = rect.height + 'px';
-            document.body.appendChild(ghost);
-
-            setTimeout(() => {
-                ghost.style.top = bagRect.top + 'px';
-                ghost.style.left = bagRect.left + 'px';
-                ghost.style.width = '20px';
-                ghost.style.height = '20px';
-                ghost.style.opacity = '0';
-                ghost.style.transform = 'rotate(45deg)';
-            }, 10);
-
-            setTimeout(() => ghost.remove(), 800);
-
-            cart.push({ ...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now() });
-            updateCartUI();
-            btn.innerText = "ADDED TO BAG";
-            setTimeout(() => { btn.innerText = "ADD TO BAG"; }, 1500);
+        function updateDetailOpt(type, val, el) {
+            const p = products.find(x => x.id === currentFullId);
+            if(type === 'color') { selections[currentFullId].color = val; document.getElementById('full-view-img').src = p.img[val]; el.parentElement.querySelectorAll('.color-opt').forEach(x => x.classList.remove('selected')); el.classList.add('selected'); }
+            else { selections[currentFullId].size = val; el.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('bg-black', 'text-white', 'border-black')); el.classList.add('bg-black', 'text-white', 'border-black'); }
         }
 
-       function updateCartUI() {
-    document.getElementById('cart-count').innerText = cart.length;
-    const cartList = document.getElementById('cart-list');
-    
-    if (cart.length === 0) {
-        cartList.innerHTML = `<div class="py-20 text-center opacity-20 text-[10px] uppercase font-black tracking-widest">Bag Empty</div>`;
-    } else {
-        cartList.innerHTML = cart.map(i => `
-            <div class="bag-item-card">
-                <div class="bag-item-info">
-                    <h4>${i.name}</h4>
-                    <p class="bag-item-meta">${i.selectedSize} // ${i.selectedColor}</p>
-                </div>
-                <button onclick="removeItem(${i.cartId})" class="drop-btn">Drop</button>
-            </div>`).join('');
-    }
-    
-    const total = cart.reduce((a, b) => a + b.price, 0);
-    const isFreeShipping = total >= 1600000000000000000000;
-    
-    // Update Total and add Free Shipping Badge if applicable
-    document.getElementById('cart-total').innerHTML = `
-        <div class="flex flex-col items-end">
-            ${isFreeShipping ? '<span class="text-[8px] text-green-500 font-black tracking-widest mb-1">FREE SHIPPING ELIGIBLE</span>' : ''}
-            <span>KSh ${total.toLocaleString()}</span>
-        </div>
-    `;
-}
+        function closeProductView() { document.getElementById('product-full-view').classList.remove('active'); setTimeout(() => { document.getElementById('product-full-view').style.display = 'none'; document.body.style.overflow = 'auto'; }, 500); }
+        
+        function addToCart(id) {
+            const p = products.find(x => x.id === id); const sel = selections[id];
+            if(!sel.size) { document.getElementById('full-view-add-btn').innerText = "Dimension Needed"; setTimeout(() => document.getElementById('full-view-add-btn').innerText = "Add to Inventory", 1000); return; }
+            cart.push({...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now()});
+            updateCartUI(); 
+            const toast = document.getElementById('success-toast'); toast.classList.add('active'); setTimeout(() => toast.classList.remove('active'), 2500);
+            document.getElementById('full-view-add-btn').innerText = "Synchronized";
+            setTimeout(() => { document.getElementById('full-view-add-btn').innerText = "Add Again"; }, 1500);
+        }
+
+        function updateCartUI() {
+            const b = document.getElementById('cart-count-badge'); b.innerText = cart.length; b.classList.toggle('hidden', cart.length === 0);
+            document.getElementById('cart-list').innerHTML = cart.map(i => `<div class="flex justify-between items-center py-4 border-b border-gray-50"><div class="space-y-1"><p class="text-[10px] font-black uppercase tracking-widest">${i.name}</p><p class="text-[8px] opacity-30 font-black uppercase">${i.selectedSize} // ${i.selectedColor}</p></div><button onclick="removeItem(${i.cartId})" class="opacity-20 hover:opacity-100 transition-all"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>`).join('');
+            document.getElementById('cart-total').innerText = `KSh ${cart.reduce((a,c)=>a+c.price, 0)}`;
+        }
 
         function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
         function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
-        function closeModal() { document.getElementById('checkout-modal').classList.remove('active'); }
 
-     // --- KÖCE CHECKOUT ENGINE ---
-
-/**
- * 1. INITIALIZE CHECKOUT
- * Opens the modal and resets it to Phase 1 (Shipping Form)
- */
-/**
- * 1. INITIALIZE CHECKOUT
- * Opens the modal and resets it to Phase 1 (Shipping Form)
- */
-function initiateCheckout() {
-    if (cart.length === 0) return;
-
-    // Reset UI Visibility
-    document.getElementById('phase-shipping').classList.remove('hidden');
-    document.getElementById('phase-summary').classList.add('hidden');
-    document.getElementById('form-error').classList.add('hidden');
-
-    // Reset Form Fields
-    document.getElementById('cust-name').value = "";
-    document.getElementById('cust-phone').value = "";
-    document.getElementById('cust-location').value = "";
-    document.getElementById('cust-region').value = "NAIROBI";
-    
-    toggleCityView();
-
-    // Open Modal
-    document.getElementById('checkout-modal').classList.add('active');
-}
-
-/**
- * 2. DYNAMIC LOCATION UI
- */
-function toggleCityView() {
-    const region = document.getElementById('cust-region').value;
-    const cityContainer = document.getElementById('other-cities-container');
-    const locationField = document.getElementById('cust-location');
-
-    if (region === 'NAIROBI') {
-        cityContainer.classList.add('hidden');
-        locationField.placeholder = "SPECIFIC LOCATION (PIN DROP, HOUSE NO, OR APARTMENT NAME)";
-    } else {
-        cityContainer.classList.remove('hidden');
-        locationField.placeholder = "NEAREST COURIER OFFICE (E.G., MOLOLINE, 2NK)";
-    }
-}
-
-/**
- * 3. GENERATE ORDER HASH
- */
-function generateOrderHash() {
-    const name = document.getElementById('cust-name').value.trim();
-    const phone = document.getElementById('cust-phone').value.trim();
-    const region = document.getElementById('cust-region').value;
-    const location = document.getElementById('cust-location').value.trim();
-    const errorMsg = document.getElementById('form-error');
-
-    if (!name || !phone || !location) {
-        errorMsg.classList.remove('hidden');
-        return;
-    }
-    errorMsg.classList.add('hidden');
-
-    let finalCity = region === 'OUTSIDE_NAIROBI' 
-        ? document.getElementById('cust-city-select').value 
-        : 'NAIROBI';
-
-    const orderID = `KOCE-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
-    const total = cart.reduce((a, b) => a + b.price, 0);
-    
-    
-    let m = `[KÖCE STRUCTURAL WEAR ORDER]\n`;
-    m += `ID: #${orderID}\n`;
-    m += `--------------------------\n`;
-    m += `RECIPIENT: ${name.toUpperCase()}\n`;
-    m += `PHONE: ${phone}\n`;
-    m += `LOCATION: ${finalCity} - ${location.toUpperCase()}\n`;
-    m += `--------------------------\n`;
-    cart.forEach(it => {
-        m += `• ${it.id} (${it.selectedSize}/${it.selectedColor})\n`;
-    });
-    m += `--------------------------\n`;
-    m += `TOTAL: KSh ${total.toLocaleString()}\n`;
-    m += `--------------------------\n`;
-
-    document.getElementById('order-hash-container').innerText = m;
-    document.getElementById('phase-shipping').classList.add('hidden');
-    document.getElementById('phase-summary').classList.remove('hidden');
-}
-
-/**
- * 4. EDIT DETAILS
- */
-function backToShipping() {
-    document.getElementById('phase-summary').classList.add('hidden');
-    document.getElementById('phase-shipping').classList.remove('hidden');
-}
-
-/**
- * 5. COPY, REDIRECT, AND CLEAR CART
- */
-async function copyAndFinalize() {
-    const btn = document.getElementById('final-copy-btn');
-    const orderText = document.getElementById('order-hash-container').innerText;
-    
-    const orderIDMatch = orderText.match(/KOCE-[A-Z0-9]+/);
-    const orderID = orderIDMatch ? orderIDMatch[0] : "KOCE-UNKNOWN";
- 
-    
-    const totalPrice = cart.reduce((a, b) => a + b.price, 0);
-
-    const region = document.getElementById('cust-region').value;
-    const selectedCity = region === 'OUTSIDE_NAIROBI' 
-        ? document.getElementById('cust-city-select').value 
-        : 'NAIROBI';
-
-    const orderData = {
-        orderID: orderID,
-        name: document.getElementById('cust-name').value,
-        phone: document.getElementById('cust-phone').value,
-        city: selectedCity,
-        total: totalPrice,
-        items: cart.map(it => ({
-            name: it.name,
-            size: it.selectedSize,
-            color: it.selectedColor
-        }))
-    };
-
-    btn.innerText = "SAVING ORDER...";
-    btn.disabled = true;
-
-    try {
-        await fetch('https://script.google.com/macros/s/AKfycbwq8hC39cb-un1PP1I-ZTe6sfUohzOioQI56Fo7R_Vse3htXNgL6euWAYQWmA0Izgmp6w/exec', {
-            method: 'POST',
-            mode: 'no-cors', 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-
-        // Copy the summary to clipboard
-        await navigator.clipboard.writeText(orderText);
-        
-        // --- NEW SUCCESS UI ---
-        const summaryPhase = document.getElementById('phase-summary');
-        summaryPhase.innerHTML = `
-            <div class="py-10 animate-fade-in">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-16 h-16 bg-black text-white rounded-full flex items-center justify-center font-black">✓</div>
-                </div>
-                <h3 class="font-heading font-black text-3xl uppercase mb-4">Order Logged</h3>
-                <p class="text-[10px] text-black/60 tracking-[0.2em] uppercase leading-loose mb-8">
-                    Your details are copied to your clipboard.<br>
-                    Follow these steps to finish:
-                </p>
-                
-                <div class="text-left space-y-6 mb-10 border-t border-black/5 pt-8">
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">01</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Leave the site and open Instagram</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">02</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Search for <span class="underline">@kocestructuralwear</span></p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="font-black opacity-20 text-xs">03</span>
-                        <p class="text-[10px] font-bold uppercase tracking-widest">Paste your message in our DMs</p>
-                    </div>
-                </div>
-
-                <button onclick="closeModal();" class="w-full py-5 border border-black text-white rounded-xl font-black uppercase text-[10px] tracking-[0.4em] hover:bg-black hover:text-white transition-all">
-                    Dismiss
-                </button>
-            </div>
-        `;
-
-        // Clear the cart
-        cart = []; 
-        updateCartUI();
-
-    } catch (err) {
-        console.error('System Error:', err);
-        btn.innerText = "RETRY";
-        btn.disabled = false;
-    }
-}
-
-/**
- * 6. CLOSE MODAL
- */
-function closeModal() {
-    document.getElementById('checkout-modal').classList.remove('active');
-}
-
-        function initScrollEngine() {
-    const nav = document.getElementById('main-nav');
-    const backToTop = document.getElementById('back-to-top');
-    const bar = document.getElementById('scroll-progress');
-
-    window.addEventListener('scroll', () => {
-        const scrollPos = window.scrollY;
-
-        // 1. Trigger Pill Effect (Earlier at 20px)
-        if (scrollPos > 20) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
+        function openCheckout() {
+            if(cart.length === 0) return;
+            toggleCart();
+            document.getElementById('checkout-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // 2. Back to Top Visibility
-        if (scrollPos > 400) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
+        function closeCheckout() {
+            document.getElementById('checkout-overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('phase-shipping').classList.remove('hidden');
+            document.getElementById('phase-summary').classList.add('hidden');
+            document.getElementById('phase-final').classList.add('hidden');
         }
 
-        // 3. Progress Bar
-        const prog = (scrollPos / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        if(bar) bar.style.width = prog + '%';
-    }, { passive: true });
-}
-
-        function initObserver() {
-            const obs = new IntersectionObserver((es) => {
-                es.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.product-item, .reveal-on-scroll').forEach(el => obs.observe(el));
+        function toggleCityView() {
+            const region = document.getElementById('cust-region').value;
+            document.getElementById('cust-city-select').classList.toggle('hidden', region === 'NAIROBI');
+            document.getElementById('cust-nairobi-area').classList.toggle('hidden', region !== 'NAIROBI');
         }
 
-       
-
-    </script>
-
-   <!-- BACK TO TOP BUTTON -->
-<div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-    <div class="top-arrow-pill">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 15l-6-6-6 6"/>
-        </svg>
-    </div>
-</div>
-
-   <footer class="w-full py-20 px-10 border-t border-white/5 flex flex-col items-center justify-center text-center gap-6">
-    <!-- Origin Label -->
-    <div class="flex items-center gap-2 opacity-30">
-        <div class="w-8 h-[1px] bg-white"></div>
-        <span class="text-[9px] font-black uppercase tracking-[0.5em]">Origin: Republic of Kenya</span>
-        <div class="w-8 h-[1px] bg-white"></div>
-    </div>
-    
-    <!-- Certification Text -->
-    <div class="flex flex-col gap-2">
-        <h5 class="text-[10px] font-black uppercase tracking-[0.2em] text-white/80">Certified Structural Product</h5>
-        <p class="text-[8px] font-medium uppercase tracking-[0.1em] text-white/40">CRAFTED IN THE HEART OF KENYA</p>
-    </div>
-
-    <!-- ENLARGED KENYA IMAGE BOX (CLEAN) -->
-    <div class="mt-8 flex justify-center items-center">
-        <div class="relative w-32 h-32 md:w-40 md:h-40 group cursor-crosshair">
-            <!-- Background Glow -->
-            <div class="absolute inset-0 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all"></div>
+        function generateOrderHash() {
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const location = document.getElementById('cust-location').value.trim();
+            if(!name || !phone || !location) { document.getElementById('form-error').classList.remove('hidden'); return; }
             
-            <!-- Map Image -->
-            <div class="relative w-full h-full overflow-hidden opacity-40 group-hover:opacity-80 transition-opacity">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1saj7PTrZye9RJBQFwbN9H0-DO-erV9An" 
-                     alt="Kenya Map" 
-                     class="w-full h-full object-contain filter brightness-200 grayscale">
-            </div>
-        </div>
-    </div>
-</footer>
+            document.getElementById('form-error').classList.add('hidden');
+            const region = document.getElementById('cust-region').value;
+            const area = region === 'NAIROBI' ? document.getElementById('cust-nairobi-area').value : document.getElementById('cust-city-select').value;
+            const orderID = `KOCE-${Math.random().toString(36).substr(2,5).toUpperCase()}`;
+            const total = cart.reduce((a, b) => a + b.price, 0);
 
-   
+            let m = `[KÖCE ARCHIVE ORDER]\nID: #${orderID}\n--------------------------\n`;
+            m += `RECIPIENT: ${name.toUpperCase()}\nCONTACT: ${phone}\nAREA: ${area}\nDETAILS: ${location.toUpperCase()}\n--------------------------\n`;
+            cart.forEach(it => m += `• ${it.name} [${it.selectedSize}/${it.selectedColor}]\n`);
+            m += `--------------------------\nTOTAL: KSh ${total.toLocaleString()}`;
 
-</body>
-</html>
-        <div class="h-screen flex items-center justify-center p-6">
-            
-                
-            </div>
-
-    <script>
-        let scene, camera, renderer, objects = [], particles = [], starField, starFieldTwo;
-        let raycaster = new THREE.Raycaster();
-        let mouse = new THREE.Vector2();
-        let intersectedObj = null;
-        let isDragging = false;
-        let lastTime = performance.now();
-        
-        let boundsX, boundsY;
-        const KINETIC_SPEED = 0.046; 
-        const SHIP_Z = -1400; 
-        const STAR_Z = -1800; 
-        let currentShip = null;
-        let spawnTime = Date.now();
-
-        function updateBounds() {
-            const aspect = window.innerWidth / window.innerHeight;
-            const distance = 13; 
-            const vFov = camera.fov * Math.PI / 180;
-            boundsY = Math.tan(vFov / 2) * distance;
-            boundsX = boundsY * aspect;
+            document.getElementById('order-hash-container').innerText = m;
+            document.getElementById('phase-shipping').classList.add('hidden');
+            document.getElementById('phase-summary').classList.remove('hidden');
         }
 
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 35000);
-            camera.position.z = 18;
-
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-            const ambient = new THREE.AmbientLight(0xffffff, 0.95);
-            scene.add(ambient);
-            
-            const pointLight = new THREE.PointLight(0xffffff, 1.5);
-            pointLight.position.set(10, 10, 20);
-            scene.add(pointLight);
-
-            updateBounds();
-            createStars();
-            createFullShapeMatrix();
-            
-            // --- LEVIATHAN TIMER ---
-            setInterval(() => {
-                if (!currentShip && Math.random() > 0.3) {
-                    spawnCrimsonLeviathan();
-                }
-            }, 4000);
-
-            // Initial trigger
-            spawnCrimsonLeviathan();
-
-            window.addEventListener('resize', onWindowResize);
-            window.addEventListener('mousedown', onPointerDown);
-            window.addEventListener('mousemove', onPointerMove);
-            window.addEventListener('mouseup', onPointerUp);
-
-            animate();
+        function backToShipping() {
+            document.getElementById('phase-summary').classList.add('hidden');
+            document.getElementById('phase-shipping').classList.remove('hidden');
         }
 
-        function createStars() {
-            const starGeo = new THREE.BufferGeometry();
-            const starPos = [];
-            for(let i=0; i<25000; i++) {
-                starPos.push((Math.random()-0.5)*25000, (Math.random()-0.5)*25000, (Math.random()-0.5)*15000 + STAR_Z);
-            }
-            starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
-            const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 2.0, transparent: true, opacity: 0.4 });
-            starField = new THREE.Points(starGeo, starMat);
-            scene.add(starField);
+        async function copyAndFinalize() {
+            const btn = document.getElementById('final-copy-btn');
+            const orderText = document.getElementById('order-hash-container').innerText;
+            btn.innerText = "PREPARING...";
 
-            const starGeo2 = new THREE.BufferGeometry();
-            const starPos2 = [];
-            for(let i=0; i<8000; i++) {
-                starPos2.push((Math.random()-0.5)*15000, (Math.random()-0.5)*15000, (Math.random()-0.5)*8000 - 800);
-            }
-            starGeo2.setAttribute('position', new THREE.Float32BufferAttribute(starPos2, 3));
-            const starMat2 = new THREE.PointsMaterial({ color: 0xffffff, size: 3.5, transparent: true, opacity: 0.6 });
-            starFieldTwo = new THREE.Points(starGeo2, starMat2);
-            scene.add(starFieldTwo);
-        }
-
-        function createFullShapeMatrix() {
-            const geos = [
-                new THREE.TorusKnotGeometry(1, 0.4, 100, 16, 2, 3), 
-                new THREE.OctahedronGeometry(1.5, 0),               
-                new THREE.IcosahedronGeometry(1.2, 1),              
-                new THREE.BoxGeometry(1.8, 1.8, 1.8),
-                new THREE.TorusKnotGeometry(1.2, 0.2, 200, 20, 3, 7),
-                new THREE.DodecahedronGeometry(1.4, 0),             
-                new THREE.TorusKnotGeometry(1.5, 0.05, 300, 8, 5, 2)
-            ];
-
-            const colors = [0x9900ff, 0xffcc00, 0x00ffff, 0xffffff, 0xff0055, 0x00ffaa, 0x44ff00];
-
-            for (let i = 0; i < 20; i++) {
-                const geo = geos[i % geos.length];
-                const color = colors[i % colors.length];
-                const mat = new THREE.MeshPhongMaterial({
-                    color: color, wireframe: true, emissive: color,
-                    emissiveIntensity: 1.5, 
-                    transparent: true, opacity: 0.8 
-                });
-
-                const group = new THREE.Group();
-                const mesh = new THREE.Mesh(geo, mat);
-                group.add(mesh);
-
-                group.position.set(
-                    (Math.random() - 0.5) * boundsX * 2.5,
-                    (Math.random() - 0.5) * boundsY * 2.5,
-                    2
-                );
-
-                group.userData = {
-                    velocity: new THREE.Vector3((Math.random()-0.5)*KINETIC_SPEED, (Math.random()-0.5)*KINETIC_SPEED, 0),
-                    radius: 2.2, 
-                    rotSpeed: new THREE.Vector3(Math.random()*0.008, Math.random()*0.008, Math.random()*0.008),
-                    zOffset: Math.random() * Math.PI * 2,
-                    initialZ: 4
+            try {
+                const orderID = orderText.match(/KOCE-[A-Z0-9]+/);
+                const orderData = {
+                    orderID,
+                    name: document.getElementById('cust-name').value,
+                    phone: document.getElementById('cust-phone').value,
+                    city: document.getElementById('cust-region').value === 'NAIROBI' ? document.getElementById('cust-nairobi-area').value : document.getElementById('cust-city-select').value,
+                    total: cart.reduce((a,b)=>a+b.price, 0),
+                    items: cart.map(it => ({ name: it.name, size: it.selectedSize, color: it.selectedColor }))
                 };
-
-                objects.push(group);
-                scene.add(group);
-            }
-        }
-
-        function spawnCrimsonLeviathan() {
-            const shipGroup = new THREE.Group();
-            const shipColors = [0xff0000, 0x110000, 0x330000, 0x990000, 0xff2222];
-            const hullWidth = 18000; 
-            const hullHeight = 800;
-            const hullDepth = 3000;
-
-            for(let i=0; i<1200; i++) {
-                const color = shipColors[Math.floor(Math.random() * shipColors.length)];
-                const isBright = Math.random() > 0.8;
-                const mat = new THREE.MeshPhongMaterial({
-                    color: color, 
-                    wireframe: Math.random() > 0.2, 
-                    emissive: color,
-                    emissiveIntensity: isBright ? 12.0 : 4.0, 
-                    transparent: true, 
-                    opacity: isBright ? 0.4 : 0.15
+                
+                await fetch('https://script.google.com/macros/s/AKfycbwq8hC39cb-un1PP1I-ZTe6sfUohzOioQI56Fo7R_Vse3htXNgL6euWAYQWmA0Izgmp6w/exec', {
+                    method: 'POST', mode: 'no-cors', body: JSON.stringify(orderData)
                 });
 
-                let geo;
-                const rng = Math.random();
-                if (rng > 0.4) {
-                    geo = new THREE.BoxGeometry(800 + Math.random()*1500, 200 + Math.random()*600, 800 + Math.random()*1500);
-                } else {
-                    geo = new THREE.TorusKnotGeometry(500 + Math.random()*700, 120, 160, 32);
-                }
+                await navigator.clipboard.writeText(orderText).catch(() => {
+                    const el = document.createElement('textarea'); el.value = orderText;
+                    document.body.appendChild(el); el.select(); document.execCommand('copy');
+                    document.body.removeChild(el);
+                });
 
-                const mod = new THREE.Mesh(geo, mat);
-                mod.position.set(
-                    (Math.random()-0.5)*hullWidth, 
-                    (Math.random()-0.5)*hullHeight*15, 
-                    (Math.random()-0.5)*hullDepth
-                );
-                mod.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
-                shipGroup.add(mod);
-            }
-
-            const direction = Math.random() > 0.5 ? 1 : -1;
-            shipGroup.position.set(direction === 1 ? -45000 : 45000, (Math.random()-0.5)*4000, SHIP_Z);
-            shipGroup.userData = {
-                velocity: new THREE.Vector3((0.7 + Math.random()*0.5) * direction, 0, 0),
-                isShip: true,
-                pulseSpeed: 0.5 + Math.random() * 0.5
-            };
-
-            currentShip = shipGroup;
-            scene.add(shipGroup);
-            objects.push(shipGroup);
-        }
-
-        function createSparks(pos, color) {
-            if (Date.now() - spawnTime < 2000) return;
-            const particleCount = 6; 
-            const geo = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            for(let i=0; i<particleCount; i++) {
-                positions[i*3] = pos.x; positions[i*3+1] = pos.y; positions[i*3+2] = pos.z;
-            }
-            geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            const mat = new THREE.PointsMaterial({ 
-                color: color, 
-                size: 0.08, 
-                transparent: true, 
-                opacity: 0.8, 
-                blending: THREE.AdditiveBlending 
-            });
-            const pSystem = new THREE.Points(geo, mat);
-            pSystem.userData = { 
-                vels: Array.from({length:particleCount}, () => new THREE.Vector3((Math.random()-0.5)*0.12, (Math.random()-0.5)*0.12, (Math.random()-0.5)*0.12)), 
-                life: 1.0 
-            };
-            particles.push(pSystem);
-            scene.add(pSystem);
-        }
-
-        function handlePhysics(delta) {
-            updateBounds();
-            const time = performance.now() * 0.001;
-            
-            for (let i = 0; i < objects.length; i++) {
-                const a = objects[i];
-
-                if (a.userData.isShip) {
-                    a.position.add(a.userData.velocity);
-                    const s = 1 + Math.sin(time * a.userData.pulseSpeed) * 0.08;
-                    a.scale.set(s, s, s);
-
-                    if (Math.abs(a.position.x) > 50000) {
-                        scene.remove(a);
-                        if (currentShip === a) currentShip = null;
-                        objects.splice(i, 1);
-                    }
-                    continue;
-                }
-
-                const zDrift = Math.sin(time * 0.3 + a.userData.zOffset) * 8; 
-                a.position.z = THREE.MathUtils.lerp(a.position.z, a.userData.initialZ + zDrift, 0.02);
-                
-                a.position.x += a.userData.velocity.x;
-                a.position.y += a.userData.velocity.y;
-
-                const hitMargin = 1.35;
-                if (a.position.x > boundsX - hitMargin) {
-                    a.position.x = boundsX - hitMargin;
-                    a.userData.velocity.x *= -0.985;
-                } else if (a.position.x < -boundsX + hitMargin) {
-                    a.position.x = -boundsX + hitMargin;
-                    a.userData.velocity.x *= -0.985;
-                }
-                
-                if (a.position.y > boundsY - hitMargin) {
-                    a.position.y = boundsY - hitMargin;
-                    a.userData.velocity.y *= -0.985;
-                } else if (a.position.y < -boundsY + hitMargin) {
-                    a.position.y = -boundsY + hitMargin;
-                    a.userData.velocity.y *= -0.985;
-                }
-
-                for (let j = i + 1; j < objects.length; j++) {
-                    const b = objects[j];
-                    if (b.userData.isShip) continue;
-                    const dist = a.position.distanceTo(b.position);
-                    const minDistance = a.userData.radius + b.userData.radius;
-                    if (dist < minDistance) {
-                        const normal = a.position.clone().sub(b.position).normalize();
-                        const relativeVelocity = a.userData.velocity.clone().sub(b.userData.velocity);
-                        const velocityAlongNormal = relativeVelocity.dot(normal);
-                        if (velocityAlongNormal < 0) {
-                            const restitution = 0.8; 
-                            const impulse = (-(1 + restitution) * velocityAlongNormal) / 2;
-                            const impulseVec = normal.multiplyScalar(impulse);
-                            a.userData.velocity.add(impulseVec);
-                            b.userData.velocity.sub(impulseVec);
-                            createSparks(a.position.clone().lerp(b.position, 0.5), 0xffffff);
-                        }
-                    }
-                }
-
-                const speed = a.userData.velocity.length();
-                if (speed > 0.07) a.userData.velocity.multiplyScalar(0.96);
-                if (speed < 0.012) a.userData.velocity.multiplyScalar(1.04);
+                document.getElementById('phase-summary').classList.add('hidden');
+                document.getElementById('phase-final').classList.remove('hidden');
+                cart = []; updateCartUI();
+            } catch(e) {
+                btn.innerText = "ERROR - TRY AGAIN";
             }
         }
 
-        function animate() {
-            const currentTime = performance.now();
-            const delta = (currentTime - lastTime) / 1000;
-            lastTime = currentTime;
-
-            requestAnimationFrame(animate);
-
-            if (starField) {
-                starField.rotation.y += 0.00003;
-                starField.material.opacity = 0.4 + Math.sin(currentTime * 0.003) * 0.25;
+       document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = { threshold: 0.15 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.remove('reveal-hidden');
+                entry.target.classList.add('reveal-visible');
             }
-            if (starFieldTwo) {
-                starFieldTwo.rotation.y -= 0.00005;
-                starFieldTwo.material.opacity = 0.6 + Math.sin(currentTime * 0.008) * 0.4;
-            }
-            
-            objects.forEach(obj => {
-                if(obj !== intersectedObj) {
-                    obj.rotation.x += obj.userData.rotSpeed?.x || 0.0008;
-                    obj.rotation.y += obj.userData.rotSpeed?.y || 0.0008;
-                }
-            });
-            
-            handlePhysics(delta);
+        });
+    }, observerOptions);
 
-            for(let i = particles.length - 1; i >= 0; i--) {
-                const p = particles[i];
-                const posArr = p.geometry.attributes.position.array;
-                p.userData.life -= 0.015; 
-                p.material.opacity = p.userData.life;
-                for(let j=0; j<p.userData.vels.length; j++) {
-                    posArr[j*3] += p.userData.vels[j].x;
-                    posArr[j*3+1] += p.userData.vels[j].y;
-                    posArr[j*3+2] += p.userData.vels[j].z;
-                }
-                p.geometry.attributes.position.needsUpdate = true;
-                if(p.userData.life <= 0) { scene.remove(p); particles.splice(i, 1); }
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        function onPointerDown(e) {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children, true);
-            if (intersects.length > 0) {
-                let target = intersects.object;
-                while(target.parent && !objects.includes(target)) target = target.parent;
-                if (target && !target.userData.isShip) {
-                    intersectedObj = target;
-                    isDragging = true;
-                    intersectedObj.userData.velocity.set(0,0,0);
-                }
-            }
-        }
-
-        function onPointerMove(e) {
-            if (isDragging && intersectedObj) {
-                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-                const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5).unproject(camera);
-                const dir = vector.sub(camera.position).normalize();
-                const dist = (camera.position.z - intersectedObj.position.z) / -dir.z;
-                const pos = camera.position.clone().add(dir.multiplyScalar(dist));
-                const prevPos = intersectedObj.position.clone();
-                intersectedObj.position.x = THREE.MathUtils.lerp(intersectedObj.position.x, pos.x, 0.15);
-                intersectedObj.position.y = THREE.MathUtils.lerp(intersectedObj.position.y, pos.y, 0.15);
-                intersectedObj.userData.velocity.set((intersectedObj.position.x - prevPos.x) * 0.3, (intersectedObj.position.y - prevPos.y) * 0.3, 0);
-            }
-        }
-
-        function onPointerUp() { isDragging = false; intersectedObj = null; }
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        window.onload = init;
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+});
     </script>
 </body>
 </html>
