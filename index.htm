@@ -219,6 +219,18 @@
     /* This ensures the width transition is smooth over exactly 2 seconds */
     transition: width 2s cubic-bezier(0.65, 0, 0.35, 1);
 }
+
+      /* Update your existing .blur-preview class or add this below it */
+.blur-preview {
+    filter: blur(15px) grayscale(100%);
+    transform: scale(1.1);
+    
+    /* COMPLETE INACTIVITY LOCK */
+    pointer-events: none;       /* Makes it unclickable and un-scrollable */
+    user-select: none;          /* Prevents highlighting */
+    -webkit-touch-callout: none;/* Prevents iOS long-press menu */
+    -webkit-user-drag: none;    /* Prevents dragging image to a new tab */
+}
 </style>          
 </head>
 
@@ -582,29 +594,32 @@
        function renderShop() {
     const grid = document.getElementById('shop-grid');
     grid.innerHTML = products.map((p) => {
-        // Define inactive statuses
         const isInactive = ['sold-out', 'out-of-stock', 'coming-soon', 'vault'].includes(p.status);
         
-        // Formatting the label for display
+        // Formatting labels
         const labelText = p.status.replace('-', ' ');
         const label = p.status !== 'active' ? `<div class="status-label">${labelText}</div>` : '';
         
-        // Apply blur only to coming-soon items, lower opacity for all inactive
+        // Apply classes based on status
         const blurClass = p.status === 'coming-soon' ? 'blur-preview' : '';
         const opacityClass = isInactive ? 'opacity-60 grayscale' : '';
         
-        // Disable click if inactive
+        // PHYSICAL CLICK LOCK
+        // If it's coming-soon, we provide NO onclick attribute at all
         const clickAction = isInactive ? '' : `onclick="openProductView('${p.id}')"`;
-        const cursorClass = isInactive ? 'cursor-not-allowed' : 'cursor-pointer';
+        const cursorClass = isInactive ? 'cursor-default' : 'cursor-pointer';
 
         const displayImg = p.img.black || p.img[Object.keys(p.img)];
 
         return `
         <div class="product-card ${opacityClass} ${cursorClass}" ${clickAction}>
-            <div class="img-container aspect-[4/5] mb-6">
-                <img src="${displayImg}" class="w-full h-full object-cover ${blurClass}">
+            <div class="img-container aspect-[4/5] mb-6 overflow-hidden">
+                <img src="${displayImg}" 
+                     class="w-full h-full object-cover ${blurClass}" 
+                     draggable="false" 
+                     oncontextmenu="return false;">
                 ${label}
-                ${!isInactive ? '<div class="view-label">View Specification</div>' : ''}
+                ${!isInactive ? '<div class="view-label">View Item</div>' : ''}
             </div>
             <div class="space-y-1">
                 <h4 class="text-[10px] font-black uppercase tracking-[0.1em]">${p.name}</h4>
