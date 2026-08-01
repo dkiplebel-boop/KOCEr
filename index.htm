@@ -1,896 +1,1126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E143HD6QC6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-E143HD6QC6');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KÖCE | STRUCTURAL WEAR</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;800;900&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-    
-   <style>
-    :root {
-        --bg: #FFFFFF; 
-        --text: #000000;
-        --accent: #F5F5F7;
-        --ease-heavy: cubic-bezier(0.9, 0, 0.1, 1);
-        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-        --ios-blur: blur(20px);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KC — Trading Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0B0E14;
+    --bg-panel:#12161F;
+    --bg-panel-2:#171C27;
+    --bg-elevated:#1E2430;
+    --border:#242B3A;
+    --border-soft:#1A2029;
+    --text:#E8E6E1;
+    --text-dim:#9AA3B8;
+    --text-faint:#5C647A;
+    --gold:#E8A73D;
+    --gold-bright:#FFC968;
+    --gold-dim:#a9863f;
+    --green:#3DDC84;
+    --green-soft:rgba(61,220,132,0.13);
+    --red:#FF5C5C;
+    --red-soft:rgba(255,92,92,0.13);
+    --glass-bg:rgba(255,255,255,0.055);
+    --glass-bg-2:rgba(255,255,255,0.03);
+    --glass-border:rgba(255,255,255,0.14);
+    --glass-hi:rgba(255,255,255,0.30);
+    --glass-blur:24px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--bg-deep);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(600px 480px at 8% 8%, rgba(232,167,61,0.16), transparent 60%),
+      radial-gradient(560px 520px at 92% 18%, rgba(61,220,132,0.10), transparent 60%),
+      radial-gradient(680px 600px at 25% 95%, rgba(124,156,255,0.11), transparent 60%),
+      radial-gradient(500px 460px at 85% 90%, rgba(255,92,92,0.08), transparent 60%);
+    filter:blur(10px);
+  }
+  ::selection{background:var(--gold);color:#0B0E14;}
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+  .pos{color:var(--green);}
+  .neg{color:var(--red);}
+  .flat{color:var(--text-dim);}
+
+  /* ---------- Layout ---------- */
+  .app{display:flex;min-height:100vh;position:relative;z-index:1;}
+  .sidebar{
+    width:216px;
+    background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));
+    border:1px solid var(--glass-border);
+    border-radius:30px;
+    position:fixed;top:16px;left:16px;bottom:16px;display:flex;flex-direction:column;
+    padding:20px 14px;z-index:20;
+    backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    box-shadow:0 24px 60px -12px rgba(0,0,0,.6), inset 0 1px 0 var(--glass-hi), inset 0 0 0 1px rgba(255,255,255,.02);
+    overflow:hidden;
+  }
+  .sidebar::before{
+    content:"";position:absolute;top:-40%;left:-30%;width:160%;height:70%;
+    background:radial-gradient(closest-side, rgba(255,255,255,.14), transparent 70%);
+    pointer-events:none;transform:rotate(-8deg);
+  }
+  .logo{display:flex;align-items:center;gap:11px;padding:6px 8px 24px;position:relative;z-index:1;}
+  .logo-mark{
+    width:40px;height:40px;border-radius:12px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold) 55%,#8a5a1f);
+    position:relative;overflow:hidden;
+    box-shadow:0 6px 16px rgba(232,167,61,.35), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .logo-mark::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:50%;
+    background:linear-gradient(180deg, rgba(255,255,255,.45), transparent);
+    pointer-events:none;
+  }
+  .logo-mark svg{position:absolute;inset:0;}
+  .logo-text{font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:.3px;line-height:1;}
+  .logo-sub{font-size:9.5px;color:var(--text-faint);letter-spacing:1.8px;text-transform:uppercase;margin-top:3px;}
+
+  .nav-section-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-faint);padding:14px 12px 8px;position:relative;z-index:1;}
+  .nav-list{list-style:none;display:flex;flex-direction:column;gap:4px;position:relative;z-index:1;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px;padding:10px 14px;border-radius:999px;
+    color:var(--text-dim);cursor:pointer;font-size:13.5px;font-weight:500;
+    border:1px solid transparent;transition:background .2s ease,color .2s ease,border-color .2s ease,box-shadow .2s ease,transform .15s ease;
+  }
+  .nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.85;}
+  .nav-item:hover{background:rgba(255,255,255,.08);color:var(--text);}
+  .nav-item:active{transform:scale(.97);}
+  .nav-item.active{
+    background:linear-gradient(135deg, rgba(232,167,61,.32), rgba(232,167,61,.10));
+    color:var(--gold-bright);border:1px solid rgba(232,167,61,.4);
+    box-shadow:0 4px 16px rgba(232,167,61,.22), inset 0 1px 0 rgba(255,255,255,.25);
+  }
+  .nav-item.active svg{opacity:1;}
+
+  .main{margin-left:264px;flex:1;min-width:0;position:relative;z-index:1;}
+  .topbar{
+    position:sticky;top:16px;z-index:15;
+    background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));
+    backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    border:1px solid var(--glass-border);border-radius:24px;
+    box-shadow:0 16px 40px -14px rgba(0,0,0,.55), inset 0 1px 0 var(--glass-hi);
+    margin:0 34px;padding:18px 26px;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .topbar h1{font-family:'Space Grotesk';font-size:21px;font-weight:600;}
+  .topbar p{font-size:12.5px;color:var(--text-faint);margin-top:3px;}
+  .topbar-actions{display:flex;gap:10px;flex-shrink:0;}
+  .content{padding:20px 34px 70px;max-width:1400px;}
+
+  /* ---------- Ticker ---------- */
+  .ticker-wrap{
+    overflow:hidden;margin:14px 34px 0;border-radius:16px;
+    background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+  }
+  .ticker{display:flex;width:max-content;animation:tickerScroll 34s linear infinite;}
+  .ticker-item{display:flex;align-items:center;gap:8px;padding:9px 26px;font-family:'IBM Plex Mono';font-size:12.5px;white-space:nowrap;border-right:1px solid var(--border-soft);}
+  .ticker-item .lbl{color:var(--text-faint);}
+  @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.ticker{animation:none;}}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:999px;
+    font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;
+    font-family:'Inter';transition:filter .15s,background .15s,transform .15s,box-shadow .15s;
+  }
+  .btn:active{transform:scale(.96);}
+  .btn svg{width:14px;height:14px;}
+  .btn-primary{background:linear-gradient(135deg,var(--gold-bright),var(--gold));color:#1a1204;box-shadow:0 6px 18px rgba(232,167,61,.35), inset 0 1px 0 rgba(255,255,255,.5);}
+  .btn-primary:hover{filter:brightness(1.06);}
+  .btn-ghost{background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);color:var(--text-dim);}
+  .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.09);}
+  .btn-danger{background:transparent;border:1px solid rgba(255,92,92,.35);color:var(--red);}
+  .btn-danger:hover{background:var(--red-soft);}
+  .btn-sm{padding:7px 13px;font-size:12px;}
+  .icon-btn{background:var(--glass-bg);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:999px;padding:7px;cursor:pointer;color:var(--text-dim);display:inline-flex;transition:background .15s,color .15s,border-color .15s;}
+  .icon-btn:hover{color:var(--text);border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.09);}
+  .icon-btn svg{width:14px;height:14px;}
+
+  /* ---------- Stat cards ---------- */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px;margin-bottom:22px;}
+  .stat-card{
+    background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));
+    border:1px solid var(--glass-border);border-radius:20px;padding:18px 18px 16px;
+    backdrop-filter:blur(var(--glass-blur)) saturate(180%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    box-shadow:0 10px 26px -10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.10);
+  }
+  .stat-label{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-faint);margin-bottom:9px;font-weight:600;}
+  .stat-value{font-family:'IBM Plex Mono';font-size:23px;font-weight:600;}
+  .stat-sub{font-size:11.5px;color:var(--text-faint);margin-top:5px;}
+
+  /* ---------- Panels ---------- */
+  .panel{
+    background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));
+    border:1px solid var(--glass-border);border-radius:22px;padding:22px;margin-bottom:22px;
+    backdrop-filter:blur(var(--glass-blur)) saturate(180%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);
+    box-shadow:0 10px 30px -12px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+  }
+  .panel-title{font-family:'Space Grotesk';font-size:15.5px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .panel-title span.hint{font-family:'Inter';font-size:11.5px;color:var(--text-faint);font-weight:500;}
+  .grid-2{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;}
+  @media(max-width:1000px){.grid-2{grid-template-columns:1fr;}}
+
+  /* ---------- Table ---------- */
+  .table-wrap{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:12.8px;min-width:760px;}
+  th{text-align:left;padding:10px 12px;color:var(--text-faint);font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.6px;border-bottom:1px solid var(--border);white-space:nowrap;}
+  td{padding:11px 12px;border-bottom:1px solid var(--border-soft);font-family:'IBM Plex Mono';white-space:nowrap;}
+  tbody tr:hover td{background:var(--bg-elevated);}
+  .side-badge{padding:2px 8px;border-radius:5px;font-size:10.5px;font-weight:700;letter-spacing:.4px;}
+  .side-long{background:var(--green-soft);color:var(--green);}
+  .side-short{background:var(--red-soft);color:var(--red);}
+  .status-badge{padding:3px 10px;border-radius:20px;font-size:10.5px;font-weight:700;letter-spacing:.4px;display:inline-block;}
+  .status-win{background:var(--green-soft);color:var(--green);}
+  .status-loss{background:var(--red-soft);color:var(--red);}
+  .status-be{background:rgba(154,163,184,0.14);color:var(--text-dim);}
+  .tag-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10.5px;background:var(--bg-elevated);border:1px solid var(--border);margin-right:4px;color:var(--text-dim);font-family:'Inter';}
+
+  /* ---------- Filters ---------- */
+  .filter-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .filter-row input, .filter-row select{width:auto;min-width:130px;}
+
+  /* ---------- Forms ---------- */
+  input,select,textarea{
+    width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glass-border);border-radius:12px;
+    padding:9px 11px;color:var(--text);font-family:'Inter';font-size:13.2px;
+  }
+  textarea{font-family:'Inter';resize:vertical;min-height:70px;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold);}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:10.5px;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px;letter-spacing:.6px;font-weight:600;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-grid .span-2{grid-column:1/-1;}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(5,7,11,.6);backdrop-filter:blur(8px);display:flex;align-items:flex-start;justify-content:center;z-index:100;padding:5vh 20px;overflow-y:auto;}
+  .modal{
+    background:linear-gradient(165deg, rgba(23,28,39,.88), rgba(18,22,31,.88));
+    border:1px solid var(--glass-border);border-radius:26px;padding:26px 26px 24px;width:560px;max-width:100%;
+    backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);
+    box-shadow:0 30px 70px -18px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .modal-head h2{font-family:'Space Grotesk';font-size:17px;font-weight:600;}
+  .modal-close{background:transparent;border:none;color:var(--text-faint);cursor:pointer;font-size:20px;line-height:1;padding:4px;}
+  .modal-close:hover{color:var(--text);}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;}
+
+  /* ---------- Calendar ---------- */
+  .cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:14px;flex-wrap:wrap;}
+  .cal-nav{display:flex;gap:8px;align-items:center;}
+  .cal-month-label{font-family:'Space Grotesk';font-weight:600;font-size:15px;min-width:150px;text-align:center;}
+  .cal-stats{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:auto;}
+  .cal-stats-label{font-size:12px;color:var(--text-faint);font-weight:600;}
+  .cal-stats-pill{background:rgba(255,255,255,.06);border:1px solid var(--glass-border);border-radius:999px;padding:5px 13px;font-family:'IBM Plex Mono';font-size:12px;font-weight:600;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
+  .cal-dow{text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-faint);padding-bottom:6px;font-weight:600;}
+  .cal-cell{
+    min-height:78px;border-radius:16px;padding:8px;border:1px solid var(--border);
+    background:rgba(255,255,255,.03);cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;
+    transition:transform .15s;
+  }
+  .cal-cell:hover{transform:translateY(-1px);border-color:var(--text-faint);}
+  .cal-cell.empty{opacity:0;pointer-events:none;}
+  .cal-cell.pos{background:var(--green-soft);border-color:rgba(61,220,132,.3);}
+  .cal-cell.neg{background:var(--red-soft);border-color:rgba(255,92,92,.3);}
+  .cal-cell.today{outline:1.5px solid var(--gold);}
+  .cal-daynum{font-family:'IBM Plex Mono';font-size:12px;color:var(--text-dim);}
+  .cal-pnl{font-family:'IBM Plex Mono';font-size:12.5px;font-weight:600;}
+  .cal-count{font-size:9.5px;color:var(--text-faint);}
+
+  /* ---------- Playbook ---------- */
+  .playbook-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;}
+  .pb-card{background:linear-gradient(165deg, var(--glass-bg), var(--glass-bg-2));border:1px solid var(--glass-border);border-left:4px solid var(--pb-color,var(--gold));border-radius:18px;padding:18px;backdrop-filter:blur(var(--glass-blur)) saturate(180%);-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(180%);}
+  .pb-card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .pb-card h3{font-family:'Space Grotesk';font-size:15px;font-weight:600;}
+  .pb-rules{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:6px;}
+  .pb-rules li{font-size:12.5px;color:var(--text-dim);padding-left:14px;position:relative;}
+  .pb-rules li::before{content:"—";position:absolute;left:0;color:var(--text-faint);}
+  .pb-stats{display:flex;gap:16px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-soft);}
+  .pb-stat{}
+  .pb-stat .v{font-family:'IBM Plex Mono';font-size:15px;font-weight:600;}
+  .pb-stat .l{font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.5px;}
+  .pb-card-actions{display:flex;gap:6px;}
+
+  /* ---------- Journal list ---------- */
+  .journal-entry{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border-soft);}
+  .journal-entry:last-child{border-bottom:none;}
+  .journal-date-col{width:86px;flex-shrink:0;}
+  .journal-date-col .d{font-family:'Space Grotesk';font-weight:700;font-size:17px;}
+  .journal-date-col .m{font-size:11px;color:var(--text-faint);}
+  .journal-mood{font-size:20px;}
+  .journal-body{flex:1;font-size:13px;color:var(--text-dim);line-height:1.55;}
+  .journal-pnl-tag{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:5px;margin-left:8px;}
+  .journal-thumb{max-width:220px;max-height:150px;border-radius:8px;border:1px solid var(--border);cursor:pointer;display:block;}
+  .paste-zone{
+    border:1.5px dashed var(--border);border-radius:10px;padding:16px;text-align:center;
+    cursor:text;background:var(--bg-elevated);font-size:12.5px;color:var(--text-faint);
+    transition:border-color .15s,color .15s;
+  }
+  .paste-zone:hover, .paste-zone:focus{outline:none;border-color:var(--gold);color:var(--text-dim);}
+  .paste-zone img{max-width:100%;max-height:220px;border-radius:8px;display:block;margin:0 auto 10px;}
+
+  /* ---------- Empty state ---------- */
+  .empty-state{text-align:center;padding:50px 20px;color:var(--text-faint);}
+  .empty-state svg{width:40px;height:40px;margin-bottom:14px;opacity:.5;}
+  .empty-state p{font-size:13px;}
+
+  /* ---------- Charts ---------- */
+
+  .mood-picker{display:flex;gap:8px;}
+  .mood-opt{font-size:22px;padding:7px 10px;border-radius:9px;border:1.5px solid var(--border);cursor:pointer;background:var(--bg-elevated);}
+  .mood-opt.selected{border-color:var(--gold);background:rgba(212,169,79,.12);}
+
+  .day-trades-list{display:flex;flex-direction:column;gap:8px;margin:10px 0 16px;}
+  .day-trade-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg-elevated);border:1px solid var(--border-soft);border-radius:8px;padding:9px 12px;font-size:12.5px;font-family:'IBM Plex Mono';}
+
+  @media(max-width:820px){
+    .sidebar{
+      width:auto;height:64px;padding:8px 14px;left:10px;right:10px;top:auto;bottom:10px;
+      border-radius:999px;flex-direction:row;align-items:center;justify-content:space-around;
+      transform:none;
     }
-
-    body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: 'Inter', sans-serif;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    .font-heading { font-family: 'Space Grotesk', sans-serif; }
-
-    /* --- SUCCESS TOAST --- */
-    #success-toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-100px);
-        background: #000000;
-        color: #ffffff;
-        padding: 12px 24px;
-        z-index: 10000;
-        font-size: 10px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        border-radius: 2px;
-        transition: transform 0.6s var(--ease-heavy);
-        pointer-events: none;
-    }
-    #success-toast.active { transform: translateX(-50%) translateY(0); }
-
-    /* --- PIXEL TRANSITION --- */
-    #pixel-canvas {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 9998;
-        pointer-events: none;
-    }
-
-    /* --- NAVIGATION --- */
-    nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
-        transition: all 0.4s var(--ease-out);
-        border-bottom: 1px solid rgba(0,0,0,0);
-        padding: 1.5rem 0;
-    }
-    nav.scrolled {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: var(--ios-blur);
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        padding: 0.8rem 0;
-    }
-    .nav-container {
-        max-width: 1600px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .logo-container {
-        perspective: 1000px;
-        width: 45px;
-        height: 45px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .spinning-logo-img {
-        width: 100%; height: 100%; object-fit: contain;
-        animation: rotate3D 8s infinite linear; transform-style: preserve-3d;
-        
-    }
-    @keyframes rotate3D { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
-
-    /* --- GATEWAY --- */
-    #gateway {
-        position: fixed; inset: 0; background: #FFFFFF; z-index: 9999;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        transition: opacity 1.5s var(--ease-heavy);
-    }
-    #gateway.hidden { opacity: 0; pointer-events: none; }
-    .enter-trigger { letter-spacing: 1.5em; animation: pulse 3s infinite; font-weight: 300; font-size: 10px; color: black; }
-    @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-    /* --- PRODUCT CARDS --- */
-    .product-card { cursor: pointer; transition: all 0.6s var(--ease-out); position: relative; }
-    .img-container { background: #F9F9F9; overflow: hidden; position: relative; border-radius: 4px; border: 1px solid #f0f0f0; }
-    .img-container img { transition: transform 1.2s var(--ease-out); width: 100%; height: 100%; object-fit: cover; }
-    .product-card:hover .img-container img { transform: scale(1.05); }
-    
-    .view-label {
-        position: absolute; bottom: 12px; left: 12px;
-        z-index: 20; font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
-        text-transform: uppercase; background: white; color: black;
-        padding: 6px 10px; opacity: 1; /* Always visible */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    .status-label {
-        position: absolute; top: 12px; left: 12px;
-        z-index: 20; font-size: 7px; font-weight: 900; letter-spacing: 0.2em;
-        text-transform: uppercase; background: black; color: white;
-        padding: 4px 8px;
-    }
-
-    /* Blur for coming soon items */
-    .blur-preview {
-        filter: blur(15px) grayscale(100%);
-        transform: scale(1.1);
-    }
-
-    /* --- PRODUCT FULL VIEW --- */
-    #product-full-view {
-        position: fixed; inset: 0; background: #FFFFFF; z-index: 5000;
-        display: none; flex-direction: column; overflow-y: auto;
-        opacity: 0; transition: opacity 0.5s var(--ease-out);
-    }
-    #product-full-view.active { display: flex; opacity: 1; }
-
-    /* --- CART SIDEBAR --- */
-    #cart-sidebar {
-        position: fixed; right: -100%; top: 0; width: 100%; max-width: 400px;
-        height: 100vh; background: #FFFFFF; z-index: 2100;
-        transition: right 0.6s var(--ease-heavy); display: flex; flex-direction: column;
-        border-left: 1px solid rgba(0,0,0,0.05);
-        box-shadow: -20px 0 50px rgba(0,0,0,0.02);
-    }
-    #cart-sidebar.open { right: 0; }
-
-    /* --- TICKER --- */
-    .ticker-container { width: 100%; overflow: hidden; background: #000; color: #fff; padding: 10px 0; }
-    .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; font-size: 8px; font-weight: 800; letter-spacing: 0.4em; }
-    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* --- CHECKOUT OVERLAY --- */
-    #checkout-overlay {
-        position: fixed; inset: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(15px);
-        z-index: 6000; display: none; overflow-y: auto;
-    }
-    #checkout-overlay.active { display: block; }
-    
-    .checkout-field {
-        background: #F9F9F9;
-        border: 1px solid #EEEEEE;
-        width: 100%;
-        padding: 1.25rem 1.5rem;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-    .checkout-field:focus { outline: none; border-color: #000; background: #FFF; }
-
-    .color-opt { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
-    .color-opt.selected { outline: 1px solid #000; outline-offset: 3px; }
-
-    .bg-black-opt { background: #000; }
-    .bg-white-opt { background: #fff; border: 1px solid #ddd; }
-    .bg-marron-opt { background: #800000; }
-    .bg-navy-opt { background: #1e3a8a; }
-    .bg-beige-opt { background: #EEDC82; }
-    .bg-pink-opt { background: #f472b6; }
-    .bg-lightblue-opt { background: #bae6fd; }
-    .bg-purple-opt { background: #6b21a8; }
-
-      .reveal-on-scroll {
-    transition: all 1.0s var(--ease-out);
-}
-.reveal-hidden {
-    opacity: 0;
-    transform: translateY(30px);
-}
-.reveal-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-      #loader-container {
-    border-radius: 2px;
-}
-
-#loader-bar {
-    /* This ensures the width transition is smooth over exactly 2 seconds */
-    transition: width 2s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-      /* Update your existing .blur-preview class or add this below it */
-.blur-preview {
-    filter: blur(15px) grayscale(100%);
-    transform: scale(1.1);
-    
-    /* COMPLETE INACTIVITY LOCK */
-    pointer-events: none;       /* Makes it unclickable and un-scrollable */
-    user-select: none;          /* Prevents highlighting */
-    -webkit-touch-callout: none;/* Prevents iOS long-press menu */
-    -webkit-user-drag: none;    /* Prevents dragging image to a new tab */
-}
-      /* Black Gateway Theme */
-#gateway {
-    background-color: #000000 !important; /* Forces black background */
-}
-
-/* Ensure the logo is white during loading */
-#gateway .spinning-logo-img {
-    filter: invert(1); 
-}
-
-/* Update the loading bar for visibility on black */
-#loader-container {
-    background-color: rgba(255, 255, 255, 0.1); /* Dim track */
-}
-
-#loader-bar {
-    background-color: #FFFFFF; /* Pure white progress bar */
-}
-
-      
-</style>          
+    .sidebar .logo{display:none;}
+    .sidebar .nav-section-label{display:none;}
+    .sidebar .nav-list{display:contents;}
+    .sidebar .nav-item{justify-content:center;padding:0;gap:0;width:44px;height:44px;border-radius:999px;}
+    .sidebar .nav-label{display:none;}
+    .sidebar .nav-item svg{width:18px;height:18px;}
+    .main{margin-left:0;}
+    .topbar{margin:0 16px;border-radius:20px;}
+    .ticker-wrap{margin:12px 16px 0;}
+    .content{padding:20px 16px 96px;}
+    .form-grid{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+  }
+</style>
 </head>
+<body>
 
-<body class="overflow-hidden">
-    <div id="success-toast">✅ADDED TO CART </div>
-    <canvas id="pixel-canvas"></canvas>
-
-    <!-- LOADING GATEWAY -->
-    <div id="gateway" class="fixed inset-0 z- flex flex-col items-center justify-center transition-opacity duration-1000 ease-heavy">
-    <div class="relative w-32 h-32 mb-12">
-        <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img w-full h-full object-contain" alt="KÖCE">
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 38 38"><rect x="10" y="8" width="4" height="22" fill="#0B0E14"/><rect x="7" y="14" width="10" height="10" fill="#0B0E14"/><rect x="23" y="4" width="4" height="30" fill="#0B0E14" opacity=".55"/><rect x="20" y="12" width="10" height="8" fill="#0B0E14" opacity=".55"/></svg>
+      </div>
+      <div>
+        <div class="logo-text">KC</div>
+        <div class="logo-sub">Trading Journal</div>
+      </div>
     </div>
 
-    <div id="loader-container" class="w-48 h-[2px] mt-4 overflow-hidden relative">
-        <div id="loader-bar" class="absolute top-0 left-0 h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+    <div class="nav-section-label">Overview</div>
+    <ul class="nav-list">
+      <li class="nav-item" data-tab="dashboard" title="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l4-4 4 4 6-8 4 4"/><path d="M3 20h18"/></svg><span class="nav-label">Dashboard</span></li>
+      <li class="nav-item" data-tab="calendar" title="Calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span class="nav-label">Calendar</span></li>
+    </ul>
+
+    <div class="nav-section-label">Journal</div>
+    <ul class="nav-list">
+      <li class="nav-item" data-tab="trades" title="Trade Log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v4H4zM4 12h16M4 16h10M4 20h6"/></svg><span class="nav-label">Trade Log</span></li>
+      <li class="nav-item" data-tab="playbook" title="Playbook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5a2 2 0 012-2h12v18H6a2 2 0 01-2-2zM8 7h8M8 11h8"/></svg><span class="nav-label">Playbook</span></li>
+      <li class="nav-item" data-tab="journal" title="Notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20l-7 2 2-7L18.5 3.5a2.1 2.1 0 013 3L12 20z"/></svg><span class="nav-label">Notes</span></li>
+    </ul>
+
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <p id="pageSubtitle">Your trading performance, at a glance.</p>
+      </div>
+      <div class="topbar-actions" id="topbarActions"></div>
     </div>
+
+    <div class="ticker-wrap"><div class="ticker" id="tickerStrip"></div></div>
+
+    <div class="content" id="content"></div>
+  </main>
 </div>
 
-   
+<div id="modalRoot"></div>
 
-    <!-- NAVIGATION -->
-    <nav id="main-nav" class="opacity-0">
-        <div class="nav-container">
-            <div class="flex-1">
-                <button onclick="triggerTransition('home')" class="text-[9px] font-black uppercase tracking-[0.2em] hover:opacity-40 transition-all">Home</button>
-            </div>
-            <div class="logo-container">
-                <img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img" alt="KOCE">
-            </div>
-            <div class="flex-1 flex justify-end items-center gap-4.5">
-                
-                <button onclick="toggleCart()" class="relative pt-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                  
-                    <div id="cart-count-badge" class="absolute -top-1 -right-2 bg-black text-white text-[7px] font-black w-4 h-4 rounded-full flex items-center justify-center hidden">0</div>
-                </button>
-            </div>
-        </div>
-    </nav>
+<script>
+/* =========================================================
+   KC — Trading Journal
+   Single-file app: state, storage, rendering, charts
+   ========================================================= */
 
-    <!-- PRODUCT FULL VIEW -->
-    <div id="product-full-view">
-        <div class="p-6 flex justify-between items-center border-b border-gray-50">
-            <button onclick="closeProductView()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg></button>
-            <span class="text-[8px] font-black uppercase tracking-[0.5em] opacity-40">Artifact Specification</span>
-            <button onclick="closeProductView()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-        </div>
-        <div class="flex-grow grid grid-cols-1 lg:grid-cols-2">
-            <div class="bg-[#F9F9F9] flex items-center justify-center p-8">
-                <img id="full-view-img" src="https://lh3.googleusercontent.com/u/0/d/1YJWnkb5M9ioQRxQluvkAffHE7HVpAsW3" class="max-h-[70vh] w-auto object-contain">
-            </div>
-            <div class="p-8 lg:p-24 flex flex-col justify-center space-y-12 bg-white">
-                <div class="space-y-4">
-                    <h2 id="full-view-name" class="font-heading font-bold text-6xl lg:text-8xl uppercase tracking-tighter">Artifact</h2>
-                    <div id="full-view-price" class="text-xl font-heading font-medium opacity-40 italic">KSh 0</div>
-                   
-                </div>
-                <div class="space-y-10">
-                    <div class="space-y-4">
-                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Color</p>
-                        <div id="full-view-colors" class="flex gap-5"></div>
-                    </div>
-                    <div class="space-y-4">
-                        <p class="text-[8px] font-black uppercase tracking-[0.4em] opacity-30">Size</p>
-                        <div id="full-view-sizes" class="flex flex-wrap gap-2"></div>
-                    </div>
-                </div>
-                <button id="full-view-add-btn" class="w-full py-5 bg-black text-white font-black uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-800 transition-all rounded-md">Add to bag</button>
-            </div>
-        </div>
-    </div>
+const SYMBOLS = ["AAPL","TSLA","NVDA","SPY","QQQ","MSFT","AMD","BTCUSD","META","AMZN"];
 
-    <!-- CART SIDEBAR -->
-    <div id="cart-sidebar">
-        <div class="p-8 flex justify-between items-center border-b border-gray-100">
-            <h2 class="font-heading font-bold text-xl uppercase tracking-tighter">Bag</h2>
-            <button onclick="toggleCart()"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-        </div>
-        <div id="cart-list" class="flex-grow overflow-y-auto p-8 space-y-4"></div>
-        <div class="p-8 border-t border-gray-100 space-y-4">
-            <div class="flex justify-between items-end"><span class="text-[9px] font-black uppercase tracking-widest opacity-40">Subtotal</span><div id="cart-total" class="text-2xl font-heading font-bold tracking-tighter">KSh 0</div></div>
-            <button onclick="openCheckout()" class="w-full py-5 bg-black text-white font-black uppercase text-[9px] tracking-[0.3em] hover:bg-zinc-800 transition-colors rounded-md">Begin Checkout</button>
-        </div>
-    </div>
+let state = {
+  trades: [],
+  playbook: [],
+  journal: {},        // dateStr -> {note, mood}
+  activeTab: "dashboard",
+  calendarDate: new Date(),
+  editingTradeId: null,
+  editingPlaybookId: null,
+  activeDay: null,
+  filters: { search:"", side:"all", setup:"all" }
+};
 
-    <!-- CHECKOUT INTEGRATED OVERLAY -->
-    <div id="checkout-overlay">
-        <div class="max-w-xl mx-auto min-h-screen py-24 px-8">
-            <div class="flex justify-between items-center mb-16">
-                <button onclick="closeCheckout()" class="text-[9px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-all">← Back to Shop</button>
-                <div class="logo-container w-8 h-8"><img src="https://lh3.googleusercontent.com/u/0/d/1FBQ4RU6jvjHrLgq7YvO3XAI4Y31iyG6k" class="spinning-logo-img opacity-1" alt="KOCE"></div>
-            </div>
+let chartRefs = {};
+const hasStorage = (typeof window !== "undefined" && !!window.storage);
 
-            <!-- PHASE 1: SHIPPING -->
-            <div id="phase-shipping" class="space-y-12">
-                <div class="space-y-2">
-                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Checkout</h3>
-                    <p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-30">Shipping & Logistics</p>
-                </div>
-                
-                <div class="space-y-4">
-                    <input type="text" id="cust-name" placeholder="Full Name / Recipient" class="checkout-field">
-                    <input type="tel" id="cust-phone" placeholder="Contact Phone" class="checkout-field">
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <select id="cust-region" onchange="toggleCityView()" class="checkout-field appearance-none">
-                            <option value="NAIROBI">Nairobi Hub</option>
-                            <option value="OUTSIDE_NAIROBI">Outside Nairobi</option>
-                        </select>
-                        <select id="cust-nairobi-area" class="checkout-field appearance-none">
-                            <option value="LAVINGTON">Lavington</option>
-                            <option value="KAREN">Karen</option>
-                            <option value="WESTLANDS">Westlands</option>
-                            <option value="KILIMANI">Kilimani</option>
-                            <option value="KILELESHWA">Kileleshwa</option>
-                            <option value="RUNDA">Runda</option>
-                            <option value="MUTHAIGA">Muthaiga</option>
-                            <option value="UPPERHILL">Upperhill</option>
-                            <option value="GIGIRI">Gigiri</option>
-                            <option value="CBD">CBD (Town)</option>
-                            <option value="OTHER">Other</option>
-                        </select>
-                        <select id="cust-city-select" class="checkout-field appearance-none hidden">
-                            <option value="NAKURU">Nakuru</option>
-                            <option value="MOMBASA">Mombasa</option>
-                            <option value="KISUMU">Kisumu</option>
-                            <option value="ELDORET">Eldoret</option>
-                        </select>
-                    </div>
+/* ---------------- Utilities ---------------- */
+const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+const fmtMoney = (n) => {
+  const sign = n < 0 ? "-" : "";
+  return sign + "$" + Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+};
+const fmtPct = (n) => (isFinite(n) ? n.toFixed(1) : "0.0") + "%";
+const pnlClass = (n) => n > 0 ? "pos" : n < 0 ? "neg" : "flat";
+const dateStr = (d) => {
+  const dt = (d instanceof Date) ? d : new Date(d);
+  const y = dt.getFullYear();
+  const m = String(dt.getMonth() + 1).padStart(2, "0");
+  const day = String(dt.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+const prettyDate = (ds) => {
+  const d = new Date(ds + "T00:00:00");
+  return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+};
+const dayName = (ds) => new Date(ds + "T00:00:00").toLocaleDateString(undefined,{weekday:"short"});
+const escapeHtml = (s) => (s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-                    <textarea id="cust-location" placeholder="Specific Location Details / Apartment" class="checkout-field h-32 resize-none pt-4"></textarea>
-                </div>
-
-                <p id="form-error" class="text-[9px] text-red-500 font-bold uppercase tracking-widest hidden">Required Fields Missing</p>
-
-                <button onclick="generateOrderHash()" class="w-full py-5 bg-black text-white rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-                    Generate Order Summary
-                </button>
-            </div>
-
-            <!-- PHASE 2: SUMMARY -->
-            <div id="phase-summary" class="hidden space-y-12">
-                <div class="space-y-2">
-                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Review</h3>
-                    <p class="text-[9px] font-black uppercase tracking-[0.3em] opacity-30">Artifact Validation</p>
-                </div>
-                
-                <div id="order-hash-container" class="bg-gray-50 p-8 rounded-xl font-mono text-[10px] whitespace-pre-wrap leading-relaxed border border-gray-100"></div>
-                
-                <div class="space-y-4">
-                    <button id="final-copy-btn" onclick="copyAndFinalize()" class="w-full py-5 bg-black text-white rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-zinc-800 transition-all">
-                        Validate & Copy
-                    </button>
-                    <button onclick="backToShipping()" class="w-full text-[9px] font-black uppercase tracking-[0.4em] opacity-40 hover:opacity-100 transition-colors">Modify Details</button>
-                </div>
-            </div>
-
-            <!-- PHASE 3: FINAL INSTRUCTIONS -->
-            <div id="phase-final" class="hidden text-center space-y-12 py-10">
-                <div class="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto text-3xl">✓</div>
-                <div class="space-y-4">
-                    <h3 class="text-4xl font-heading font-bold uppercase tracking-tighter">Order Prepared</h3>
-                    <p class="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 leading-relaxed max-w-xs mx-auto">Your order data has been copied. Finalize the transaction via Instagram.</p>
-                </div>
-                
-                <div class="text-left space-y-6 bg-gray-50 p-8 rounded-xl">
-                    <div class="flex gap-4">
-                        <span class="text-xs font-black opacity-10">01</span>
-                        <p class="text-[9px] font-bold uppercase tracking-widest">Open Instagram DM to @kocestructuralwear</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-xs font-black opacity-10">02</span>
-                        <p class="text-[9px] font-bold uppercase tracking-widest">Paste the copied order summary</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-xs font-black opacity-10">03</span>
-                        <p class="text-[9px] font-bold uppercase tracking-widest"> Wait for confirmation & to receive M-PESA details for payment</p>
-                    </div>
-                </div>
-
-                <button onclick="window.location.reload()" class="w-full py-5 border border-black text-black rounded-md font-black uppercase text-[11px] tracking-[0.4em] hover:bg-black hover:text-white transition-all">
-                    Dismiss
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- HOME PAGE -->
-     <div id="home" class="page min-h-screen">
-    <section class="h-[95vh] w-full flex flex-col items-center justify-center text-center px-6 relative">
-        <h1 class="text-[20vw] md:text-[14vw] font-heading font-bold tracking-[-0.08em] leading-none mb-4">KÖCE</h1>
-        <div class="flex flex-col items-center gap-6">
-            <p class="text-[9px] md:text-[11px] uppercase tracking-[0.8em] opacity-30 font-black">Structural Wear </p>
-            <button onclick="triggerTransition('shop')" class="px-12 py-4 border border-black hover:bg-black hover:text-white text-[9px] font-black tracking-[0.4em] uppercase transition-all rounded-full">Shop</button>
-        </div>
-
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span class="text-[8px] uppercase font-bold tracking-[0.5em] opacity-30">Scroll Down</span>
-            <div class="w-[1px] h-12 bg-gradient-to-b from-black to-transparent"></div>
-        </div>
-    </section>
-
-    <div class="ticker-container">
-        <div class="ticker-content">
-            STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //  
-            STRUCTURAL INTEGRITY // NOISE SUPPRESSION // BRUTALIST AESTHETICS // KENYA METROPOLIS //   
-        </div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-10 py-60 text-black">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-20 lg:gap-20 items-end mb-80 reveal-on-scroll reveal-hidden">
-            <div class="lg:col-span-7">
-                <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-10">CORE_LOGIC</span>
-                <h3 class="font-heading font-bold text-6xl md:text-8xl tracking-tighter uppercase leading-[0.85] mb-12">Stripping noise.</h3>
-                
-                <h4 class="font-bold text-[11px] uppercase tracking-widest mb-4">I. THE CORE PROBLEM: VISUAL NOISE & FABRIC DECAY</h4>
-                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-                    Modern fashion is currently in a state of chaos. We call this "Visual Noise." It is the constant bombardment of loud, meaningless graphics and "hype" that expires within weeks. This noise creates a cycle of Fast-Fashion Fatigue, where clothes aren’t designed to last—physically or aesthetically.
-                </p>
-                <br>
-                <h4 class="font-bold text-[11px] uppercase tracking-widest mb-4">II. THE SOLUTION: NOISE SUPPRESSION & UNIVERSAL DESIGN</h4>
-                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-                    KÖCE functions as a Noise Suppression System. We strip away the unnecessary until only the "Signal" remains. Our pieces solve the issue of garment longevity through Structural Engineering.
-                </p>
-            </div>
-            <div class="lg:col-span-5">
-                <div class="border-l-4 border-black pl-8 py-4">
-                    <h4 class="text-[10px] font-black tracking-widest mb-6 opacity-40 uppercase">ENGINEERING SPECS</h4>
-                    <ul class="space-y-4 text-[11px] uppercase tracking-widest font-bold opacity-60">
-                        <li>- 100% Pure cotton</li>
-                        <li>- Geometrical Load Balancing</li>
-                        <li>- Multi-Seasonal Resilience</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full h-[60vh] bg-black text-white rounded-[40px] mb-80 flex flex-col items-center justify-center text-center p-10 reveal-on-scroll reveal-hidden overflow-hidden relative">
-            <div class="absolute inset-0 opacity-[0.05] pointer-events-none select-none flex flex-col justify-center">
-                <span class="text-[30vw] font-black leading-none uppercase">KÖCE</span>
-            </div>
-            <span class="text-[9px] font-black uppercase tracking-[1em] opacity-20 block mb-12">THE_MISSION</span>
-            <p class="font-heading font-black text-2xl md:text-4xl tracking-tight leading-snug max-w-3xl z-10">
-                "To engineer minimalist apparel that prioritizes structural form and timeless utility over fleeting trends."
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-40">
-            <div class="bg-black text-white p-12 rounded-[32px] reveal-on-scroll reveal-hidden">
-                 <span class="text-[8px] font-black uppercase tracking-[0.5em] opacity-40 block mb-10">ASSEMBLY_DIRECTOR</span>
-                 <p class="text-xl italic font-light leading-relaxed mb-12">
-                    "Permanence is the ultimate luxury. In a world of fast-fashion, we build things that refuse to die."
-                 </p>
-                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-[1px] bg-white/20"></div>
-                    <span class="text-[10px] font-black tracking-widest uppercase">Founder: Darren Chemoiwa</span>
-                 </div>
-            </div>
-            <div class="border border-black/10 p-12 rounded-[32px] flex flex-col justify-center reveal-on-scroll reveal-hidden">
-                <h5 class="font-heading font-bold text-3xl uppercase tracking-tighter mb-6">Origin.</h5>
-                <p class="text-xs uppercase tracking-widest leading-loose opacity-40">
-                    Rooted in the industrial pulse of Kenya (NRU-NRB). Designed for the global citizen who appreciates the raw, the real, and the refined.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-    <!-- SHOP PAGE -->
-  <div id="shop" class="page pt-32 pb-24 relative min-h-screen" style="display:none">
-    <div class="max-w-[1400px] mx-auto px-6">
-        <div id="vault-timer" class="fixed inset-0 flex flex-col items-center justify-center z-40 hidden pointer-events-none">
-            <p class="text-[10px] font-black uppercase tracking-[0.8em] mb-4 opacity-30">Vault Protocol Active</p>
-            <div id="countdown-display" class="font-heading font-bold text-5xl md:text-[10vw] tracking-tighter leading-none">00:00:00:00</div>
-            <p id="shop-status-text" class="text-[9px] font-black uppercase tracking-[0.4em] mt-8 opacity-20">LOCKED / PRE-ORDER VAULT</p>
-        </div>
-
-        <div id="vault-warning" class="fixed inset-0 bg-red-600 z- flex flex-col items-center justify-center text-white opacity-0 pointer-events-none transition-all duration-1000">
-            <h2 class="font-heading font-black text-6xl md:text-9xl tracking-tighter italic animate-pulse">SYSTEM_BREACH</h2>
-            <p class="text-[11px] font-black tracking-[1em] uppercase mt-4">Structural integrity compromised in 120s</p>
-        </div>
-
-        <div id="shop-content-wrapper" class="transition-opacity duration-1000">
-            <div class="mb-16">
-                <h3 class="text-5xl md:text-8xl font-heading font-bold uppercase tracking-tighter">Archive</h3>
-                <p class="text-[10px] font-black uppercase tracking-[0.4em] opacity-20">001 / Structural Foundation</p>
-            </div>
-            <div id="shop-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-16"></div>
-        </div>
-    </div>
-</div>
-
-    <script>
-        const products = [
-            { id: 'BØ', name: 'Dream', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1L3sfvWASbLidxYtq0LraptugMc18-RiQ', white: 'https://lh3.googleusercontent.com/u/0/d/1KKTgfG79EipwbvGVCO6OqliXBE_kork1' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'B2', name: 'Botanica', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1DhNvjosN3BBaM13S3kaJ3P7LK_vnsB2B', white: 'https://lh3.googleusercontent.com/u/0/d/1OL3FFSqk0OGVrLGHB_Da1tXZN71agc0N' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'active' },
-            { id: 'C1', name: 'Köllared', price: 0, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1fLY8MmBiuaUaPaisaw5PqjCzKjCbthTz', white: 'https://lh3.googleusercontent.com/u/0/d/1MCTToq4LrfTTeHhWzgqVKaqkfoIEao2A', navy: 'https://lh3.googleusercontent.com/u/0/d/1ZN_ICADYkhTumxVNyxvQRjefy0WdvxXG' }, colors: ['black', 'white', 'navy'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B3', name: 'Us', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1Xeai-OR1LvKddd2zcoVuC3Ee8UTRwIMj', white: 'https://lh3.googleusercontent.com/u/0/d/1SPyAXtnSswGlTSk_sh3PKUiGu7Q0Q8V6', beige: 'https://lh3.googleusercontent.com/u/0/d/1V6cs-_lOi5VV5tF1y1udiHiICZQ3VVkm' }, colors: ['black', 'white', 'beige'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B4', name: 'Universe', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1ucFVcSp7vhHL5uephTfzHWrjwKGJ4xu8', white: ' https://lh3.googleusercontent.com/u/0/d/1b_rW7C-hoBBqj0f5PIqPcegNwejuFcop' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'LT1', name: 'Prive', price: 1199, img: { pink: 'https://lh3.googleusercontent.com/u/0/d/1uY92BUQHDjTtk0v_0vqPTqyN7OeHY_uk' }, colors: ['pink'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B5', name: 'Capsule', price: 850, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1OIYTwTarvR0loLK115EZvG3bh87NFHOS', white: 'https://lh3.googleusercontent.com/u/0/d/1ZU-9Bs4ifgDCdbdgQKpirZyCnKvo6O3p' }, colors: ['black', 'white'], sizes: ['M', 'L'], status: 'coming-soon' },
-            { id: 'B6', name: 'Hope', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1pqIJ4p8-_xuQ45Q15Zw7HSfrCPuOxzwV', white: 'https://lh3.googleusercontent.com/u/0/d/1J08_c3x1PGl4osXPZynXNiNZrC9hi71Q' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B7', name: 'Construct', price: 899, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1rDAC4eWjIree2n9pjkuFX3cNjGz_9Qzr', white: 'https://lh3.googleusercontent.com/u/0/d/18S2FMFTmkNJnzblEcUAVFI9lpljtyP6x' }, colors: ['black', 'white'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B8', name: 'Feed', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1T501amo4gK2GJDipB0jsuV0sP7rLs9jx', white: 'https://lh3.googleusercontent.com/u/0/d/1PWd0zO-JQEBAtV71u4oZO6Uxe3k4lhjx', marron: 'https://lh3.googleusercontent.com/u/0/d/1maJUgICoURcvjtYGdQ6Ugwm53iD6zVzW' }, colors: ['black', 'white', 'marron'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'B9', name: 'Elitra', price: 999, img: { black: 'https://lh3.googleusercontent.com/u/0/d/1bPjgDRuMKuvSpo2mrqvrFzI9z8jLvmxT', white: 'https://lh3.googleusercontent.com/u/0/d/1UPicVGV0P9bvvY0gelcltn-Tc2NWfBCC', purple: 'https://lh3.googleusercontent.com/u/0/d/1tT0KEOgkZcEiTbx-_TBVaoYiaLElDJ3j' }, colors: ['black', 'white', 'purple'], sizes: ['S', 'M', 'L'], status: 'coming-soon' },
-            { id: 'LT2', name: 'Atelier', price: 1199, img: { lightblue: ' https://lh3.googleusercontent.com/u/0/d/1X6h6bpHV0U-mP6n6KUMGUttYYVTZ4A_D' }, colors: ['lightblue'], sizes: ['S', 'M', 'L'], status: 'coming-soon' }
-        ];
-
-        let cart = [];
-        let selections = {};
-        let currentFullId = null;
-
-        const canvas = document.getElementById('pixel-canvas');
-        const ctx = canvas.getContext('2d');
-        let pixelSize = 50;
-        let pixels = [];
-
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function triggerTransition(targetId) {
-            const cols = Math.ceil(canvas.width / pixelSize);
-            const rows = Math.ceil(canvas.height / pixelSize);
-            pixels = [];
-            for (let x = 0; x < cols; x++) { for (let y = 0; y < rows; y++) { pixels.push({ x: x * pixelSize, y: y * pixelSize, delay: Math.random() * 400 }); } }
-            let start = null;
-            function animate(timestamp) {
-                if (!start) start = timestamp;
-                const progress = timestamp - start;
-                ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#000000';
-                let allDone = true;
-                pixels.forEach(p => { if (progress > p.delay) { const s = Math.min((progress - p.delay) / 300, 1); ctx.fillRect(p.x, p.y, pixelSize * s, pixelSize * s); if (s < 1) allDone = false; } else { allDone = false; } });
-                if (progress > 400) navigate(targetId);
-                if (!allDone) requestAnimationFrame(animate);
-                else {
-                    setTimeout(() => {
-                        let fStart = null;
-                        function fade(ft) { if (!fStart) fStart = ft; const fp = (ft - fStart) / 400; ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.globalAlpha = 1 - fp; ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, canvas.width, canvas.height); if (fp < 1) requestAnimationFrame(fade); else ctx.globalAlpha = 1; }
-                        requestAnimationFrame(fade);
-                    }, 100);
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-      function enterSite() {
-    document.body.classList.remove('overflow-hidden');
-    document.getElementById('gateway').classList.add('hidden');
-    document.getElementById('main-nav').style.opacity = "1";
-    // Setup scroll listener for the nav background
-    window.addEventListener('scroll', () => { 
-        document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50); 
-    });
+function computeTradePnl(t){
+  const pnl = t.reward || 0;
+  const r = t.risk > 0 ? pnl / t.risk : null;
+  return { pnl, r };
 }
 
-        function navigate(id) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-            if(id === 'shop') renderShop();
-            window.scrollTo(0, 0);
-        }
-
-       function renderShop() {
-    const grid = document.getElementById('shop-grid');
-    grid.innerHTML = products.map((p) => {
-        const isInactive = ['sold-out', 'out-of-stock', 'coming-soon', 'vault'].includes(p.status);
-        
-        // Formatting labels
-        const labelText = p.status.replace('-', ' ');
-        const label = p.status !== 'active' ? `<div class="status-label">${labelText}</div>` : '';
-        
-        // Apply classes based on status
-        const blurClass = p.status === 'coming-soon' ? 'blur-preview' : '';
-        const opacityClass = isInactive ? 'opacity-60 grayscale' : '';
-        
-        // PHYSICAL CLICK LOCK
-        // If it's coming-soon, we provide NO onclick attribute at all
-        const clickAction = isInactive ? '' : `onclick="openProductView('${p.id}')"`;
-        const cursorClass = isInactive ? 'cursor-default' : 'cursor-pointer';
-
-        const displayImg = p.img.black || p.img[Object.keys(p.img)];
-
-        return `
-        <div class="product-card ${opacityClass} ${cursorClass}" ${clickAction}>
-            <div class="img-container aspect-[4/5] mb-6 overflow-hidden">
-                <img src="${displayImg}" 
-                     class="w-full h-full object-cover ${blurClass}" 
-                     draggable="false" 
-                     oncontextmenu="return false;">
-                ${label}
-                ${!isInactive ? '<div class="view-label">View Item</div>' : ''}
-            </div>
-            <div class="space-y-1">
-                <h4 class="text-[10px] font-black uppercase tracking-[0.1em]">${p.name}</h4>
-                <div class="flex justify-between items-center">
-                    <span class="text-[8px] opacity-30 font-black uppercase tracking-widest">${p.id}</span>
-                    <span class="text-[10px] font-heading font-medium">${isInactive ? '---' : 'KSh ' + p.price}</span>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
+function withComputed(t){
+  const { pnl, r } = computeTradePnl(t);
+  return { ...t, pnl, r };
 }
 
-function openProductView(id) {
-  
-    const p = products.find(x => x.id === id);
-    
-    // Safety check: if someone forces the function open for an inactive item, block it
-    if (['sold-out', 'out-of-stock', 'coming-soon', 'vault'].includes(p.status)) return;
-
-    currentFullId = id;
-    
-    const defaultColor = p.colors.includes('black') ? 'black' : p.colors;
-    if(!selections[id]) { selections[id] = { color: defaultColor, size: null }; }
-    
-    document.getElementById('full-view-name').innerText = p.name;
-    document.getElementById('full-view-price').innerText = `KSh ${p.price}`;
-    document.getElementById('full-view-img').src = p.img[selections[id].color];
-    
-    document.getElementById('full-view-colors').innerHTML = p.colors.map(c => 
-        `<div class="color-opt bg-${c}-opt ${c === selections[id].color ? 'selected' : ''}" 
-        onclick="updateDetailOpt('color', '${c}', this)"></div>`).join('');
-        
-    document.getElementById('full-view-sizes').innerHTML = p.sizes.map(s => 
-        `<button class="px-5 py-2 border border-gray-100 text-[10px] font-black uppercase tracking-widest transition-all 
-        ${s === selections[id].size ? 'bg-black text-white border-black' : 'hover:border-gray-300'}" 
-        onclick="updateDetailOpt('size', '${s}', this)">${s}</button>`).join('');
-
-    const btn = document.getElementById('full-view-add-btn');
-    btn.innerText = "Add to Inventory";
-    btn.classList.remove('opacity-30', 'pointer-events-none');
-    btn.onclick = () => addToCart(id);
-
-    const view = document.getElementById('product-full-view');
-    view.style.display = 'flex'; 
-    setTimeout(() => view.classList.add('active'), 10);
-    document.body.style.overflow = 'hidden';
+function allTradesComputed(){
+  return state.trades.map(withComputed).sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
 }
 
-        function updateDetailOpt(type, val, el) {
-            const p = products.find(x => x.id === currentFullId);
-            if(type === 'color') { selections[currentFullId].color = val; document.getElementById('full-view-img').src = p.img[val]; el.parentElement.querySelectorAll('.color-opt').forEach(x => x.classList.remove('selected')); el.classList.add('selected'); }
-            else { selections[currentFullId].size = val; el.parentElement.querySelectorAll('button').forEach(x => x.classList.remove('bg-black', 'text-white', 'border-black')); el.classList.add('bg-black', 'text-white', 'border-black'); }
+/* ---------------- Seed data ---------------- */
+function seedPlaybook(){
+  return [
+    { id: uid(), name: "Opening Range Breakout", color:"#D4A94F", rules:"Wait for the first 15-min range to form\nEnter on a break above range high with volume confirmation\nStop below range midpoint\nTarget 2R minimum" },
+    { id: uid(), name: "VWAP Reversion", color:"#3DDC84", rules:"Only trade when price is extended 1.5%+ from VWAP\nWait for a rejection candle back toward VWAP\nSize down on high volatility days\nExit at VWAP or prior structure" },
+    { id: uid(), name: "Trend Pullback", color:"#7C9CFF", rules:"Identify the higher-timeframe trend first\nBuy pullbacks to rising 20EMA in uptrends\nConfirm with bullish momentum shift on entry timeframe\nTrail stop under swing lows" },
+    { id: uid(), name: "News Momentum", color:"#FF5C5C", rules:"Only trade names with a clear catalyst\nWait for the first 1-min candle to close\nEnter on continuation, not the initial spike\nHard stop at 1R, no averaging down" }
+  ];
+}
+
+function seedTrades(){
+  // Fixed sample trades baked into the file so results are identical for anyone this site is shared with.
+  // Risk and result amounts are 2x the original reference figures.
+  return [
+    { id:"kc-demo-1", date:"2026-07-28", time:"09:41", symbol:"EURUSD", side:"long",  risk:1127.84, reward:2255.68, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-2", date:"2026-07-27", time:"08:55", symbol:"NZDUSD", side:"short", risk:1084.52, reward:2026.34, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-3", date:"2026-07-23", time:"10:12", symbol:"EURUSD", side:"short", risk:1089.70, reward:-1089.70, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-4", date:"2026-07-21", time:"07:48", symbol:"USDCAD", side:"long",  risk:1223.86, reward:1331.06, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-5", date:"2026-07-20", time:"09:03", symbol:"GBPUSD", side:"short", risk:1009.98, reward:2019.96, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-6", date:"2026-07-14", time:"09:22", symbol:"EURUSD", side:"long",  risk:1197.06, reward:2394.12, setup:"Opening Range Breakout", tags:[], notes:"" },
+    { id:"kc-demo-7", date:"2026-07-13", time:"09:18", symbol:"GBPUSD", side:"short", risk:1202.74, reward:2374.24, setup:"Opening Range Breakout", tags:[], notes:"" }
+  ];
+}
+
+/* ---------------- Storage ---------------- */
+async function loadData(){
+  try{
+    if(!hasStorage) throw new Error("no storage");
+    const r = await window.storage.get("kc_trades", false);
+    state.trades = JSON.parse(r.value);
+  }catch(e){ state.trades = seedTrades(); await saveTrades(); }
+
+  // One-time seed: if this browser/account has no trades saved yet, ship with the fixed sample dataset
+  // above so the results look the same for everyone this file is shared with. Never overwrites real data.
+  try{
+    if(hasStorage){
+      let seeded = false;
+      try{ await window.storage.get("kc_demo_v2_seeded", false); seeded = true; }catch(e){ seeded = false; }
+      if(!seeded){
+        if(state.trades.length === 0){
+          state.trades = seedTrades();
+          await saveTrades();
         }
-
-        function closeProductView() { document.getElementById('product-full-view').classList.remove('active'); setTimeout(() => { document.getElementById('product-full-view').style.display = 'none'; document.body.style.overflow = 'auto'; }, 500); }
-        
-       function addToCart(id) {
-            const p = products.find(x => x.id === id); const sel = selections[id];
-            if(!sel.size) { document.getElementById('full-view-add-btn').innerText = "Dimension Needed"; setTimeout(() => document.getElementById('full-view-add-btn').innerText = "Add to Inventory", 1000); return; }
-            cart.push({...p, selectedColor: sel.color, selectedSize: sel.size, cartId: Date.now()});
-            updateCartUI(); 
-            const toast = document.getElementById('success-toast'); toast.classList.add('active'); setTimeout(() => toast.classList.remove('active'), 2500);
-            document.getElementById('full-view-add-btn').innerText = "Synchronized";
-            setTimeout(() => { document.getElementById('full-view-add-btn').innerText = "Add Again"; }, 1500);
-        }
-
-        function updateCartUI() {
-            const b = document.getElementById('cart-count-badge'); b.innerText = cart.length; b.classList.toggle('hidden', cart.length === 0);
-            document.getElementById('cart-list').innerHTML = cart.map(i => `<div class="flex justify-between items-center py-4 border-b border-gray-50"><div class="space-y-1"><p class="text-[10px] font-black uppercase tracking-widest">${i.name}</p><p class="text-[8px] opacity-30 font-black uppercase">${i.selectedSize} // ${i.selectedColor}</p></div><button onclick="removeItem(${i.cartId})" class="opacity-20 hover:opacity-100 transition-all"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></div>`).join('');
-            document.getElementById('cart-total').innerText = `KSh ${cart.reduce((a,c)=>a+c.price, 0)}`;
-        }
-
-        function removeItem(cid) { cart = cart.filter(x => x.cartId !== cid); updateCartUI(); }
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
-
-        function openCheckout() {
-            if(cart.length === 0) return;
-            toggleCart();
-            document.getElementById('checkout-overlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkout-overlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            document.getElementById('phase-shipping').classList.remove('hidden');
-            document.getElementById('phase-summary').classList.add('hidden');
-            document.getElementById('phase-final').classList.add('hidden');
-        }
-
-        function toggleCityView() {
-            const region = document.getElementById('cust-region').value;
-            document.getElementById('cust-city-select').classList.toggle('hidden', region === 'NAIROBI');
-            document.getElementById('cust-nairobi-area').classList.toggle('hidden', region !== 'NAIROBI');
-        }
-
-        function generateOrderHash() {
-            const name = document.getElementById('cust-name').value.trim();
-            const phone = document.getElementById('cust-phone').value.trim();
-            const location = document.getElementById('cust-location').value.trim();
-            if(!name || !phone || !location) { document.getElementById('form-error').classList.remove('hidden'); return; }
-            
-            document.getElementById('form-error').classList.add('hidden');
-            const region = document.getElementById('cust-region').value;
-            const area = region === 'NAIROBI' ? document.getElementById('cust-nairobi-area').value : document.getElementById('cust-city-select').value;
-            const orderID = `KOCE-${Math.random().toString(36).substr(2,5).toUpperCase()}`;
-            const total = cart.reduce((a, b) => a + b.price, 0);
-
-            let m = `[KÖCE ARCHIVE ORDER]\nID: #${orderID}\n--------------------------\n`;
-            m += `RECIPIENT: ${name.toUpperCase()}\nCONTACT: ${phone}\nAREA: ${area}\nDETAILS: ${location.toUpperCase()}\n--------------------------\n`;
-            cart.forEach(it => m += `• ${it.name} [${it.selectedSize}/${it.selectedColor}]\n`);
-            m += `--------------------------\nTOTAL: KSh ${total.toLocaleString()}`;
-
-            document.getElementById('order-hash-container').innerText = m;
-            document.getElementById('phase-shipping').classList.add('hidden');
-            document.getElementById('phase-summary').classList.remove('hidden');
-        }
-
-        function backToShipping() {
-            document.getElementById('phase-summary').classList.add('hidden');
-            document.getElementById('phase-shipping').classList.remove('hidden');
-        }
-
-        async function copyAndFinalize() {
-            const btn = document.getElementById('final-copy-btn');
-            const orderText = document.getElementById('order-hash-container').innerText;
-            btn.innerText = "SAVING ORDER...";
-
-            try {
-                const orderID = orderText.match(/KOCE-[A-Z0-9]+/);
-                const orderData = {
-                    orderID,
-                    name: document.getElementById('cust-name').value,
-                    phone: document.getElementById('cust-phone').value,
-                    city: document.getElementById('cust-region').value === 'NAIROBI' ? document.getElementById('cust-nairobi-area').value : document.getElementById('cust-city-select').value,
-                    total: cart.reduce((a,b)=>a+b.price, 0),
-                    items: cart.map(it => ({ name: it.name, size: it.selectedSize, color: it.selectedColor }))
-                };
-                
-                await fetch('https://script.google.com/macros/s/AKfycbwq8hC39cb-un1PP1I-ZTe6sfUohzOioQI56Fo7R_Vse3htXNgL6euWAYQWmA0Izgmp6w/exec', {
-                    method: 'POST', mode: 'no-cors', body: JSON.stringify(orderData)
-                });
-
-                await navigator.clipboard.writeText(orderText).catch(() => {
-                    const el = document.createElement('textarea'); el.value = orderText;
-                    document.body.appendChild(el); el.select(); document.execCommand('copy');
-                    document.body.removeChild(el);
-                });
-
-                document.getElementById('phase-summary').classList.add('hidden');
-                document.getElementById('phase-final').classList.remove('hidden');
-                cart = []; updateCartUI();
-            } catch(e) {
-                btn.innerText = "ERROR - TRY AGAIN";
-            }
-        }
-
-       document.addEventListener('DOMContentLoaded', () => {
-    const observerOptions = { threshold: 0.15 };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.remove('reveal-hidden');
-                entry.target.classList.add('reveal-visible');
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-});
-
-    const DROP_DATE = new Date("february 26, 2026 12:00:00").getTime();
-let vaultUnlocked = false;
-
-function updateVault() {
-    const now = new Date().getTime();
-    const distance = DROP_DATE - now;
-
-    const shopWrapper = document.getElementById('shop-content-wrapper');
-    const timerContainer = document.getElementById('vault-timer');
-    const warningOverlay = document.getElementById('vault-warning');
-
-    if (distance > 0) {
-        // LOCK STATE
-        vaultUnlocked = false;
-        shopWrapper.style.opacity = '0';
-        shopWrapper.style.pointerEvents = 'none';
-        timerContainer.classList.remove('hidden');
-
-        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('countdown-display').innerText = 
-            `${String(d).padStart(2, '0')}:${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-
-        // 2-Minute Breach Warning
-        if (distance < 120000) {
-            warningOverlay.style.opacity = "1";
-            warningOverlay.style.pointerEvents = "auto";
-        }
-    } else {
-        // UNLOCK STATE
-        if (!vaultUnlocked) {
-            vaultUnlocked = true;
-            // Immediate visual feedback of the "Decryption"
-            warningOverlay.style.background = "white";
-            warningOverlay.innerHTML = `<h2 class="text-black font-heading font-black text-4xl md:text-6xl uppercase tracking-tighter animate-bounce">ARCHIVE_DECRYPTED</h2>`;
-            
-            setTimeout(() => {
-                warningOverlay.style.opacity = "0";
-                warningOverlay.style.pointerEvents = "none";
-                timerContainer.classList.add('hidden');
-                shopWrapper.style.opacity = '1';
-                shopWrapper.style.pointerEvents = 'auto';
-                renderShop(); // Refresh products
-            }, 2500);
-        }
+        await window.storage.set("kc_demo_v2_seeded", "1", false);
+      }
     }
+  }catch(e){ /* non-critical */ }
+
+  try{
+    if(!hasStorage) throw new Error("no storage");
+    const r = await window.storage.get("kc_playbook", false);
+    state.playbook = JSON.parse(r.value);
+  }catch(e){ state.playbook = seedPlaybook(); await savePlaybook(); }
+
+  try{
+    if(!hasStorage) throw new Error("no storage");
+    const r = await window.storage.get("kc_journal", false);
+    state.journal = JSON.parse(r.value);
+  }catch(e){ state.journal = {}; await saveJournal(); }
+}
+async function saveTrades(){ if(!hasStorage) return; try{ await window.storage.set("kc_trades", JSON.stringify(state.trades), false); }catch(e){ console.error(e); } }
+async function savePlaybook(){ if(!hasStorage) return; try{ await window.storage.set("kc_playbook", JSON.stringify(state.playbook), false); }catch(e){ console.error(e); } }
+async function saveJournal(){ if(!hasStorage) return; try{ await window.storage.set("kc_journal", JSON.stringify(state.journal), false); }catch(e){ console.error(e); } }
+
+/* ---------------- Stats ---------------- */
+function computeStats(trades){
+  const total = trades.length;
+  const wins = trades.filter(t=>t.pnl>0);
+  const losses = trades.filter(t=>t.pnl<0);
+  const netPnl = trades.reduce((s,t)=>s+t.pnl,0);
+  const winRate = total ? (wins.length/total*100) : 0;
+  const grossWin = wins.reduce((s,t)=>s+t.pnl,0);
+  const grossLoss = Math.abs(losses.reduce((s,t)=>s+t.pnl,0));
+  const profitFactor = grossLoss > 0 ? grossWin/grossLoss : (grossWin>0 ? Infinity : 0);
+  const avgWin = wins.length ? grossWin/wins.length : 0;
+  const avgLoss = losses.length ? grossLoss/losses.length : 0;
+  const best = trades.reduce((m,t)=> t.pnl>m ? t.pnl : m, -Infinity);
+  const worst = trades.reduce((m,t)=> t.pnl<m ? t.pnl : m, Infinity);
+  const rVals = trades.filter(t=>t.r!=null).map(t=>t.r);
+  const avgR = rVals.length ? rVals.reduce((a,b)=>a+b,0)/rVals.length : null;
+
+  // streak: sort desc by date/time
+  const sorted = [...trades].sort((a,b)=> (b.date+b.time).localeCompare(a.date+a.time));
+  let streak = 0, streakType = null;
+  for(const t of sorted){
+    const type = t.pnl > 0 ? "W" : t.pnl < 0 ? "L" : null;
+    if(type===null) break;
+    if(streakType===null){ streakType = type; streak = 1; }
+    else if(type===streakType){ streak++; }
+    else break;
+  }
+
+  return { total, wins:wins.length, losses:losses.length, netPnl, winRate, profitFactor, avgWin, avgLoss, best: isFinite(best)?best:0, worst: isFinite(worst)?worst:0, avgR, streak, streakType };
 }
 
-// Initial call and interval
-setInterval(updateVault, 1000);
+function tradesByDate(trades){
+  const map = {};
+  trades.forEach(t=>{
+    if(!map[t.date]) map[t.date] = [];
+    map[t.date].push(t);
+  });
+  return map;
+}
 
-       document.addEventListener('DOMContentLoaded', () => {
-    const bar = document.getElementById('loader-bar');
-    const container = document.getElementById('loader-container');
+/* ---------------- Rendering: shell ---------------- */
+const PAGE_META = {
+  dashboard: { title:"Dashboard", sub:"Your trading performance, at a glance." },
+  trades: { title:"Trade Log", sub:"Every position, logged and searchable." },
+  calendar: { title:"Calendar", sub:"Daily P&L, at a glance." },
+  playbook: { title:"Playbook", sub:"Your strategies, and how they're performing." },
+  journal: { title:"Notes", sub:"The story behind the numbers." },
+};
 
-    // 1. Start the loading bar animation
-    setTimeout(() => {
-        if(bar) bar.style.width = '100%';
-    }, 100);
+function renderTopbarActions(){
+  const el = document.getElementById("topbarActions");
+  if(state.activeTab === "playbook"){
+    el.innerHTML = `<button class="btn btn-ghost" data-action="new-playbook">+ New strategy</button><button class="btn btn-primary" data-action="new-trade">+ Add Trade</button>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-primary" data-action="new-trade">+ Add Trade</button>`;
+  }
+}
 
-    // 2. Wait for the bar to finish (2000ms) + buffer
-    setTimeout(() => {
-        if(container) {
-            container.style.opacity = '0';
-            container.style.transition = 'opacity 0.5s ease';
-        }
-        
-        // 3. Reveal the site
-        setTimeout(() => {
-            enterSite();
-        }, 500);
-    }, 2200); 
+function renderTicker(){
+  const trades = allTradesComputed();
+  const stats = computeStats(trades);
+  const items = [
+    { l:"NET P&L", v: fmtMoney(stats.netPnl), cls: pnlClass(stats.netPnl) },
+    { l:"WIN RATE", v: fmtPct(stats.winRate), cls:"flat" },
+    { l:"PROFIT FACTOR", v: isFinite(stats.profitFactor) ? stats.profitFactor.toFixed(2) : "∞", cls:"flat" },
+    { l:"TRADES", v: String(stats.total), cls:"flat" },
+    { l:"AVG WIN", v: fmtMoney(stats.avgWin), cls:"pos" },
+    { l:"AVG LOSS", v: "-"+fmtMoney(stats.avgLoss), cls:"neg" },
+    { l:"BEST TRADE", v: fmtMoney(stats.best), cls:"pos" },
+    { l:"STREAK", v: stats.streak ? `${stats.streak}${stats.streakType}` : "—", cls: stats.streakType==="W" ? "pos" : stats.streakType==="L" ? "neg" : "flat" },
+  ];
+  const html = items.map(i=>`<div class="ticker-item"><span class="lbl">${i.l}</span><span class="${i.cls}">${i.v}</span></div>`).join("");
+  document.getElementById("tickerStrip").innerHTML = html + html; // duplicate for seamless loop
+}
+
+function switchTab(tab){
+  state.activeTab = tab;
+  document.querySelectorAll(".nav-item").forEach(n=> n.classList.toggle("active", n.dataset.tab === tab));
+  document.getElementById("pageTitle").textContent = PAGE_META[tab].title;
+  document.getElementById("pageSubtitle").textContent = PAGE_META[tab].sub;
+  renderTopbarActions();
+  renderContent();
+  document.getElementById("sidebar").classList.remove("open");
+}
+
+function renderContent(){
+  const el = document.getElementById("content");
+  if(state.activeTab === "dashboard") el.innerHTML = renderDashboard();
+  else if(state.activeTab === "trades") el.innerHTML = renderTrades();
+  else if(state.activeTab === "calendar") el.innerHTML = renderCalendar();
+  else if(state.activeTab === "playbook") el.innerHTML = renderPlaybook();
+  else if(state.activeTab === "journal") el.innerHTML = renderJournal();
+}
+
+/* ---------------- Dashboard ---------------- */
+function renderDashboard(){
+  const trades = allTradesComputed();
+  if(trades.length === 0) return emptyState("No trades yet", "Log your first trade to see performance stats here.");
+  const stats = computeStats(trades);
+  const recent = [...trades].sort((a,b)=> (b.date+b.time).localeCompare(a.date+a.time)).slice(0,6);
+
+  return `
+    <div class="stat-grid">
+      ${statCard("Net P&L", fmtMoney(stats.netPnl), pnlClass(stats.netPnl))}
+      ${statCard("Win Rate", fmtPct(stats.winRate), "flat", `${stats.wins}W / ${stats.losses}L`)}
+      ${statCard("Profit Factor", isFinite(stats.profitFactor)?stats.profitFactor.toFixed(2):"∞", "flat")}
+      ${statCard("Total Trades", String(stats.total), "flat")}
+      ${statCard("Avg Win", fmtMoney(stats.avgWin), "pos")}
+      ${statCard("Avg Loss", "-"+fmtMoney(stats.avgLoss), "neg")}
+      ${statCard("Best Trade", fmtMoney(stats.best), "pos")}
+      ${statCard("Worst Trade", fmtMoney(stats.worst), "neg")}
+      ${statCard("Current Streak", stats.streak ? `${stats.streak} ${stats.streakType==="W"?"Win":"Loss"}${stats.streak>1?"s":""}` : "—", stats.streakType==="W"?"pos":stats.streakType==="L"?"neg":"flat")}
+      ${statCard("Avg R Multiple", stats.avgR!=null ? stats.avgR.toFixed(2)+"R" : "—", stats.avgR>0?"pos":stats.avgR<0?"neg":"flat")}
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Recent Trades</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>P&L</th></tr></thead>
+          <tbody>
+            ${recent.map(t=>`
+              <tr>
+                <td>${prettyDate(t.date)}</td>
+                <td>${t.symbol}</td>
+                <td><span class="side-badge side-${t.side}">${t.side.toUpperCase()}</span></td>
+                <td class="${pnlClass(t.pnl)}">${fmtMoney(t.pnl)}</td>
+              </tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function statCard(label, value, cls, sub){
+  return `<div class="stat-card"><div class="stat-label">${label}</div><div class="stat-value ${cls}">${value}</div>${sub?`<div class="stat-sub">${sub}</div>`:""}</div>`;
+}
+
+function emptyState(title, sub){
+  return `<div class="panel"><div class="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19V5a2 2 0 012-2h12v18H6a2 2 0 01-2-2zM8 7h8M8 11h8"/></svg>
+    <div class="display" style="font-size:16px;color:var(--text);margin-bottom:6px;">${title}</div>
+    <p>${sub}</p>
+  </div></div>`;
+}
+
+/* ---------------- Trades tab ---------------- */
+function renderTrades(){
+  const trades = allTradesComputed().sort((a,b)=> (b.date+b.time).localeCompare(a.date+a.time));
+  const setups = Array.from(new Set(state.playbook.map(p=>p.name)));
+
+  const filtered = trades.filter(t=>{
+    const s = state.filters.search.toLowerCase();
+    if(s && !(t.symbol.toLowerCase().includes(s) || (t.tags||[]).join(" ").toLowerCase().includes(s))) return false;
+    if(state.filters.side !== "all" && t.side !== state.filters.side) return false;
+    if(state.filters.setup !== "all" && t.setup !== state.filters.setup) return false;
+    return true;
+  });
+
+  return `
+    <div class="panel">
+      <div class="filter-row">
+        <input type="text" id="tradeSearch" placeholder="Search symbol or tag…" value="${escapeHtml(state.filters.search)}" style="max-width:220px;">
+        <select id="sideFilter">
+          <option value="all" ${state.filters.side==="all"?"selected":""}>All sides</option>
+          <option value="long" ${state.filters.side==="long"?"selected":""}>Long</option>
+          <option value="short" ${state.filters.side==="short"?"selected":""}>Short</option>
+        </select>
+        <select id="setupFilter">
+          <option value="all" ${state.filters.setup==="all"?"selected":""}>All setups</option>
+          ${setups.map(s=>`<option value="${escapeHtml(s)}" ${state.filters.setup===s?"selected":""}>${escapeHtml(s)}</option>`).join("")}
+        </select>
+        <span style="margin-left:auto;align-self:center;font-size:12px;color:var(--text-faint);">${filtered.length} trade${filtered.length!==1?"s":""}</span>
+      </div>
+
+      ${filtered.length === 0 ? `<div class="empty-state"><p>No trades match your filters.</p></div>` : `
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Date</th><th>Symbol</th><th>Side</th><th>Status</th><th>Risk</th><th>Got</th><th>P&L</th><th>R</th><th>Setup</th><th>Tags</th><th></th>
+          </tr></thead>
+          <tbody>
+            ${filtered.map(t=>{
+              const statusKey = t.pnl > 0 ? "win" : t.pnl < 0 ? "loss" : "be";
+              const statusLabel = statusKey === "win" ? "WIN" : statusKey === "loss" ? "LOSS" : "BE";
+              return `
+              <tr data-action="open-day" data-date="${t.date}" style="cursor:pointer;">
+                <td>${prettyDate(t.date)}</td>
+                <td style="color:var(--text);font-weight:600;">${t.symbol}</td>
+                <td><span class="side-badge side-${t.side}">${t.side.toUpperCase()}</span></td>
+                <td><span class="status-badge status-${statusKey}">${statusLabel}</span></td>
+                <td>${fmtMoney(t.risk||0)}</td>
+                <td class="${pnlClass(t.reward||0)}">${fmtMoney(t.reward||0)}</td>
+                <td class="${pnlClass(t.pnl)}" style="font-weight:600;">${fmtMoney(t.pnl)}</td>
+                <td class="${t.r>0?'pos':t.r<0?'neg':'flat'}">${t.r!=null ? t.r.toFixed(2)+"R" : "—"}</td>
+                <td style="font-family:Inter;font-size:12px;color:var(--text-dim);">${escapeHtml(t.setup||"—")}</td>
+                <td style="font-family:Inter;">${(t.tags||[]).map(tag=>`<span class="tag-pill">${escapeHtml(tag)}</span>`).join("")}</td>
+                <td>
+                  <div style="display:flex;gap:5px;">
+                    <button class="icon-btn" data-action="edit-trade" data-id="${t.id}" title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+                    <button class="icon-btn" data-action="delete-trade" data-id="${t.id}" title="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/></svg></button>
+                  </div>
+                </td>
+              </tr>`;
+            }).join("")}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+  `;
+}
+
+/* ---------------- Calendar tab ---------------- */
+function renderCalendar(){
+  const trades = allTradesComputed();
+  const byDate = tradesByDate(trades);
+  const cd = state.calendarDate;
+  const year = cd.getFullYear(), month = cd.getMonth();
+  const monthLabel = cd.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  const firstDay = new Date(year, month, 1);
+  const startOffset = firstDay.getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const todayStr = dateStr(new Date());
+
+  let cells = "";
+  for(let i=0;i<startOffset;i++) cells += `<div class="cal-cell empty"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const ds = dateStr(new Date(year, month, d));
+    const dayTrades = byDate[ds] || [];
+    const dayPnl = dayTrades.reduce((s,t)=>s+t.pnl,0);
+    const cls = dayTrades.length ? (dayPnl>=0?"pos":"neg") : "";
+    const isToday = ds === todayStr;
+    cells += `<div class="cal-cell ${cls} ${isToday?'today':''}" data-action="open-day" data-date="${ds}">
+      <div class="cal-daynum">${d}</div>
+      ${dayTrades.length ? `<div><div class="cal-pnl ${pnlClass(dayPnl)}">${fmtMoney(dayPnl)}</div><div class="cal-count">${dayTrades.length} trade${dayTrades.length!==1?"s":""}${state.journal[ds] && state.journal[ds].image ? " 📷":""}</div></div>` : `<div class="cal-count">${state.journal[ds] ? (state.journal[ds].image ? "📷" : "📝") : ""}</div>`}
+    </div>`;
+  }
+
+  const dows = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+  const monthKey = `${year}-${String(month+1).padStart(2,"0")}`;
+  const monthTrades = trades.filter(t=>t.date.startsWith(monthKey));
+  const monthPnl = monthTrades.reduce((s,t)=>s+t.pnl,0);
+
+  return `
+    <div class="panel">
+      <div class="cal-head">
+        <div class="cal-nav">
+          <button class="icon-btn" data-action="cal-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="cal-month-label">${monthLabel}</div>
+          <button class="icon-btn" data-action="cal-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+        <div class="cal-stats">
+          <span class="cal-stats-label">Monthly stats:</span>
+          <span class="cal-stats-pill ${pnlClass(monthPnl)}">${fmtMoney(monthPnl)}</span>
+          <span class="cal-stats-pill flat">${monthTrades.length} trade${monthTrades.length!==1?"s":""}</span>
+        </div>
+        <button class="btn btn-ghost btn-sm" data-action="cal-today">Today</button>
+      </div>
+      <div class="cal-grid">
+        ${dows.map(d=>`<div class="cal-dow">${d}</div>`).join("")}
+        ${cells}
+      </div>
+    </div>
+  `;
+}
+
+/* ---------------- Playbook tab ---------------- */
+function renderPlaybook(){
+  const trades = allTradesComputed();
+  if(state.playbook.length === 0) return emptyState("No strategies yet", "Add a playbook entry to start tracking setup performance.");
+  return `<div class="playbook-grid">
+    ${state.playbook.map(pb=>{
+      const setupTrades = trades.filter(t=>t.setup === pb.name);
+      const stats = computeStats(setupTrades);
+      const rules = (pb.rules||"").split("\n").filter(Boolean);
+      return `<div class="pb-card" style="--pb-color:${pb.color}">
+        <div class="pb-card-head">
+          <h3>${escapeHtml(pb.name)}</h3>
+          <div class="pb-card-actions">
+            <button class="icon-btn" data-action="edit-playbook" data-id="${pb.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+            <button class="icon-btn" data-action="delete-playbook" data-id="${pb.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14z"/></svg></button>
+          </div>
+        </div>
+        <ul class="pb-rules">${rules.map(r=>`<li>${escapeHtml(r)}</li>`).join("") || `<li style="opacity:.5;">No rules added yet</li>`}</ul>
+        <div class="pb-stats">
+          <div class="pb-stat"><div class="v ${pnlClass(stats.netPnl)}">${fmtMoney(stats.netPnl)}</div><div class="l">Net P&L</div></div>
+          <div class="pb-stat"><div class="v">${stats.total ? fmtPct(stats.winRate) : "—"}</div><div class="l">Win Rate</div></div>
+          <div class="pb-stat"><div class="v">${stats.total}</div><div class="l">Trades</div></div>
+        </div>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+/* ---------------- Journal tab ---------------- */
+function renderJournal(){
+  const trades = allTradesComputed();
+  const byDate = tradesByDate(trades);
+  const dates = Array.from(new Set([...Object.keys(state.journal), ...Object.keys(byDate)])).sort((a,b)=>b.localeCompare(a));
+  const entries = dates.filter(ds => state.journal[ds] && (state.journal[ds].note || state.journal[ds].image));
+
+  return `<div class="panel">
+    <div class="panel-title">Journal Entries <span class="hint">Click any day on the calendar to add one</span></div>
+    ${entries.length === 0 ? `<div class="empty-state"><p>No journal notes yet. Open the Calendar tab and click a day to reflect on your trading.</p></div>` :
+    entries.map(ds=>{
+      const j = state.journal[ds];
+      const dayPnl = (byDate[ds]||[]).reduce((s,t)=>s+t.pnl,0);
+      const hasTrades = (byDate[ds]||[]).length>0;
+      return `<div class="journal-entry">
+        <div class="journal-date-col">
+          <div class="d">${new Date(ds+"T00:00:00").getDate()}</div>
+          <div class="m">${new Date(ds+"T00:00:00").toLocaleDateString(undefined,{month:"short",year:"numeric"})}</div>
+        </div>
+        <div class="journal-mood">${j.mood||"📓"}</div>
+        <div class="journal-body">
+          <div style="margin-bottom:4px;">
+            <strong style="color:var(--text);">${dayName(ds)}, ${prettyDate(ds)}</strong>
+            ${hasTrades ? `<span class="journal-pnl-tag ${pnlClass(dayPnl)}" style="background:var(--bg-elevated);">${fmtMoney(dayPnl)}</span>` : ""}
+          </div>
+          ${j.note ? escapeHtml(j.note).replace(/\n/g,"<br>") : `<span style="opacity:.5;">No note — screenshot only</span>`}
+          ${j.image ? `<div style="margin-top:10px;"><img src="${j.image}" class="journal-thumb" data-action="open-day" data-date="${ds}" alt="Trade screenshot for ${ds}"></div>` : ""}
+        </div>
+        <button class="icon-btn" data-action="open-day" data-date="${ds}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+      </div>`;
+    }).join("")}
+  </div>`;
+}
+
+/* ---------------- Modals ---------------- */
+function closeModal(){ document.getElementById("modalRoot").innerHTML = ""; }
+
+function openTradeModal(id){
+  state.editingTradeId = id || null;
+  const t = id ? state.trades.find(x=>x.id===id) : null;
+  const setups = state.playbook.map(p=>p.name);
+  const today = dateStr(new Date());
+
+  document.getElementById("modalRoot").innerHTML = `
+  <div class="modal-overlay" data-action="overlay-close">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head"><h2>${t ? "Edit Trade" : "Add Trade"}</h2><button class="modal-close" data-action="close-modal">&times;</button></div>
+      <form id="tradeForm">
+        <div class="form-grid">
+          <div class="field"><label>Symbol</label><input type="text" id="f_symbol" required value="${t?escapeHtml(t.symbol):""}" placeholder="AAPL" style="text-transform:uppercase;"></div>
+          <div class="field"><label>Side</label><select id="f_side"><option value="long" ${t&&t.side==="long"?"selected":""}>Long</option><option value="short" ${t&&t.side==="short"?"selected":""}>Short</option></select></div>
+          <div class="field"><label>Date</label><input type="date" id="f_date" required value="${t?t.date:today}"></div>
+          <div class="field"><label>Time</label><input type="time" id="f_time" value="${t?t.time:"09:30"}"></div>
+          <div class="field"><label>Risk ($)</label><input type="number" step="0.01" id="f_risk" required value="${t&&t.risk!=null?t.risk:""}" placeholder="Amount risked"></div>
+          <div class="field"><label>What I Got ($)</label><input type="number" step="0.01" id="f_reward" required value="${t&&t.reward!=null?t.reward:""}" placeholder="Actual $ result"></div>
+          <div class="field"><label>R:R</label><div id="rrDisplay" class="mono" style="padding:9px 11px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;">—</div></div>
+          <div class="field"><label>Setup</label>
+            <select id="f_setup"><option value="">— None —</option>${setups.map(s=>`<option value="${escapeHtml(s)}" ${t&&t.setup===s?"selected":""}>${escapeHtml(s)}</option>`).join("")}</select>
+          </div>
+          <div class="field span-2"><label>Tags (comma separated)</label><input type="text" id="f_tags" value="${t?escapeHtml((t.tags||[]).join(", ")):""}" placeholder="Breakout, Earnings"></div>
+          <div class="field span-2"><label>Notes</label><textarea id="f_notes" placeholder="What was your thesis? How did execution go?">${t?escapeHtml(t.notes||""):""}</textarea></div>
+        </div>
+        <div class="modal-actions">
+          ${t?`<button type="button" class="btn btn-danger" data-action="delete-trade" data-id="${t.id}">Delete</button>`:""}
+          <button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">${t?"Save changes":"Add trade"}</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+  document.getElementById("tradeForm").addEventListener("submit", saveTradeForm);
+  const updateRR = ()=>{
+    const risk = parseFloat(document.getElementById("f_risk").value);
+    const reward = parseFloat(document.getElementById("f_reward").value);
+    const rr = document.getElementById("rrDisplay");
+    if(isFinite(risk) && risk > 0 && isFinite(reward)){
+      const r = reward / risk;
+      rr.textContent = r.toFixed(2) + "R";
+      rr.className = "mono " + (r>0?"pos":r<0?"neg":"flat");
+    } else {
+      rr.textContent = "—";
+      rr.className = "mono flat";
+    }
+  };
+  document.getElementById("f_risk").addEventListener("input", updateRR);
+  document.getElementById("f_reward").addEventListener("input", updateRR);
+  updateRR();
+}
+
+async function saveTradeForm(e){
+  e.preventDefault();
+  const tags = document.getElementById("f_tags").value.split(",").map(s=>s.trim()).filter(Boolean);
+  const trade = {
+    id: state.editingTradeId || uid(),
+    symbol: document.getElementById("f_symbol").value.trim().toUpperCase(),
+    side: document.getElementById("f_side").value,
+    date: document.getElementById("f_date").value,
+    time: document.getElementById("f_time").value || "09:30",
+    risk: parseFloat(document.getElementById("f_risk").value) || 0,
+    reward: parseFloat(document.getElementById("f_reward").value) || 0,
+    setup: document.getElementById("f_setup").value,
+    tags,
+    notes: document.getElementById("f_notes").value.trim()
+  };
+  if(state.editingTradeId){
+    const idx = state.trades.findIndex(t=>t.id===state.editingTradeId);
+    state.trades[idx] = trade;
+  } else {
+    state.trades.push(trade);
+  }
+  await saveTrades();
+  closeModal();
+  renderTicker();
+  renderContent();
+}
+
+async function deleteTrade(id){
+  state.trades = state.trades.filter(t=>t.id!==id);
+  await saveTrades();
+  closeModal();
+  renderTicker();
+  renderContent();
+}
+
+function openPlaybookModal(id){
+  state.editingPlaybookId = id || null;
+  const pb = id ? state.playbook.find(x=>x.id===id) : null;
+  const colors = ["#D4A94F","#3DDC84","#FF5C5C","#7C9CFF","#C77DFF","#4FD1D9"];
+  document.getElementById("modalRoot").innerHTML = `
+  <div class="modal-overlay" data-action="overlay-close">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head"><h2>${pb?"Edit Strategy":"New Strategy"}</h2><button class="modal-close" data-action="close-modal">&times;</button></div>
+      <form id="pbForm">
+        <div class="field"><label>Strategy name</label><input type="text" id="pb_name" required value="${pb?escapeHtml(pb.name):""}" placeholder="Opening Range Breakout"></div>
+        <div class="field"><label>Color</label>
+          <div style="display:flex;gap:8px;">
+            ${colors.map(c=>`<label style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer;display:inline-block;border:2px solid ${pb&&pb.color===c?'#fff':'transparent'};">
+              <input type="radio" name="pb_color" value="${c}" ${(pb?pb.color===c:c===colors[0])?"checked":""} style="opacity:0;width:1px;height:1px;position:absolute;">
+            </label>`).join("")}
+          </div>
+        </div>
+        <div class="field"><label>Rules (one per line)</label><textarea id="pb_rules" rows="5" placeholder="Wait for the first 15-min range...">${pb?escapeHtml(pb.rules||""):""}</textarea></div>
+        <div class="modal-actions">
+          ${pb?`<button type="button" class="btn btn-danger" data-action="delete-playbook" data-id="${pb.id}">Delete</button>`:""}
+          <button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">${pb?"Save changes":"Create strategy"}</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+  document.getElementById("pbForm").addEventListener("submit", savePlaybookForm);
+}
+
+async function savePlaybookForm(e){
+  e.preventDefault();
+  const color = document.querySelector('input[name="pb_color"]:checked').value;
+  const entry = {
+    id: state.editingPlaybookId || uid(),
+    name: document.getElementById("pb_name").value.trim(),
+    color,
+    rules: document.getElementById("pb_rules").value.trim()
+  };
+  if(state.editingPlaybookId){
+    const idx = state.playbook.findIndex(p=>p.id===state.editingPlaybookId);
+    state.playbook[idx] = entry;
+  } else {
+    state.playbook.push(entry);
+  }
+  await savePlaybook();
+  closeModal();
+  renderContent();
+}
+
+async function deletePlaybook(id){
+  state.playbook = state.playbook.filter(p=>p.id!==id);
+  await savePlaybook();
+  closeModal();
+  renderContent();
+}
+
+let dayModalImage = null;
+
+function openDayModal(ds){
+  state.activeDay = ds;
+  const trades = allTradesComputed().filter(t=>t.date===ds);
+  const dayPnl = trades.reduce((s,t)=>s+t.pnl,0);
+  const j = state.journal[ds] || { note:"", mood:"", image:null };
+  dayModalImage = j.image || null;
+  const moods = ["😄","🙂","😐","😕","😤"];
+
+  document.getElementById("modalRoot").innerHTML = `
+  <div class="modal-overlay" data-action="overlay-close">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h2>${dayName(ds)}, ${prettyDate(ds)}</h2>
+        <button class="modal-close" data-action="close-modal">&times;</button>
+      </div>
+      ${trades.length ? `
+        <div class="stat-sub" style="margin-bottom:8px;">Day P&L: <span class="${pnlClass(dayPnl)}" style="font-family:'IBM Plex Mono';font-weight:600;">${fmtMoney(dayPnl)}</span></div>
+        <div class="day-trades-list">
+          ${trades.map(t=>`<div class="day-trade-row">
+            <span>${t.symbol} <span class="side-badge side-${t.side}" style="margin-left:4px;">${t.side.toUpperCase()}</span></span>
+            <span class="${pnlClass(t.pnl)}">${fmtMoney(t.pnl)}</span>
+          </div>`).join("")}
+        </div>` : `<p style="font-size:12.5px;color:var(--text-faint);margin-bottom:14px;">No trades logged this day.</p>`}
+
+      <form id="dayForm">
+        <div class="field">
+          <label>Mood</label>
+          <div class="mood-picker">
+            ${moods.map(m=>`<div class="mood-opt ${j.mood===m?'selected':''}" data-mood="${m}">${m}</div>`).join("")}
+          </div>
+        </div>
+        <div class="field"><label>Journal note</label><textarea id="day_note" rows="4" placeholder="What did you observe today? What would you do differently?">${escapeHtml(j.note)}</textarea></div>
+        <div class="field">
+          <label>Trade screenshot</label>
+          <div class="paste-zone" id="pasteZone" tabindex="0">
+            <div id="pastePreviewWrap" style="${dayModalImage ? "" : "display:none;"}">
+              <img id="pastePreviewImg" src="${dayModalImage || ""}" alt="Pasted trade screenshot">
+              <button type="button" class="btn btn-ghost btn-sm" id="removeImageBtn">Remove screenshot</button>
+            </div>
+            <div id="pasteEmptyHint" style="${dayModalImage ? "display:none;" : ""}">📋 Click here, then paste a screenshot with Ctrl+V (or ⌘V)</div>
+          </div>
+        </div>
+        <input type="hidden" id="day_mood" value="${j.mood||""}">
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" data-action="close-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save note</button>
+        </div>
+      </form>
+    </div>
+  </div>`;
+
+  document.querySelectorAll(".mood-opt").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      document.querySelectorAll(".mood-opt").forEach(x=>x.classList.remove("selected"));
+      el.classList.add("selected");
+      document.getElementById("day_mood").value = el.dataset.mood;
+    });
+  });
+
+  const pasteZone = document.getElementById("pasteZone");
+  pasteZone.addEventListener("paste", handleScreenshotPaste);
+  document.getElementById("removeImageBtn").addEventListener("click", (ev)=>{
+    ev.stopPropagation();
+    dayModalImage = null;
+    updatePastePreview();
+  });
+  document.getElementById("dayForm").addEventListener("submit", saveDayModal);
+}
+
+function handleScreenshotPaste(e){
+  const items = (e.clipboardData || window.clipboardData) ? (e.clipboardData || window.clipboardData).items : null;
+  if(!items) return;
+  for(const item of items){
+    if(item.type && item.type.indexOf("image") !== -1){
+      const file = item.getAsFile();
+      const reader = new FileReader();
+      reader.onload = (ev)=>{ dayModalImage = ev.target.result; updatePastePreview(); };
+      reader.readAsDataURL(file);
+      e.preventDefault();
+      break;
+    }
+  }
+}
+
+function updatePastePreview(){
+  const wrap = document.getElementById("pastePreviewWrap");
+  const hint = document.getElementById("pasteEmptyHint");
+  const img = document.getElementById("pastePreviewImg");
+  if(!wrap || !hint || !img) return;
+  if(dayModalImage){
+    img.src = dayModalImage;
+    wrap.style.display = "";
+    hint.style.display = "none";
+  } else {
+    wrap.style.display = "none";
+    hint.style.display = "";
+  }
+}
+
+async function saveDayModal(e){
+  e.preventDefault();
+  const note = document.getElementById("day_note").value.trim();
+  const mood = document.getElementById("day_mood").value;
+  const image = dayModalImage;
+  if(note || mood || image){
+    state.journal[state.activeDay] = { note, mood, image };
+  } else {
+    delete state.journal[state.activeDay];
+  }
+  await saveJournal();
+  closeModal();
+  renderContent();
+}
+
+/* ---------------- Event delegation ---------------- */
+document.addEventListener("click", (e)=>{
+  const navItem = e.target.closest(".nav-item");
+  if(navItem){ switchTab(navItem.dataset.tab); return; }
+
+  const actionEl = e.target.closest("[data-action]");
+  if(!actionEl) return;
+  const action = actionEl.dataset.action;
+
+  if(action === "new-trade") return openTradeModal(null);
+  if(action === "edit-trade") return openTradeModal(actionEl.dataset.id);
+  if(action === "delete-trade") { if(confirm("Delete this trade? This can't be undone.")) deleteTrade(actionEl.dataset.id); return; }
+  if(action === "close-modal") return closeModal();
+  if(action === "overlay-close" && e.target === actionEl) return closeModal();
+
+  if(action === "new-playbook") return openPlaybookModal(null);
+  if(action === "edit-playbook") return openPlaybookModal(actionEl.dataset.id);
+  if(action === "delete-playbook") { if(confirm("Delete this strategy? Trades will keep their setup label as text only.")) deletePlaybook(actionEl.dataset.id); return; }
+
+  if(action === "open-day") return openDayModal(actionEl.dataset.date);
+
+  if(action === "cal-prev"){ state.calendarDate.setMonth(state.calendarDate.getMonth()-1); return renderContent(); }
+  if(action === "cal-next"){ state.calendarDate.setMonth(state.calendarDate.getMonth()+1); return renderContent(); }
+  if(action === "cal-today"){ state.calendarDate = new Date(); return renderContent(); }
 });
-      
-    </script>
+
+document.addEventListener("input", (e)=>{
+  if(e.target.id === "tradeSearch"){ state.filters.search = e.target.value; renderContent(); }
+});
+document.addEventListener("change", (e)=>{
+  if(e.target.id === "sideFilter"){ state.filters.side = e.target.value; renderContent(); }
+  if(e.target.id === "setupFilter"){ state.filters.setup = e.target.value; renderContent(); }
+});
+
+/* ---------------- Init ---------------- */
+(async function init(){
+  await loadData();
+  document.querySelector(`.nav-item[data-tab="dashboard"]`).classList.add("active");
+  renderTopbarActions();
+  renderTicker();
+  renderContent();
+})();
+</script>
 </body>
 </html>
