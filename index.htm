@@ -392,6 +392,14 @@ const fmtMoney = (n) => {
   const sign = n < 0 ? "-" : "";
   return sign + "$" + Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 };
+const fmtMoneyCompact = (n) => {
+  const sign = n < 0 ? "-" : "";
+  const abs = Math.abs(n);
+  if(abs >= 1000){
+    return sign + "$" + (abs/1000).toFixed(2) + "k";
+  }
+  return sign + "$" + abs.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+};
 const fmtPct = (n) => (isFinite(n) ? n.toFixed(1) : "0.0") + "%";
 const pnlClass = (n) => n > 0 ? "pos" : n < 0 ? "neg" : "flat";
 const dateStr = (d) => {
@@ -722,7 +730,7 @@ function renderCalendar(){
     const isToday = ds === todayStr;
     cells += `<div class="cal-cell ${cls} ${isToday?'today':''}" data-action="open-day" data-date="${ds}">
       <div class="cal-daynum">${d}</div>
-      ${dayTrades.length ? `<div><div class="cal-pnl ${pnlClass(dayPnl)}">${fmtMoney(dayPnl)}</div><div class="cal-count">${dayTrades.length} trade${dayTrades.length!==1?"s":""}${state.journal[ds] && state.journal[ds].image ? " 📷":""}</div></div>` : `<div class="cal-count">${state.journal[ds] ? (state.journal[ds].image ? "📷" : "📝") : ""}</div>`}
+      ${dayTrades.length ? `<div><div class="cal-pnl ${pnlClass(dayPnl)}">${fmtMoneyCompact(dayPnl)}</div><div class="cal-count">${dayTrades.length} trade${dayTrades.length!==1?"s":""}${state.journal[ds] && state.journal[ds].image ? " 📷":""}</div></div>` : `<div class="cal-count">${state.journal[ds] ? (state.journal[ds].image ? "📷" : "📝") : ""}</div>`}
     </div>`;
   }
 
